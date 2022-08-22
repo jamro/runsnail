@@ -7,11 +7,16 @@ export default class GroundSegment extends Polygon {
   constructor(props = {}) {
     const points = [{x: 0, y: 0}]
     let yMax = 0;
-    const segmentWidth = 50;
+    const amplitude = 10 + 60 * Math.random();
+    const segmentWidth = 300 + 500 * Math.random();
     const segmentCount = 10
+    const stepWidth = segmentWidth/segmentCount;
 
-    for(let i=1 ; i <= segmentCount ; i++) {
-      points.push({x: i*segmentWidth, y: Math.random()*40 + i*30});
+    for(let i=1 ; i <= segmentCount; i++) {
+      points.push({
+        x: i*stepWidth, 
+        y: amplitude * Math.cos(2*Math.PI*i/(segmentCount)) - amplitude + i*10
+      });
       yMax = Math.max(yMax, points[i].y);
     }
     const endPoint = {
@@ -30,7 +35,9 @@ export default class GroundSegment extends Polygon {
       x,
       y,
       isStatic: true, 
-      points
+      points,
+      density: 0.5,
+      ...props
     });
     this.endPoint = endPoint;
     this.startPoint = {x, y};

@@ -12,7 +12,7 @@ export default class Ground extends GameContainer {
   scroll(width, center) {
     let segment;
     if(this.segments.length === 0) {
-      segment = new GroundSegment({ x: center, y: 300 })
+      segment = new GroundSegment({ x: center+150, y: 500 })
       this.segments.push(segment)
       this.addChild(segment);
     }

@@ -1,40 +1,33 @@
-import {
-  Engine, 
-  Runner,
-  Common,
-} from "matter-js";
-import { Application } from "pixi.js";
-import Ball from "./Ball.js";
-import GameWorld from "./GameWorld.js";
-import 'poly-decomp'
+import * as plank from 'planck/dist/planck-with-testbed';
+import GroundBuilder from './GroundBuilder.js'
+const Vec2 = plank.Vec2;
+const Box = plank.Box;
+const Edge = plank.Edge;
+const Circle = plank.Circle;
 
-import Ground from "./Ground.js";
+const WORLD_WIDTH = 100;
 
-document.addEventListener("DOMContentLoaded", (event) => {
-  const sceneContainer = document.querySelector(".scene");
-  Common.setDecomp(require('poly-decomp'))
-  const engine = Engine.create();
 
-  const app = new Application({
-    backgroundAlpha: 0,
-    resizeTo: sceneContainer,
-  });
-  document.querySelector(".scene").appendChild(app.view);
+plank.testbed('Boxes', function(testbed) {
+  var world = plank.World(Vec2(0, -10));
 
-  const gameWorld = new GameWorld(engine, app);
-
-  const snail = new Ball({x: 100, y: 50, radius: 25, restitution: 0})
-  
-  gameWorld.add(snail);
-  gameWorld.cameraLock = snail;
-  
-  const ground = new Ground()
-  gameWorld.add(ground);
-
-  gameWorld.on('tick', () => {
-    ground.scroll(sceneContainer.clientWidth, snail.physicBody.position.x)
+  var snail = world.createBody().setDynamic();
+  snail.createFixture(Circle(0.5));
+  snail.setPosition(Vec2(0, 10));
+  snail.setMassData({
+    mass : 1,
+    center : Vec2(),
+    I : 1
   })
-  
-  Runner.run(engine);
 
+  const groundBuilder = new GroundBuilder(world)
+
+  testbed.step = function() {
+    groundBuilder.build(snail.getPosition().x, WORLD_WIDTH)
+    testbed.x = snail.getPosition().x
+    testbed.y = -snail.getPosition().y
+  };
+
+
+  return world
 });
