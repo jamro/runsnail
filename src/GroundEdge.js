@@ -8,7 +8,10 @@ export default class GroundEdge {
     this.body = world.createBody()
     this.start = startVec
     this.end = endVec
-    this.body.createFixture(Edge(startVec, endVec));
+    const fixture = Edge(startVec, endVec)
+    this.body.createFixture(fixture, {
+      friction: 0.9
+    });
   }
 
 }
