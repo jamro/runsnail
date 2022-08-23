@@ -5,7 +5,7 @@ const Edge = plank.Edge;
 export default class GroundEdge {
 
   constructor(world, startVec, endVec) {
-    this.body = world.createBody()
+    this.body = world.createBody().setStatic() 
     this.start = startVec
     this.end = endVec
     const fixture = Edge(startVec, endVec)
