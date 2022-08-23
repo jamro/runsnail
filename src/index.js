@@ -1,7 +1,6 @@
 import * as plank from 'planck/dist/planck-with-testbed';
-import { doc } from 'prettier';
-import Ground from './Ground.js'
-import InputController from './InputController.js';
+import Ground from './ground/Ground.js'
+import InputController from './sim/InputController.js';
 import Snail from './Snail.js';
 const Vec2 = plank.Vec2;
 
@@ -31,10 +30,10 @@ plank.testbed('RunSnail', function(testbed) {
 
   testbed.step = function() {
     ground.build(snail.body.getPosition().x, WORLD_WIDTH)
+    ground.update() 
+    snail.update()
     testbed.x = snail.body.getPosition().x
     testbed.y = -snail.body.getPosition().y
-
-    snail.update()
     status.innerHTML = `SCORE: ${snail.coins }`
   };
 
