@@ -5,14 +5,13 @@ const Edge = plank.Edge;
 
 export default class GroundEdge extends SimObject {
 
-  constructor(world, segment) {
+  constructor(world, start, end) {
     super()
     this.world = world
-    this.start = segment.start
-    this.end = segment.end
+    this.start = start
+    this.end = end
     this.body = world.createBody().setStatic() 
-    this.segment = segment
-    const fixture = Edge(this.segment.start, this.segment.end)
+    const fixture = Edge(start, end)
     this.body.createFixture(fixture, {
       friction: 0.9
     });

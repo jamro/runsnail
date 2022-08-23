@@ -6,12 +6,11 @@ const Vec2 = plank.Vec2;
 
 export default class Coin extends SimObject {
 
-  constructor(world, segment) {
+  constructor(world, x, y) {
     super()
     this.world = world
-    this.segment = segment
-    this.x = segment.start.x
-    this.y = segment.start.y+1
+    this.x = x
+    this.y = y
     this.collected = false
     this.body = world.createBody().setStatic()
     const fixture = this.body.createFixture(Circle(0.5), {

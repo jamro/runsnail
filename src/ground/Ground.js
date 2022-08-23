@@ -1,7 +1,8 @@
-import GroundEdge from './GroundEdge.js';
 import {getNextSegment, getPrevSegment, getStartSegment} from './GroundShape.js'
-import Coin from '../Coin.js';
 import SimContainer from '../sim/SimContainer';
+import lineSegment from './segments/lineSegment'
+import sineSegment from './segments/sineSegment';
+
 
 export default class Ground extends SimContainer {
 
@@ -39,11 +40,16 @@ export default class Ground extends SimContainer {
   }
 
   buildSegment(segment) {
-    const edge = new GroundEdge( this.world, segment)
-    segment.addChild(edge)
-    if(segment.type === 'coin') {
-      const coin = new Coin(this.world, segment)
-      segment.addChild(coin)
+
+    const builders = {
+      'line': lineSegment,
+      'sine': sineSegment
+    }
+
+    if(builders[segment.type]) {
+      builders[segment.type](this.world, segment)
+    } else {
+      throw new Error(`Unknown segment type: ${segment.type}`)
     }
     return segment
   }

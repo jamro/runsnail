@@ -3,41 +3,35 @@ import GroundSegment from './GroundSegment';
 
 const Vec2 = plank.Vec2;
 
-function hasCoinAtX(x) {
-  let y = -0.5;
-  y += Math.sin(x/9)
-  y += Math.sin(x/30)
-
-  return (x > 10  && y > 0)
-}
-
-export function getGroundShape(x) {
-  let y = - 0.1 * x
-  y += 6 * Math.sin(x/7)
-  y += 8 * Math.sin(x/30)
-  y += 0.01 * x * Math.cos(0.2 + x/17)
-  return Vec2(x, y)
-}
-
-export function getSegmentAtX(x) {
-  const SEGMENT_WIDTH = 1
-  const startX = Math.floor(x/SEGMENT_WIDTH)*SEGMENT_WIDTH
-
+function createSineSegment(segment) {
+  const width = 20 + Math.random()*50
   return new GroundSegment(
-    hasCoinAtX(x) ? 'coin' : 'slope',
-    getGroundShape(startX),
-    getGroundShape(startX+SEGMENT_WIDTH)
+    'sine',
+    Vec2(segment.end.x, segment.end.y),
+    Vec2(segment.end.x + width , segment.end.y + (Math.random()-0.4 )*0.25*width),
+    {
+      amplitude: Math.max(2, Math.random()*width*0.25),
+      coins: Math.random() > 0.8 ? true : false
+    }
   )
 }
 
 export function getNextSegment(segment) {
-  return getSegmentAtX(segment.end.x+0.001)
+  return createSineSegment(segment)
 }
 
 export function getPrevSegment(segment) {
-  return getSegmentAtX(segment.start.x-0.001)
+  return new GroundSegment(
+    'line',
+    Vec2(segment.start.x-100, segment.start.y),
+    Vec2(segment.start.x, segment.start.y)
+  )
 }
 
 export function getStartSegment() {
-  return getSegmentAtX(0)
+  return new GroundSegment(
+    'line',
+    Vec2(-1, 0),
+    Vec2(1, 0)
+  )
 }
