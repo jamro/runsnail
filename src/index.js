@@ -4,8 +4,8 @@ import InputController from './sim/InputController.js';
 import Snail from './Snail.js';
 const Vec2 = plank.Vec2;
 
-const WORLD_WIDTH = 500  ;
-plank.testbed('RunSnail', function(testbed) {
+const WORLD_WIDTH = 500 ;
+plank.testbed('RunSnail', function(testbed) { 
   const status = document.getElementById('status')
   const world = plank.World(Vec2(0, -10));
 
@@ -16,10 +16,10 @@ plank.testbed('RunSnail', function(testbed) {
       return
     } 
     if(objA.contact) {
-      objA.contact(objB)
+      objA.contact(objB, contact)
     }
     if(objB.contact) {
-      objB.contact(objA)
+      objB.contact(objA, contact)
     }
   })
 

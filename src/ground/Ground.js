@@ -2,6 +2,7 @@ import {getNextSegment, getPrevSegment, getStartSegment} from './GroundShape.js'
 import SimContainer from '../sim/SimContainer';
 import lineSegment from './segments/lineSegment'
 import sineSegment from './segments/sineSegment';
+import towerSegment from './segments/towerSegment.js';
 
 
 export default class Ground extends SimContainer {
@@ -43,7 +44,8 @@ export default class Ground extends SimContainer {
 
     const builders = {
       'line': lineSegment,
-      'sine': sineSegment
+      'sine': sineSegment,
+      'tower': towerSegment
     }
 
     if(builders[segment.type]) {

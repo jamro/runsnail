@@ -1,4 +1,5 @@
 import * as plank from 'planck/dist/planck-with-testbed';
+import { SNAIL } from './Collisions';
 import SimObject from './sim/SimObject';
 
 const Circle = plank.Circle;
@@ -14,7 +15,9 @@ export default class Coin extends SimObject {
     this.collected = false
     this.body = world.createBody().setStatic()
     const fixture = this.body.createFixture(Circle(0.5), {
-       isSensor: true
+      isSensor: true,
+      filterCategoryBits: SNAIL,
+      filterMaskBits: SNAIL
     });
     fixture.objRef = this
     this.body.setPosition(Vec2(this.x, this.y));
