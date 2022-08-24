@@ -26,7 +26,7 @@ export default function sineSegment(world, segment) {
       Vec2(segment.start.x + i*stepX, segment.start.y + sinFunc(i*stepSize, width, segment.data.amplitude) + i*stepY)
     )
     segment.addChild(edge)
-    if(segment.data.coins && i > stepCount*0.1  && i < stepCount*0.7  ) {
+    if(segment.data.coins && i > stepCount*0.2  && i < stepCount*0.5  ) {
       coin = new Coin(world, edge.start.x, edge.start.y+1)
       segment.addChild(coin)
     }

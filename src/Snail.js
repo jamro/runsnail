@@ -91,7 +91,6 @@ export default class Snail extends SimObject {
     }
 
     const av = this.body.getAngularVelocity()
-    console.log(av)
     if(Math.abs(av) < 5) {
       if(this.isOnGround) {
         this.state = WALKING
