@@ -1,3 +1,4 @@
+import { Graphics } from 'pixi.js';
 import * as plank from 'planck/dist/planck-with-testbed';
 import { GROUND, OBSTACLE } from './Collisions';
 import SimObject from './sim/SimObject';
@@ -25,9 +26,21 @@ export default class Stick extends SimObject {
     fixture.objRef = this
     this.body.setPosition(Vec2(this.x, this.y));
     this.body.setAngle(this.angle);
+
+    this.view = new Graphics()
+    this.view.beginFill(0x000000)
+    this.view.drawRect(-0.05, -length/2, 0.1, length)
+    this.render()
+  }
+
+  render() {
+    this.view.x = this.body.getPosition().x
+    this.view.y = this.body.getPosition().y
+    this.view.rotation = this.body.getAngle()
   }
   
   destroy() {
+    super.destroy()
     this.world.destroyBody(this.body)
   }
 

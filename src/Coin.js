@@ -1,3 +1,4 @@
+import { Graphics } from 'pixi.js';
 import * as plank from 'planck/dist/planck-with-testbed';
 import { SNAIL } from './Collisions';
 import SimObject from './sim/SimObject';
@@ -21,6 +22,16 @@ export default class Coin extends SimObject {
     });
     fixture.objRef = this
     this.body.setPosition(Vec2(this.x, this.y));
+
+    this.view = new Graphics ()
+    this.view.beginFill(0xffaa00)
+    this.view.drawCircle(0, 0, 0.3)
+    this.render()
+  }
+
+  render() {
+    this.view.x = this.body.getPosition().x
+    this.view.y = this.body.getPosition().y
   }
 
   collect() {
@@ -28,6 +39,7 @@ export default class Coin extends SimObject {
   }
 
   destroy() {
+    super.destroy()
     this.world.destroyBody(this.body)
   }
 

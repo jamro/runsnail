@@ -9,10 +9,10 @@ export default function towerSegment(world, segment) {
 
   for(let i=0; i < segment.data.levels.length; i++) {
     for(let j=0; j < segment.data.levels[i] ; j++) {
+      segment.addChild(new Coin(world, x + 3*i, y + 0.5 + j*1.1 ))
       segment.addChild(new Stick(world, 0.9, x - 0.4 + j*0.05 + 3*i, y + 0.45 + j*1.1 ))
       segment.addChild(new Stick(world, 0.9, x + 0.4 -  j*0.05 + 3*i, y + 0.45 + j*1.1 ))
       segment.addChild(new Stick(world, 1 -  j*0.05, x + 3*i, y + 0.95 + j*1.1 , Math.PI/2))
-      segment.addChild(new Coin(world, x + 3*i, y + 0.5 + j*1.1 ))
     }
   }
   

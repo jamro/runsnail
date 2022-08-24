@@ -1,21 +1,37 @@
-import * as plank from 'planck/dist/planck-with-testbed';
 import InputController from './sim/InputController.js';
 import Simulation from './Simulation.js';
+import { Application, Graphics, Text } from "pixi.js";
 
-plank.testbed('RunSnail', function(testbed) { 
-  const status = document.getElementById('status')
+document.addEventListener("DOMContentLoaded", (event) => {
+
+  // model 
   const sim = new Simulation()
   sim.init()
-
   const controller = new InputController(document, sim.snail)
   controller.init()
 
-  testbed.step = function() {
-    sim.update()
-    testbed.x = sim.snail.body.getPosition().x
-    testbed.y = -sim.snail.body.getPosition().y
-    status.innerHTML = `SCORE: ${sim.snail.coins } ${sim.snail.state}`
-  };
+  // rendering
+  const sceneContainer = document.querySelector("#scene");
+  const app = new Application({
+    backgroundAlpha: 0,
+    resizeTo: sceneContainer,
+    antialias: true,
+  });
+  document.querySelector("#scene").appendChild(app.view);
+  app.stage.addChild(sim.view);
 
-  return sim.world
-});
+  app.ticker.add((dt) => {
+    sim.update(dt)
+    sim.render()
+    sim.follow(
+      sim.snail.body.getPosition().x,
+      sim.snail.body.getPosition().y,
+      app.renderer.width,
+      app.renderer.height
+    )
+    sim.status = `SCORE: ${sim.snail.coins } ${sim.snail.state}`
+  })
+
+
+
+})

@@ -1,3 +1,4 @@
+import { Graphics } from 'pixi.js';
 import * as plank from 'planck/dist/planck-with-testbed';
 import Coin from './Coin';
 import { GROUND, OBSTACLE, SNAIL } from './Collisions';
@@ -44,15 +45,21 @@ export default class Snail extends SimObject {
     this.flyTimer = 0
     this.isOnGround = false
     this.state = ROLLING
+
+    this.view = new Graphics()
+    this.view.beginFill(0xff6600)
+    this.view.drawCircle(0, 0, 0.5)
+    this.render()
   }
 
   update() {
     this.pusher.setPosition(this.body.getPosition());
     if(this.run) {
       this.body.applyForce(Vec2(0, -30), this.body.getPosition())
-      this.body.applyTorque(-4)
+      this.body.applyTorque(-2)
     }
     const snailSpeed = this.body.getLinearVelocity().x
+
     if(snailSpeed < MIN_SPEED) {
       this.body.applyForce(Vec2({
         x: 30 * (MIN_SPEED - snailSpeed),
@@ -102,6 +109,11 @@ export default class Snail extends SimObject {
     }
   }
 
+  render() {
+    this.view.x = this.body.getPosition().x
+    this.view.y = this.body.getPosition().y
+  }
+
   contact(obj) {
     if(obj.constructor === Coin && !obj.collected) {
       this.coins++
@@ -119,6 +131,7 @@ export default class Snail extends SimObject {
   }
 
   destroy() {
+    super.destroy()
     this.world.destroyBody(this.body)
   }
 }

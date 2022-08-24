@@ -2,6 +2,7 @@ export default class SimObject {
 
   constructor() {
     this.parent = null
+    this.view = null
   }
 
   contact(simObject) {
@@ -12,11 +13,17 @@ export default class SimObject {
     
   }
 
-  update(world) {
+  update(dt) {
     
   }
 
-  destroy(world) {
-    
+  render() {
+
+  }
+
+  destroy() {
+    if(this.view && this.view.parent) {
+      this.view.parent.removeChild(this.view)
+    }
   }
 }

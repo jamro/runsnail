@@ -1,21 +1,49 @@
+import { Sprite, Text } from 'pixi.js';
 import * as plank from 'planck/dist/planck-with-testbed';
 import Ground from './ground/Ground.js'
+import SimContainer from './sim/SimContainer.js';
 import Snail from './Snail.js';
 const Vec2 = plank.Vec2;
 
 const WORLD_WIDTH = 500 ;
 
-export default class Simulation {
+export default class Simulation extends SimContainer {
   constructor() {
+    super()
     this.world = null
     this.snail = null
     this.ground = null
+    this.viewContainer = new Sprite()
+    this.view.addChild(this.viewContainer)
+    this.zoom = 10
+
+    this.statusText = new Text('Score: 0', {fontFamily : 'Arial', fontSize: 24, fill : 0x000000});
+    this.view.addChild(this.statusText)
+  }
+
+  set status(text) {
+    this.statusText.text = text
+  }
+
+  get status() {
+    return this.statusText.text
+  }
+
+  set zoom(factor) {
+    this.viewContainer.scale.x = factor
+    this.viewContainer.scale.y = -factor
+  }
+
+  get zoom() {
+    return this.viewContainer.scale.x
   }
 
   init() {
     this.world = plank.World(Vec2(0, -10))
     this.snail = new Snail(this.world)
     this.ground = new Ground(this.world)
+    this.addChild(this.snail)
+    this.addChild(this.ground)
 
     this.world.on('begin-contact', (contact) => {
       const objA = contact.getFixtureA().objRef
@@ -47,12 +75,31 @@ export default class Simulation {
     })
   }
 
-
-  update() {
+  update(dt) {
+    super.update(dt)
+    this.world.step(1/60);
     this.ground.build(this.snail.body.getPosition().x, WORLD_WIDTH)
-    this.ground.update() 
-    this.snail.update()
   }
 
+  follow(x, y, width, height) {
+    this.viewContainer.x = -x * this.viewContainer.scale.x + width / 4
+    this.viewContainer.y = -y * this.viewContainer.scale.y + height / 2
+  }
+
+  addChild(child) {
+    this.children.push(child)
+    child.parent = this
+    if(child.view) {
+      this.viewContainer.addChild(child.view)
+    }
+  }
+
+  removeChild(child) {
+    this.children = this.children.filter(c => c !== child)
+    child.parent = null
+    if(child.view) {
+      this.viewContainer.removeChild(child.view)
+    }
+  }
 
 }
