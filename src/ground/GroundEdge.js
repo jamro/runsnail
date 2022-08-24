@@ -12,12 +12,12 @@ export default class GroundEdge extends SimObject {
     this.start = start
     this.end = end
     this.body = world.createBody().setStatic() 
-    const fixture = Edge(start, end)
-    this.body.createFixture(fixture, {
+    const fixture = this.body.createFixture(Edge(start, end), {
       friction: 0.9,
       filterCategoryBits: GROUND,
       filterMaskBits: GROUND | SNAIL | OBSTACLE
     });
+    fixture.objRef = this 
   }
 
   destroy() {

@@ -8,6 +8,10 @@ export default class SimObject {
     
   }
 
+  separate(simObject) {
+    
+  }
+
   update(world) {
     
   }

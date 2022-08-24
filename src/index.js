@@ -12,6 +12,7 @@ plank.testbed('RunSnail', function(testbed) {
   world.on('begin-contact', (contact) => {
     const objA = contact.getFixtureA().objRef
     const objB = contact.getFixtureB().objRef
+
     if(!objA || !objB) {
       return
     } 
@@ -20,6 +21,20 @@ plank.testbed('RunSnail', function(testbed) {
     }
     if(objB.contact) {
       objB.contact(objA, contact)
+    }
+  })
+
+  world.on('end-contact', (contact) => {
+    const objA = contact.getFixtureA().objRef
+    const objB = contact.getFixtureB().objRef
+    if(!objA || !objB) {
+      return
+    } 
+    if(objA.separate) {
+      objA.separate(objB, contact)
+    }
+    if(objB.separate) {
+      objB.separate(objA, contact)
     }
   })
 
@@ -34,7 +49,7 @@ plank.testbed('RunSnail', function(testbed) {
     snail.update()
     testbed.x = snail.body.getPosition().x
     testbed.y = -snail.body.getPosition().y
-    status.innerHTML = `SCORE: ${snail.coins }`
+    status.innerHTML = `SCORE: ${snail.coins } ${snail.state}`
   };
 
   return world
