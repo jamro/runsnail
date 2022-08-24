@@ -2,7 +2,7 @@ import { Sprite, Text } from 'pixi.js';
 import * as plank from 'planck/dist/planck-with-testbed';
 import Ground from './ground/Ground.js'
 import SimContainer from './sim/SimContainer.js';
-import Snail from './Snail.js';
+import Snail, { SNAIL_MIN_SPEED } from './Snail.js';
 const Vec2 = plank.Vec2;
 
 const WORLD_WIDTH = 500 ;
@@ -15,10 +15,11 @@ export default class Simulation extends SimContainer {
     this.ground = null
     this.viewContainer = new Sprite()
     this.view.addChild(this.viewContainer)
-    this.zoom = 10
+    this.zoom = 50
 
     this.statusText = new Text('Score: 0', {fontFamily : 'Arial', fontSize: 24, fill : 0x000000});
     this.view.addChild(this.statusText)
+    this.yShift = 0.5
   }
 
   set status(text) {
@@ -82,8 +83,29 @@ export default class Simulation extends SimContainer {
   }
 
   follow(x, y, width, height) {
+
+
+    const v = Math.max(this.snail.body.getLinearVelocity().x, SNAIL_MIN_SPEED )
+    const timeHorizon = 5 // seconds
+    const distanceHorizon = v * timeHorizon
+
+    const targetZoom = Math.min(60,  width / distanceHorizon)
+
+    if(this.zoom < targetZoom) {
+      this.zoom += Math.min(0.1, (targetZoom - this.zoom) * 0.001)
+    } else {
+      this.zoom += Math.max(-0.1 , (targetZoom - this.zoom) * 0.01)
+    }
+
+    if(this.snail.isOnGround) {
+      this.yShift += Math.min(0.0005,  (0.5 - this.yShift) * 0.05)
+    } else {
+      this.yShift += Math.max(-0.0005, (0.2  - this.yShift) * 0.01)
+    }
+
     this.viewContainer.x = -x * this.viewContainer.scale.x + width / 4
-    this.viewContainer.y = -y * this.viewContainer.scale.y + height / 2
+    this.viewContainer.y = -y * this.viewContainer.scale.y + height * this.yShift
+
   }
 
   addChild(child) {

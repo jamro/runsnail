@@ -7,7 +7,7 @@ import SimObject from './sim/SimObject';
 const Vec2 = plank.Vec2;
 const Circle = plank.Circle;
 
-const MIN_SPEED = 3;
+export const SNAIL_MIN_SPEED = 3;
 const ROLLING = 'rolling'
 const GLIDING = 'gliding'
 const WALKING = 'walking'
@@ -21,13 +21,12 @@ export default class Snail extends SimObject {
     let fixture = this.body.createFixture(Circle(0.5), {
       friction: 0.9,
       density: 1,
+      restitution: 0.15,
       filterCategoryBits: SNAIL,
       filterMaskBits: GROUND  | SNAIL
     });
     fixture.objRef = this
     this.body.setPosition(Vec2(0, 10));
-    this.body.applyLinearImpulse(Vec2(20, 10), this.body.getPosition())
-    this.body.applyTorque(-200)
 
     this.pusher = world.createBody().setKinematic();
     fixture = this.pusher.createFixture(Circle(0.4), {
@@ -37,7 +36,7 @@ export default class Snail extends SimObject {
       filterMaskBits: OBSTACLE
     });
     fixture.objRef = this
-    this.pusher.setPosition(Vec2(0, 10));
+    this.pusher.setPosition(Vec2(0, 5));
 
     this.run = false
     this.coins = 0
@@ -60,9 +59,9 @@ export default class Snail extends SimObject {
     }
     const snailSpeed = this.body.getLinearVelocity().x
 
-    if(snailSpeed < MIN_SPEED) {
+    if(snailSpeed < SNAIL_MIN_SPEED) {
       this.body.applyForce(Vec2({
-        x: 30 * (MIN_SPEED - snailSpeed),
+        x: 30 * (SNAIL_MIN_SPEED - snailSpeed),
         y: 0
       }), this.body.getPosition())
       const v = this.body.getLinearVelocity()
