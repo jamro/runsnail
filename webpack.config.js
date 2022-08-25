@@ -3,6 +3,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -22,9 +23,14 @@ const config = {
     new HtmlWebpackPlugin({
       template: "index.html",
     }),
-
-    // Add your plugins here
-    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+    new CopyPlugin({
+      patterns: [
+        { 
+          from: path.resolve(__dirname, "assets", "sprites"), 
+          to: path.resolve(__dirname, "dist")
+        },
+      ],
+    }),
   ],
   module: {
     rules: [
@@ -48,7 +54,7 @@ const config = {
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/
     ],
-  },
+  }
 };
 
 module.exports = () => {

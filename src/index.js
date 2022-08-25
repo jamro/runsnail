@@ -1,6 +1,7 @@
 import InputController from './sim/InputController.js';
 import Simulation from './Simulation.js';
 import { Application, Graphics, Text } from "pixi.js";
+import './style.css'
 
 document.addEventListener("DOMContentLoaded", (event) => {
 
@@ -29,7 +30,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       app.renderer.width,
       app.renderer.height
     )
-    sim.status = `SCORE: ${sim.snail.coins } ${sim.snail.state}`
+    sim.status = `SCORE: ${sim.snail.coins }`
   })
 
 

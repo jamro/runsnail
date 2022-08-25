@@ -1,13 +1,13 @@
-import { Graphics } from 'pixi.js';
 import * as plank from 'planck/dist/planck-with-testbed';
 import Coin from './Coin';
 import { GROUND, OBSTACLE, SNAIL } from './Collisions';
 import GroundEdge from './ground/GroundEdge';
 import SimObject from './sim/SimObject';
+import SnailView from './SnailView';
 const Vec2 = plank.Vec2;
 const Circle = plank.Circle;
 
-export const SNAIL_MIN_SPEED = 3;
+export const SNAIL_MIN_SPEED = 2.5;
 const ROLLING = 'rolling'
 const GLIDING = 'gliding'
 const WALKING = 'walking'
@@ -18,19 +18,19 @@ export default class Snail extends SimObject {
     super()
     this.world = world
     this.body = world.createBody().setDynamic();
-    let fixture = this.body.createFixture(Circle(0.5), {
+    this.bodyFixture = this.body.createFixture(Circle(0.5), {
       friction: 0.9,
       density: 1,
-      restitution: 0.15,
+      restitution: 0.1,
       filterCategoryBits: SNAIL,
       filterMaskBits: GROUND  | SNAIL
     });
-    fixture.objRef = this
+    this.bodyFixture.objRef = this
     this.body.setPosition(Vec2(0, 10));
 
     this.pusher = world.createBody().setKinematic();
-    fixture = this.pusher.createFixture(Circle(0.4), {
-      friction: 0.9,
+    let fixture = this.pusher.createFixture(Circle(0.4), {
+      friction: 0,
       density: 1,
       filterCategoryBits: OBSTACLE,
       filterMaskBits: OBSTACLE
@@ -44,34 +44,21 @@ export default class Snail extends SimObject {
     this.flyTimer = 0
     this.isOnGround = false
     this.state = ROLLING
+    this.walkingMode = false
 
-    this.view = new Graphics()
-    this.view.beginFill(0xff6600)
-    this.view.drawCircle(0, 0, 0.5)
+    this.view = new SnailView()
     this.render()
+    this.groundNormal = Vec2(0, 1)
   }
 
   update() {
     this.pusher.setPosition(this.body.getPosition());
     if(this.run) {
       this.body.applyForce(Vec2(0, -30), this.body.getPosition())
-      this.body.applyTorque(-2)
     }
     const snailSpeed = this.body.getLinearVelocity().x
 
-    if(snailSpeed < SNAIL_MIN_SPEED) {
-      this.body.applyForce(Vec2({
-        x: 30 * (SNAIL_MIN_SPEED - snailSpeed),
-        y: 0
-      }), this.body.getPosition())
-      const v = this.body.getLinearVelocity()
-      this.body.setAngle(Math.atan2(v.y, v.x))
-      if(!this.run) {
-         this.body.setAngularVelocity(0)
-      }
-    } 
-
-    if(this.flyTimer > 10) {
+    if(this.flyTimer > 5) {
       this.isOnGround = false
     }
     if(this.onGroundCounter > 0) {
@@ -81,7 +68,7 @@ export default class Snail extends SimObject {
       this.flyTimer++
     }
 
-    if(this.flyTimer > 100) {
+    if(this.flyTimer > 50 && snailSpeed > SNAIL_MIN_SPEED) {
       let a = this.body.getAngle()
       const v = this.body.getLinearVelocity()
       const targetA = Math.atan2(v.y, v.x) / Math.PI * 180
@@ -96,30 +83,67 @@ export default class Snail extends SimObject {
       this.body.setAngularVelocity(0.1*dt)
     }
 
+    if(snailSpeed <= SNAIL_MIN_SPEED) {
+      this.walkingMode = true
+    }
+    if(snailSpeed > SNAIL_MIN_SPEED*1.1) {
+      this.walkingMode = false
+    }
+
+    
+    if(this.walkingMode) { 
+      this.bodyFixture.setFriction(0)
+      this.body.applyForce(Vec2({
+        x: 30 * (SNAIL_MIN_SPEED - snailSpeed),
+        y: 0
+      }), this.body.getPosition())
+      const targetAngle = Math.atan2(this.groundNormal.y, this.groundNormal.x) - Math.PI/2
+      let angleDiff = (targetAngle - this.body.getAngle()) % (2 * Math.PI)
+      while(angleDiff > 0.5*Math.PI) {
+        angleDiff -= 2 * Math.PI
+      }
+      while(angleDiff < -1.5*Math.PI) {
+        angleDiff += 2 * Math.PI
+      }
+      this.body.setAngularVelocity(0)
+      this.body.setAngle(this.body.getAngle() + angleDiff/10)
+    } else {
+      this.bodyFixture.setFriction(0.9)
+    }
+
     const av = this.body.getAngularVelocity()
     if(Math.abs(av) < 5) {
       if(this.isOnGround) {
         this.state = WALKING
+        this.view.hidden = false
       } else {
         this.state = GLIDING
+        this.view.hidden = false
       }
     } else {
       this.state = ROLLING
+      this.view.hidden = true
     }
   }
 
   render() {
     this.view.x = this.body.getPosition().x
     this.view.y = this.body.getPosition().y
+    this.view.rotation = this.body.getAngle()
+    this.view.update()
   }
 
-  contact(obj) {
+  contact(obj, contact) {
     if(obj.constructor === Coin && !obj.collected) {
       this.coins++
       obj.collect()
     }
     if(obj.constructor === GroundEdge) {
       this.onGroundCounter++
+      const normal = contact.getManifold().localNormal
+      if(normal.x !== 0 || normal.y !== 0) {
+        this.groundNormal = normal
+      }
     }
   }
 

@@ -5,6 +5,7 @@
     "@webpack-cli/generators": "^2.5.0",
     "babel-loader": "^8.2.5",
     "commitizen": "^4.2.5",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "cz-conventional-changelog": "^3.3.0",
     "html-webpack-plugin": "^5.5.0",
@@ -29,7 +30,6 @@
     "serve": "webpack serve"
   },
   "dependencies": {
-    "matter-js": "^0.18.0",
     "pixi.js": "^6.5.1",
     "planck": "^1.0.0-alpha.4",
     "poly-decomp": "^0.3.0"
