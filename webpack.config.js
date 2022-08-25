@@ -17,7 +17,6 @@ const config = {
   devtool: 'source-map',
   devServer: {
     open: true,
-    host: "localhost",
   },
   plugins: [
     new HtmlWebpackPlugin({

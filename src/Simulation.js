@@ -1,5 +1,6 @@
 import { Sprite, Text } from 'pixi.js';
 import * as plank from 'planck/dist/planck-with-testbed';
+import Dust from './Dust.js';
 import Ground from './ground/Ground.js'
 import SimContainer from './sim/SimContainer.js';
 import Snail, { SNAIL_MIN_SPEED } from './Snail.js';
@@ -86,7 +87,7 @@ export default class Simulation extends SimContainer {
 
 
     const v = Math.max(this.snail.body.getLinearVelocity().x, SNAIL_MIN_SPEED )
-    const timeHorizon = 5 // seconds
+    const timeHorizon = 4 // seconds
     const distanceHorizon = v * timeHorizon
 
     const targetZoom = Math.min(60,  width / distanceHorizon)

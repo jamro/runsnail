@@ -1,10 +1,10 @@
 import { Graphics, Sprite } from "pixi.js";
+import Dust from "./Dust";
 
 export default class SnailView extends Sprite {
 
   constructor() {
     super()
-
     this._hidden = false;
     this.t = 0;
 
@@ -54,6 +54,11 @@ export default class SnailView extends Sprite {
     this.debug.beginFill(0x0000ff);
     this.debug.drawRect(0, -0.05, 3, 0.1);
 
+    this.dust = new Dust()
+    this.dust.scale.set(-0.02, -0.02)
+    this.dust.x = 0
+    this.dust.y = -0.5
+    this.antiRotationContainer.addChild(this.dust)
   }
 
   get hidden() {
@@ -75,9 +80,7 @@ export default class SnailView extends Sprite {
     this.eyeRight.visible = showEyes;
     this.eyeLeft.visible = showEyes;
 
-    this.t = (this.t + 4) % 180;
-
-
+    this.t = (this.t + 4) % 180; 
 
     this.body.scale.x = 0.9 + (this.hidden ? 0 : 0.1) *  Math.sin((this.t / 180) * Math.PI)
     this.antiRotationContainer.rotation = -this.rotation;

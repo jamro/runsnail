@@ -1,6 +1,7 @@
 import * as plank from 'planck/dist/planck-with-testbed';
 import Coin from './Coin';
 import { GROUND, OBSTACLE, SNAIL } from './Collisions';
+import Dust from './Dust';
 import GroundEdge from './ground/GroundEdge';
 import SimObject from './sim/SimObject';
 import SnailView from './SnailView';
@@ -113,16 +114,22 @@ export default class Snail extends SimObject {
 
     const av = this.body.getAngularVelocity()
     if(Math.abs(av) < 5) {
+      this.view.dust.enabled = false
+      this.view.hidden = false
       if(this.isOnGround) {
         this.state = WALKING
-        this.view.hidden = false
       } else {
         this.state = GLIDING
-        this.view.hidden = false
       }
     } else {
       this.state = ROLLING
       this.view.hidden = true
+      if(this.isOnGround) {
+        this.view.dust.enabled = true
+        this.view.dust.rotation = Math.atan2(this.groundNormal.y, this.groundNormal.x) - Math.PI/2
+      } else {
+        this.view.dust.enabled = false
+      }
     }
   }
 
