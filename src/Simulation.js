@@ -84,10 +84,11 @@ export default class Simulation extends SimContainer {
   }
 
   follow(x, y, width, height) {
-
-
-    const v = Math.max(this.snail.body.getLinearVelocity().x, SNAIL_MIN_SPEED )
-    const timeHorizon = 4 // seconds
+    let vx = this.snail.body.getLinearVelocity().x
+    let vy = this.snail.body.getLinearVelocity().y
+    let v = Math.sqrt(vx * vx + vy * vy) 
+    v = Math.max(v, SNAIL_MIN_SPEED)
+    const timeHorizon = 5 // seconds
     const distanceHorizon = v * timeHorizon
 
     const targetZoom = Math.min(60,  width / distanceHorizon)
@@ -99,13 +100,16 @@ export default class Simulation extends SimContainer {
     }
 
     if(this.snail.isOnGround) {
-      this.yShift += Math.min(0.0005,  (0.5 - this.yShift) * 0.05)
+      this.yShift += Math.min(0.0005,  (0.6 - this.yShift) * 0.05)
     } else {
-      this.yShift += Math.max(-0.0005, (0.2  - this.yShift) * 0.01)
+      this.yShift += Math.max(-0.0005, (0.2  - this.yShift) * 0.02)
     }
 
-    this.viewContainer.x = -x * this.viewContainer.scale.x + width / 4
-    this.viewContainer.y = -y * this.viewContainer.scale.y + height * this.yShift
+    const targetX = -x * this.viewContainer.scale.x + width / 4
+    const targetY = -y * this.viewContainer.scale.y + height * this.yShift
+
+    this.viewContainer.x = targetX
+    this.viewContainer.y += (targetY - this.viewContainer.y) * 0.3
 
   }
 
