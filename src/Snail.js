@@ -53,12 +53,14 @@ export default class Snail extends SimObject {
   }
 
   update() {
+    const powerConsumption = 0.02 + this.body.getPosition().x/200000
 
-    this.energy = Math.max(0, this.energy - 0.05)
+    this.energy = Math.max(0, this.energy - powerConsumption)
 
     this.pusher.setPosition(this.body.getPosition());
     if(this.run && this.energy > 0) {
       this.body.applyForce(Vec2(0, -30), this.body.getPosition())
+      this.energy = Math.max(0, this.energy - powerConsumption)
     }
     const snailSpeed = this.body.getLinearVelocity().x
 

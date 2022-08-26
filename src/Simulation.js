@@ -4,6 +4,7 @@ import Ground from './ground/Ground.js'
 import SimContainer from './sim/SimContainer.js';
 import Snail, { SNAIL_MIN_SPEED } from './Snail.js';
 import Background from './view/Background.js';
+import EnergyBar from './view/EnergyBar.js';
 const Vec2 = plank.Vec2;
 
 export default class Simulation extends SimContainer {
@@ -19,9 +20,16 @@ export default class Simulation extends SimContainer {
     this.zoom = 50
 
     this.statusText = new Text('Score: 0', {fontFamily : 'Arial', fontSize: 24, fill : 0x000000});
+    this.statusText.y = 50
+    this.statusText.x = 20
     this.view.addChild(this.statusText)
     this.yShift = 0.5
     this.groundWidth = 500
+
+    this.energyBar = new EnergyBar()
+    this.energyBar.x = 10;
+    this.energyBar.y = 10;
+    this.view.addChild(this.energyBar)
   }
 
   set status(text) {

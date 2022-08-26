@@ -30,7 +30,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
       app.renderer.width,
       app.renderer.height
     )
-    sim.status = `Distance: ${sim.snail.distance.toFixed(1)}m, Energy: ${sim.snail.energy.toFixed(1)}`
+    sim.energyBar.value = sim.snail.energy/100
+    sim.status = `Distance: ${sim.snail.distance.toFixed(1)}m`
   })
 
 

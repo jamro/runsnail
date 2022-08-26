@@ -26,7 +26,7 @@ export default function sineSegment(world, segment) {
     )
     segment.addChild(edge)
     if(segment.data.coins && i > stepCount*0.2  && i < stepCount*0.5  ) {
-      coin = new Coin(world, edge.start.x, edge.start.y+1)
+      coin = new Coin(world, edge.start.x, edge.start.y+0.8)
       segment.addChild(coin)
     }
   }
