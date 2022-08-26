@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       app.renderer.height
     )
     sim.energyBar.value = sim.snail.energy/100
-    sim.status = `Distance: ${sim.snail.distance.toFixed(1)}m`
+    sim.distanceMeter.value = sim.snail.distance
   })
 
 

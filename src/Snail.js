@@ -46,6 +46,7 @@ export default class Snail extends SimObject {
     this.isOnGround = false
     this.state = ROLLING
     this.walkingMode = false
+    this._distance = 0
 
     this.view = new SnailView()
     this.render()
@@ -148,6 +149,8 @@ export default class Snail extends SimObject {
       this.bodyFixture.setFriction(1)
 
     }
+
+    this._distance = Math.max(this._distance, 0.05*(this.body.getPosition().x))
   }
 
   render() {
@@ -184,6 +187,6 @@ export default class Snail extends SimObject {
 
   // in meters
   get distance() {
-    return this.body.getPosition().x * 0.05
+    return this._distance
   }
 }

@@ -5,6 +5,7 @@ import SimContainer from './sim/SimContainer.js';
 import Snail, { SNAIL_MIN_SPEED } from './Snail.js';
 import Background from './view/Background.js';
 import EnergyBar from './view/EnergyBar.js';
+import DistanceMeter from './view/DistanceMeter.js';
 const Vec2 = plank.Vec2;
 
 export default class Simulation extends SimContainer {
@@ -19,10 +20,6 @@ export default class Simulation extends SimContainer {
     this.view.addChild(this.viewContainer)
     this.zoom = 50
 
-    this.statusText = new Text('Score: 0', {fontFamily : 'Arial', fontSize: 24, fill : 0x000000});
-    this.statusText.y = 50
-    this.statusText.x = 20
-    this.view.addChild(this.statusText)
     this.yShift = 0.5
     this.groundWidth = 500
 
@@ -30,14 +27,11 @@ export default class Simulation extends SimContainer {
     this.energyBar.x = 10;
     this.energyBar.y = 10;
     this.view.addChild(this.energyBar)
-  }
 
-  set status(text) {
-    this.statusText.text = text
-  }
-
-  get status() {
-    return this.statusText.text
+    this.distanceMeter = new DistanceMeter()
+    this.distanceMeter.x = 250;
+    this.distanceMeter.y = 9;
+    this.view.addChild(this.distanceMeter)
   }
 
   set zoom(factor) {
