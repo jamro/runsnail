@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       app.renderer.width,
       app.renderer.height
     )
-    sim.status = `SCORE: ${sim.snail.coins }`
+    sim.status = `Distance: ${sim.snail.distance.toFixed(1)}m, Energy: ${sim.snail.energy.toFixed(1)}`
   })
 
 

@@ -85,7 +85,9 @@ export default class SnailView extends Sprite {
     this.body.scale.x = 0.9 + (this.hidden ? 0 : 0.1) *  Math.sin((this.t / 180) * Math.PI)
     this.antiRotationContainer.rotation = -this.rotation;
 
-    this.shell.y = -0.07*Math.sin((this.t / 180) * Math.PI + 0.05)
+    if(!this.hidden) {
+      this.shell.y = -0.07*Math.sin((this.t / 180) * Math.PI + 0.05)
+    }
     this.eyeLeft.rotation = -0.4 * Math.sin((this.t / 180) * Math.PI)
     this.eyeRight.rotation = -0.4 * Math.sin((this.t / 180) * Math.PI) - 0.5
   }

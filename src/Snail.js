@@ -11,6 +11,7 @@ export const SNAIL_MIN_SPEED = 2.5;
 const ROLLING = 'rolling'
 const GLIDING = 'gliding'
 const WALKING = 'walking'
+const DEAD = 'dead'
 
 export default class Snail extends SimObject {
 
@@ -39,7 +40,7 @@ export default class Snail extends SimObject {
     this.pusher.setPosition(Vec2(0, 5));
 
     this.run = false
-    this.coins = 0
+    this.energy = 100
     this.onGroundCounter = 0
     this.flyTimer = 0
     this.isOnGround = false
@@ -52,8 +53,11 @@ export default class Snail extends SimObject {
   }
 
   update() {
+
+    this.energy = Math.max(0, this.energy - 0.05)
+
     this.pusher.setPosition(this.body.getPosition());
-    if(this.run) {
+    if(this.run && this.energy > 0) {
       this.body.applyForce(Vec2(0, -30), this.body.getPosition())
     }
     const snailSpeed = this.body.getLinearVelocity().x
@@ -91,7 +95,7 @@ export default class Snail extends SimObject {
     }
 
     
-    if(this.walkingMode) { 
+    if(this.walkingMode && this.energy > 0) { 
       this.bodyFixture.setFriction(0)
       this.body.applyForce(Vec2({
         x: 30 * (SNAIL_MIN_SPEED - snailSpeed),
@@ -124,11 +128,23 @@ export default class Snail extends SimObject {
       this.state = ROLLING
       this.view.hidden = true
       if(this.isOnGround) {
-        this.view.dust.enabled = true
+        this.view.dust.enabled = (this.energy > 0)
         this.view.dust.rotation = Math.atan2(this.groundNormal.y, this.groundNormal.x) - Math.PI/2
       } else {
         this.view.dust.enabled = false
       }
+    }
+
+    if(this.energy <= 0 && this.isOnGround) {
+      this.state = DEAD
+      this.view.hidden = true
+
+      this.body.applyForce(Vec2(
+        -this.body.getLinearVelocity().x,
+        -this.body.getLinearVelocity().y
+      ).mul(1), this.body.getPosition())
+      this.bodyFixture.setFriction(1)
+
     }
   }
 
@@ -140,8 +156,8 @@ export default class Snail extends SimObject {
   }
 
   contact(obj, contact) {
-    if(obj.constructor === Coin && !obj.collected) {
-      this.coins++
+    if(obj.constructor === Coin && !obj.collected && this.energy > 0) {
+      this.energy = Math.min(100, this.energy + 1)
       obj.collect()
     }
     if(obj.constructor === GroundEdge) {
@@ -162,5 +178,10 @@ export default class Snail extends SimObject {
   destroy() {
     super.destroy()
     this.world.destroyBody(this.body)
+  }
+
+  // in meters
+  get distance() {
+    return this.body.getPosition().x * 0.05
   }
 }
