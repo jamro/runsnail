@@ -4,8 +4,8 @@ import GroundEdge from "../GroundEdge"
 
 const Vec2 = plank.Vec2;
 
-
 function sinFunc(x, width, amplitude) {
+  console.log(x/width)
   return amplitude*(Math.cos((x/width)*Math.PI*2) - 1)
 }
 
@@ -13,13 +13,13 @@ export default function sineSegment(world, segment) {
   let stepSize = 1
   const width = segment.end.x - segment.start.x
   const height = segment.end.y - segment.start.y
-  const stepCount = Math.floor(width / stepSize)
+  const stepCount = Math.round(width / stepSize)
   const stepX = width / stepCount
   const stepY = height / stepCount
 
   let edge
   let coin
-  for(let i=1; i<= stepCount; i++) {
+  for(let i=1; i <= stepCount; i++) {
     edge = new GroundEdge(
       world, 
       Vec2(segment.start.x + (i - 1)*stepX, segment.start.y + sinFunc((i - 1)*stepSize , width, segment.data.amplitude) + (i-1)*stepY),
