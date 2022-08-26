@@ -105,7 +105,7 @@ export default class Simulation extends SimContainer {
     if(this.snail.isOnGround) {
       this.yShift += Math.min(0.0005,  (0.6 - this.yShift) * 0.05)
     } else {
-      this.yShift += Math.max(-0.0005, (0.2  - this.yShift) * 0.02)
+      this.yShift += Math.max(-0.0005, (0.4  - this.yShift) * 0.08)
     }
 
     const targetX = -x * this.viewContainer.scale.x + width / 4

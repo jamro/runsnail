@@ -1,4 +1,4 @@
-import { Graphics } from 'pixi.js';
+import { Graphics, Sprite } from 'pixi.js';
 import * as plank from 'planck/dist/planck-with-testbed';
 import { SNAIL } from './Collisions';
 import SimObject from './sim/SimObject';
@@ -23,9 +23,9 @@ export default class Coin extends SimObject {
     fixture.objRef = this
     this.body.setPosition(Vec2(this.x, this.y));
 
-    this.view = new Graphics ()
-    this.view.beginFill(0xffaa00)
-    this.view.drawCircle(0, 0, 0.3)
+    this.view = Sprite.from('coin.png')
+    this.view.scale.set(0.005, -0.005)
+    this.view.anchor.set(0.5, 0.5);
     this.render()
   }
 

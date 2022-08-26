@@ -8,10 +8,10 @@ function createSineSegment(segment) {
   return new GroundSegment(
     'sine',
     Vec2(segment.end.x, segment.end.y),
-    Vec2(segment.end.x + width , segment.end.y + (Math.random()-0.4 )*0.25*width),
+    Vec2(segment.end.x + width , segment.end.y + (Math.random()-0.5 )*0.25*width),
     {
       amplitude: Math.max(2, Math.random()*width*0.25),
-      coins: Math.random() > 0.8 ? true : false
+      coins: Math.random() > 0.6 ? true : false
     }
   )
 }
