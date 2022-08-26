@@ -20,22 +20,22 @@ export default class Ground extends SimContainer {
       this.segments.push(segment)
       this.addChild(segment)
     }
-    while(this.segments[0].start.x > x - width/2) {
+    while(this.segments[0].start.x >=  x - width) {
       segment = this.buildSegment(getPrevSegment(this.segments[0]))
       this.segments.unshift(segment)
       this.addChild(segment)
     }
-    while(this.segments[this.segments.length-1].end.x < x + width/2) {
+    while(this.segments[this.segments.length-1].end.x <= x + width) {
       segment = this.buildSegment(getNextSegment(this.segments[this.segments.length-1]))
       this.segments.push(segment)
       this.addChild(segment) 
     }
 
-    while(this.segments[0].end.x < x - width/2) {
+    while(this.segments[0].end.x < x - width) {
       this.segments.shift().destroy()
     }
 
-    while(this.segments[this.segments.length-1].start.x > x + width/2) {
+    while(this.segments[this.segments.length-1].start.x > x + width) {
       this.segments.pop().destroy()
     }
   }

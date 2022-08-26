@@ -6,8 +6,6 @@ import Snail, { SNAIL_MIN_SPEED } from './Snail.js';
 import Background from './view/Background.js';
 const Vec2 = plank.Vec2;
 
-const WORLD_WIDTH = 500 ;
-
 export default class Simulation extends SimContainer {
   constructor() {
     super()
@@ -23,6 +21,7 @@ export default class Simulation extends SimContainer {
     this.statusText = new Text('Score: 0', {fontFamily : 'Arial', fontSize: 24, fill : 0x000000});
     this.view.addChild(this.statusText)
     this.yShift = 0.5
+    this.groundWidth = 500
   }
 
   set status(text) {
@@ -82,7 +81,7 @@ export default class Simulation extends SimContainer {
   update(dt) {
     super.update(dt)
     this.world.step(1/60);
-    this.ground.build(this.snail.body.getPosition().x, WORLD_WIDTH)
+    this.ground.build(this.snail.body.getPosition().x, this.groundWidth)
   }
 
   follow(x, y, width, height) {
@@ -114,6 +113,7 @@ export default class Simulation extends SimContainer {
     this.viewContainer.x = targetX
     this.viewContainer.y += (targetY - this.viewContainer.y) * 0.3
 
+    this.groundWidth = width / this.viewContainer.scale.x 
   }
 
   addChild(child) {
