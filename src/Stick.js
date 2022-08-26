@@ -27,10 +27,47 @@ export default class Stick extends SimObject {
     this.body.setPosition(Vec2(this.x, this.y));
     this.body.setAngle(this.angle);
 
-    this.view = new Graphics()
+    this.view = this.drawStick(length)
     this.view.beginFill(0x000000)
-    this.view.drawRect(-0.05, -length/2, 0.1, length)
+   
     this.render()
+  }
+
+  drawStick(length) {
+    const graphics = new Graphics()
+    graphics.beginFill(0x000000)
+    const topWidth = 0.048 + Math.random()*0.04
+    const bottomWidth = 0.048 + Math.random()*0.04
+    const shifts = Array(Math.floor(Math.random()*3)).fill(0).map(() => 0.08*Math.random()-0.04)
+    const segmentLength = length / (shifts.length + 1)
+    let i
+
+    graphics.moveTo(-topWidth, -length/2)
+    graphics.lineTo(topWidth, -length/2)
+    for(i = 0; i < shifts.length; i++) {
+      graphics.lineTo(0.05 + shifts[i], -length/2 + (i+1) * segmentLength)
+    }
+    graphics.lineTo(bottomWidth, length/2)
+    graphics.lineTo(-bottomWidth, length/2)
+    for(i = shifts.length-1; i >= 0; i--) {
+      graphics.lineTo(-0.05 + shifts[i], -length/2 + (i+1) * segmentLength)
+    }
+    graphics.moveTo(-topWidth, -length/2)
+
+    if(Math.random() > 0.8) {
+      graphics.moveTo(0, -0.03+0.05)
+      graphics.lineTo(0.15, -0.15+0.05)
+      graphics.lineTo(0.15, -0.11+0.05)
+      graphics.lineTo(0, 0.03+0.05)
+    }
+
+    if(Math.random() > 0.8) {
+      graphics.moveTo(0, -0.03-0.05)
+      graphics.lineTo(-0.15, -0.15-0.05)
+      graphics.lineTo(-0.15, -0.11-0.05)
+      graphics.lineTo(0, 0.03-0.05)
+    }
+    return graphics
   }
 
   render() {
