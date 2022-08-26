@@ -5,7 +5,6 @@ import GroundEdge from "../GroundEdge"
 const Vec2 = plank.Vec2;
 
 function sinFunc(x, width, amplitude) {
-  console.log(x/width)
   return amplitude*(Math.cos((x/width)*Math.PI*2) - 1)
 }
 

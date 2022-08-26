@@ -1,9 +1,9 @@
 import { Sprite, Text } from 'pixi.js';
 import * as plank from 'planck/dist/planck-with-testbed';
-import Dust from './Dust.js';
 import Ground from './ground/Ground.js'
 import SimContainer from './sim/SimContainer.js';
 import Snail, { SNAIL_MIN_SPEED } from './Snail.js';
+import Background from './view/Background.js';
 const Vec2 = plank.Vec2;
 
 const WORLD_WIDTH = 500 ;
@@ -14,6 +14,8 @@ export default class Simulation extends SimContainer {
     this.world = null
     this.snail = null
     this.ground = null
+    this.background = new Background()
+    this.view.addChild(this.background)
     this.viewContainer = new Sprite()
     this.view.addChild(this.viewContainer)
     this.zoom = 50
@@ -84,6 +86,7 @@ export default class Simulation extends SimContainer {
   }
 
   follow(x, y, width, height) {
+    this.background.follow(x, y, width, height)
     let vx = this.snail.body.getLinearVelocity().x
     let vy = this.snail.body.getLinearVelocity().y
     let v = Math.sqrt(vx * vx + vy * vy) 

@@ -1,10 +1,9 @@
 import * as plank from 'planck/dist/planck-with-testbed';
 import Coin from './Coin';
 import { GROUND, OBSTACLE, SNAIL } from './Collisions';
-import Dust from './Dust';
 import GroundEdge from './ground/GroundEdge';
 import SimObject from './sim/SimObject';
-import SnailView from './SnailView';
+import SnailView from './view/SnailView';
 const Vec2 = plank.Vec2;
 const Circle = plank.Circle;
 
