@@ -1,13 +1,14 @@
 import InputController from './sim/InputController.js';
-import Simulation from './Simulation.js';
+import World from './sim/World.js';
 import { Application, Graphics, Text } from "pixi.js";
 import './style.css'
+import WorldView from './view/WorldView.js';
 
 document.addEventListener("DOMContentLoaded", (event) => {
 
   // model 
-  const sim = new Simulation()
-  sim.init()
+  const sim = new World()
+  const view = new WorldView(sim)
   const controller = new InputController(document, sim.snail)
   controller.init()
 
@@ -19,21 +20,19 @@ document.addEventListener("DOMContentLoaded", (event) => {
     antialias: true,
   });
   document.querySelector("#scene").appendChild(app.view);
-  app.stage.addChild(sim.view);
+  app.stage.addChild(view);
 
   app.ticker.add((dt) => {
-    sim.update(dt)
-    sim.render()
-    sim.follow(
+    sim.update(dt, view.groundWidth)
+    view.update()
+    view.follow(
       sim.snail.body.getPosition().x,
       sim.snail.body.getPosition().y,
       app.renderer.width,
       app.renderer.height
     )
-    sim.energyBar.value = sim.snail.energy/100
-    sim.distanceMeter.value = sim.snail.distance
+    view.energyBar.value = sim.snail.energy/100
+    view.distanceMeter.value = sim.snail.distance
   })
-
-
 
 })

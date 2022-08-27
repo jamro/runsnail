@@ -1,8 +1,10 @@
-export default class SimObject {
+import { EventEmitter } from "events"
+
+export default class SimObject extends EventEmitter {
 
   constructor() {
+    super()
     this.parent = null
-    this.view = null
   }
 
   contact(simObject) {
@@ -17,13 +19,7 @@ export default class SimObject {
     
   }
 
-  render() {
-
-  }
-
   destroy() {
-    if(this.view && this.view.parent) {
-      this.view.parent.removeChild(this.view)
-    }
+    this.emit("destroy")
   }
 }

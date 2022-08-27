@@ -1,5 +1,5 @@
-import * as plank from 'planck/dist/planck-with-testbed';
-import Coin from '../../Coin';
+import * as plank from 'planck';
+import Coin from '../Coin';
 import GroundEdge from "../GroundEdge"
 
 const Vec2 = plank.Vec2;
@@ -24,10 +24,10 @@ export default function sineSegment(world, segment) {
       Vec2(segment.start.x + (i - 1)*stepX, segment.start.y + sinFunc((i - 1)*stepSize , width, segment.data.amplitude) + (i-1)*stepY),
       Vec2(segment.start.x + i*stepX, segment.start.y + sinFunc(i*stepSize, width, segment.data.amplitude) + i*stepY)
     )
-    segment.addChild(edge)
+    segment.addEdge(edge)
     if(segment.data.coins && i > stepCount*0.2  && i < stepCount*0.5  ) {
       coin = new Coin(world, edge.start.x, edge.start.y+0.8)
-      segment.addChild(coin)
+      segment.addCoin(coin)
     }
   }
 

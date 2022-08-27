@@ -1,17 +1,16 @@
-import * as plank from 'planck/dist/planck-with-testbed';
-import Coin from './Coin';
+import * as plank from 'planck';
+import Coin from './ground/Coin';
 import { GROUND, OBSTACLE, SNAIL } from './Collisions';
 import GroundEdge from './ground/GroundEdge';
-import SimObject from './sim/SimObject';
-import SnailView from './view/SnailView';
+import SimObject from './SimObject';
 const Vec2 = plank.Vec2;
 const Circle = plank.Circle;
 
 export const SNAIL_MIN_SPEED = 2.5;
-const ROLLING = 'rolling'
-const GLIDING = 'gliding'
-const WALKING = 'walking'
-const DEAD = 'dead'
+export const ROLLING = 'rolling'
+export const GLIDING = 'gliding'
+export const WALKING = 'walking'
+export const DEAD = 'dead'
 
 export default class Snail extends SimObject {
 
@@ -48,8 +47,6 @@ export default class Snail extends SimObject {
     this.walkingMode = false
     this._distance = 0
 
-    this.view = new SnailView()
-    this.render()
     this.groundNormal = Vec2(0, 1)
   }
 
@@ -120,8 +117,6 @@ export default class Snail extends SimObject {
 
     const av = this.body.getAngularVelocity()
     if(Math.abs(av) < 5) {
-      this.view.dust.enabled = false
-      this.view.hidden = false
       if(this.isOnGround) {
         this.state = WALKING
       } else {
@@ -129,35 +124,18 @@ export default class Snail extends SimObject {
       }
     } else {
       this.state = ROLLING
-      this.view.hidden = true
-      if(this.isOnGround) {
-        this.view.dust.enabled = (this.energy > 0)
-        this.view.dust.rotation = Math.atan2(this.groundNormal.y, this.groundNormal.x) - Math.PI/2
-      } else {
-        this.view.dust.enabled = false
-      }
     }
 
     if(this.energy <= 0 && this.isOnGround) {
       this.state = DEAD
-      this.view.hidden = true
 
       this.body.applyForce(Vec2(
         -this.body.getLinearVelocity().x,
         -this.body.getLinearVelocity().y
       ).mul(1), this.body.getPosition())
       this.bodyFixture.setFriction(1)
-
     }
-
     this._distance = Math.max(this._distance, 0.05*(this.body.getPosition().x))
-  }
-
-  render() {
-    this.view.x = this.body.getPosition().x
-    this.view.y = this.body.getPosition().y
-    this.view.rotation = this.body.getAngle()
-    this.view.update()
   }
 
   contact(obj, contact) {

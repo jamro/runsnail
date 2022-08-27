@@ -1,9 +1,9 @@
 import {getNextSegment, getPrevSegment, getStartSegment} from './GroundShape.js'
-import SimContainer from '../sim/SimContainer';
+import SimContainer from '../SimContainer';
 import lineSegment from './segments/lineSegment'
 import sineSegment from './segments/sineSegment';
 import towerSegment from './segments/towerSegment.js';
-
+import GroundView from '../../view/ground/GroundView';
 
 export default class Ground extends SimContainer {
 
@@ -11,6 +11,12 @@ export default class Ground extends SimContainer {
     super()
     this.world = world;
     this.segments = []
+    this.view = new GroundView(this)
+  }
+  
+  render() {
+    super.render()
+    this.view.update()
   }
 
   build(x, width) {
@@ -18,30 +24,31 @@ export default class Ground extends SimContainer {
     if(this.segments.length === 0) {
       segment = this.buildSegment(getStartSegment())
       this.segments.push(segment)
-      this.addChild(segment)
+      this.emit('addSegment', segment)
     }
     while(this.segments[0].start.x >=  x - width) {
       segment = this.buildSegment(getPrevSegment(this.segments[0]))
       this.segments.unshift(segment)
-      this.addChild(segment)
+      this.emit('addSegment', segment)
     }
     while(this.segments[this.segments.length-1].end.x <= x + width) {
       segment = this.buildSegment(getNextSegment(this.segments[this.segments.length-1]))
       this.segments.push(segment)
-      this.addChild(segment) 
+      this.emit('addSegment', segment)
     }
 
     while(this.segments[0].end.x < x - width) {
-      this.segments.shift().destroy()
+      segment = this.segments.shift()
+      segment.destroy()
     }
 
     while(this.segments[this.segments.length-1].start.x > x + width) {
-      this.segments.pop().destroy()
+      segment = this.segments.pop()
+      segment.destroy()
     }
   }
 
   buildSegment(segment) {
-
     const builders = {
       'line': lineSegment,
       'sine': sineSegment,
@@ -53,6 +60,7 @@ export default class Ground extends SimContainer {
     } else {
       throw new Error(`Unknown segment type: ${segment.type}`)
     }
+    this.addChild(segment) 
     return segment
   }
 

@@ -1,10 +1,17 @@
 import { Graphics, Sprite } from "pixi.js";
+import { 
+  DEAD,
+  GLIDING, 
+  ROLLING, 
+  WALKING 
+} from "../sim/Snail";
 import Dust from "./Dust";
+import View from "./View";
 
-export default class SnailView extends Sprite {
+export default class SnailView extends View {
 
-  constructor() {
-    super()
+  constructor(model) {
+    super(model)
     this._hidden = false;
     this.t = 0;
 
@@ -72,24 +79,52 @@ export default class SnailView extends Sprite {
   }
 
   update() {
+    // adjust to model state
+    switch(this.model.state) {
+      case WALKING:
+      case GLIDING:
+        this.dust.enabled = false
+        this.hidden = false
+        break;
+      case ROLLING:
+        this.hidden = true
+        if(this.model.isOnGround) {
+          this.dust.enabled = true
+          this.dust.rotation = Math.atan2(this.model.groundNormal.y, this.model.groundNormal.x) - Math.PI/2
+        } else {
+          this.dust.enabled = false
+        }
+        break;
+      case DEAD:
+        this.hidden = true
+        this.dust.enabled = false
+        break;
+    }
+
+    // updte body position
+    this.x = this.model.body.getPosition().x
+    this.y = this.model.body.getPosition().y
+    this.rotation = this.model.body.getAngle()
+    this.antiRotationContainer.rotation = -this.rotation;
+
+    // show / hide snail body
     const targetBodyScale = this.hidden ? 0 : 0.007;
     this.bodyShape.scale.x += (targetBodyScale - this.bodyShape.scale.x) * 0.05;
 
     const showEyes = this.bodyShape.scale.x >= 0.006
-
     this.eyeRight.visible = showEyes;
     this.eyeLeft.visible = showEyes;
 
+    // body movement animation
     this.t = (this.t + 4) % 180; 
-
     this.body.scale.x = 0.9 + (this.hidden ? 0 : 0.1) *  Math.sin((this.t / 180) * Math.PI)
-    this.antiRotationContainer.rotation = -this.rotation;
-
     if(!this.hidden) {
       this.shell.y = -0.07*Math.sin((this.t / 180) * Math.PI + 0.05)
     }
     this.eyeLeft.rotation = -0.4 * Math.sin((this.t / 180) * Math.PI)
     this.eyeRight.rotation = -0.4 * Math.sin((this.t / 180) * Math.PI) - 0.5
+
+
   }
 
 

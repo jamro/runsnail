@@ -1,4 +1,4 @@
-import * as plank from 'planck/dist/planck-with-testbed';
+import * as plank from 'planck';
 import GroundSegment from './GroundSegment';
 
 const Vec2 = plank.Vec2;
