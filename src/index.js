@@ -4,13 +4,10 @@ import { Application, Graphics, Text } from "pixi.js";
 import './style.css'
 import WorldView from './view/WorldView.js';
 
-document.addEventListener("DOMContentLoaded", (event) => {
 
-  // model 
+function startNewGame() {
   const sim = new World()
   const view = new WorldView(sim)
-  const controller = new InputController(document, sim.snail)
-  controller.init()
 
   // rendering
   const sceneContainer = document.querySelector("#scene");
@@ -26,13 +23,46 @@ document.addEventListener("DOMContentLoaded", (event) => {
     sim.update(dt, view.groundWidth)
     view.update()
     view.follow(
-      sim.snail.body.getPosition().x,
-      sim.snail.body.getPosition().y,
+      sim.snail,
       app.renderer.width,
       app.renderer.height
     )
     view.energyBar.value = sim.snail.energy/100
     view.distanceMeter.value = sim.snail.distance
   })
+  return {
+    model: sim,
+    view: view,
+    pixiApp: app,
+  }
+}
+
+document.addEventListener("DOMContentLoaded", (event) => {
+
+  let world
+  let app
+  let worldView
+
+  const controller = new InputController(document)
+  controller.init()
+  controller.on("replay", () => {
+    if(!world || !app || !worldView) {
+      return
+    }
+    world.destroy()
+    app.destroy(true)
+
+    const { model, pixiApp, view } = startNewGame()
+    world = model
+    app = pixiApp
+    worldView = view
+    controller.snail = world.snail
+  })
+
+  const { model, pixiApp, view } = startNewGame()
+  world = model
+  app = pixiApp
+  worldView = view
+  controller.snail = world.snail
 
 })

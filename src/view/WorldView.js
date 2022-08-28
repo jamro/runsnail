@@ -1,5 +1,5 @@
 import { Sprite } from "pixi.js";
-import { SNAIL_MIN_SPEED } from "../sim/Snail";
+import { DEAD, SNAIL_MIN_SPEED } from "../sim/Snail";
 import Background from "./ground/Background";
 import DistanceMeter from "./DistanceMeter";
 import EnergyBar from "./EnergyBar";
@@ -19,6 +19,7 @@ export default class WorldView extends View {
     this.zoom = 50
 
     this.yShift = 0.5
+    this.xShift = 0.18
     this.groundWidth = 500
 
     this.ground = new GroundView(this.model.ground)
@@ -52,14 +53,16 @@ export default class WorldView extends View {
     this.ground.update()
   }
 
-  follow(x, y, width, height) {
+  follow(snail, width, height) {
+    const x = snail.body.getPosition().x
+    const y = snail.body.getPosition().y
     this.background.follow(x, y, width, height)
 
     let vx = this.model.snail.body.getLinearVelocity().x
     let vy = this.model.snail.body.getLinearVelocity().y
     let v = Math.sqrt(vx * vx + vy * vy) 
     v = Math.max(v, SNAIL_MIN_SPEED)
-    const timeHorizon = 5 // seconds
+    const timeHorizon = 4 // seconds
     const distanceHorizon = v * timeHorizon
 
     const targetZoom = Math.min(60,  width / distanceHorizon)
@@ -70,18 +73,22 @@ export default class WorldView extends View {
       this.zoom += Math.max(-0.1 , (targetZoom - this.zoom) * 0.01)
     }
 
-    if(this.model.snail.isOnGround) {
+    if(this.model.snail.state === DEAD) {
+      this.yShift += Math.min(0.0005,  (0.8 - this.yShift) * 0.08)
+      this.xShift += Math.min(0.0005,  (0.5 - this.xShift) * 0.08)
+    } else if(this.model.snail.isOnGround) {
       this.yShift += Math.min(0.0005,  (0.6 - this.yShift) * 0.05)
     } else {
       this.yShift += Math.max(-0.0005, (0.4  - this.yShift) * 0.08)
     }
 
-    const targetX = -x * this.viewContainer.scale.x + width / 4
-    const targetY = -y * this.viewContainer.scale.y + height * this.yShift
+    let targetX
+    let targetY
 
+    targetX = -x * this.viewContainer.scale.x + width * this.xShift
+    targetY = -y * this.viewContainer.scale.y + height * this.yShift
     this.viewContainer.x = targetX
     this.viewContainer.y += (targetY - this.viewContainer.y) * 0.3
-
-    this.groundWidth = width / this.viewContainer.scale.x 
+    this.groundWidth = width / this.viewContainer.scale.x     
   }
 }

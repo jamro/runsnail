@@ -5,6 +5,7 @@ import {
   ROLLING, 
   WALKING 
 } from "../sim/Snail";
+import Cloud from "./Cloud";
 import Dust from "./Dust";
 import View from "./View";
 
@@ -66,6 +67,15 @@ export default class SnailView extends View {
     this.dust.x = 0
     this.dust.y = -0.5
     this.antiRotationContainer.addChild(this.dust)
+
+    this.cloud = new Cloud()
+    this.cloud.visible = false
+    this.cloud.scale.set(0.007, -0.007)
+    this.antiRotationContainer.addChild(this.cloud)
+
+    model.on('gameOver', () => {
+      this.cloud.visible = true
+    })
   }
 
   get hidden() {

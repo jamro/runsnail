@@ -7,15 +7,19 @@ const Vec2 = plank.Vec2;
 export default class World extends SimContainer {
   constructor() {
     super()
-    this.world = null
-    this.snail = null
-    this.ground = null
 
+    this.active = true
     this.world = plank.World(Vec2(0, -10))
     this.snail = new Snail(this.world)
     this.ground = new Ground(this.world)
     this.addChild(this.snail)
     this.addChild(this.ground)
+
+    this.snail.on('gameOver', () => {
+      console.log('GAME OVER')
+      console.log(`Distance: ${this.snail.distance.toFixed(1)}m`)
+      this.active = false
+    })
 
     this.world.on('begin-contact', (contact) => {
       const objA = contact.getFixtureA().objRef
@@ -48,6 +52,9 @@ export default class World extends SimContainer {
   }
  
   update(dt, groundWidth) {
+    if(!this.active) {
+      return
+    }
     super.update(dt)
     this.world.step(1/60);
     this.ground.build(this.snail.body.getPosition().x, groundWidth)

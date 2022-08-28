@@ -5,15 +5,16 @@ export default class DistanceMeter extends Sprite {
   constructor() {
     super()
     this.bg = Sprite.from('distance.png')
+    this.bg.scale.set(0.75)
     this.addChild(this.bg)
 
     this.label = new Text('0.0m', {
       fontFamily : 'Arial', 
-      fontSize: 18, 
+      fontSize: 20, 
       fill : 0xffffff
     });
-    this.label.x = 175
-    this.label.y = 8
+    this.label.x = 210
+    this.label.y = 18
     this.label.anchor.set(1, 0)
     this.addChild(this.label)
     this._value = 0
