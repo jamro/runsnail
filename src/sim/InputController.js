@@ -6,8 +6,10 @@ export default class InputController extends EventEmitter {
     this.doc = doc
     this._snail = null
     this._world = null
-    this.gameOverHandler = this.omGameOver.bind(this)
+    this.gameOverHandler = this.onGameOver.bind(this)
+    this.replayPromptHandler = this.onReplayPrompt.bind(this)
     this.gameOver = false;
+    this.replayPrompt = false;
   }
 
   set world(world) {
@@ -17,6 +19,7 @@ export default class InputController extends EventEmitter {
     this._world = world
     this._snail = world.snail
     this._snail.on('gameOver', this.gameOverHandler)
+    this._snail.on('replayPrompt', this.replayPromptHandler)
   }
 
   get world() {
@@ -54,8 +57,9 @@ export default class InputController extends EventEmitter {
       this._world.infoActive = false
       return;
     }
-    if(this.gameOver) {
+    if(this.gameOver && this.replayPrompt) {
       this.gameOver = false
+      this.replayPrompt = false
       this.emit('replay')
       return;
     }
@@ -64,7 +68,11 @@ export default class InputController extends EventEmitter {
     }
   }
 
-  omGameOver() {
+  onGameOver() {
     this.gameOver = true
+  }
+
+  onReplayPrompt() {
+    this.replayPrompt = true
   }
 }

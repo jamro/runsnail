@@ -4,7 +4,7 @@ export default class DistanceMeter extends Sprite {
 
   constructor() {
     super()
-    this.bg = Sprite.from('distance.png')
+    this.bg = Sprite.from('distanceMeter.png')
     this.bg.scale.set(0.75)
     this.addChild(this.bg)
 

@@ -74,8 +74,14 @@ export default class SnailView extends View {
     this.cloud.scale.set(0.007, -0.007)
     this.antiRotationContainer.addChild(this.cloud)
 
-    model.on('gameOver', () => {
+    model.on('gameOver', data => {
       this.cloud.visible = true
+      this.cloud.displayResult(data.distance)
+    })
+
+    model.on('replayPrompt', () => {
+      this.cloud.visible = true
+      this.cloud.displayReplayPrompt()
     })
   }
 
