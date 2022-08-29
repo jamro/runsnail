@@ -16,6 +16,15 @@ function createSineSegment(segment) {
   )
 }
 
+function createHalfSineSegment(segment) {
+  const width = 20 + Math.random()*20
+  return new GroundSegment(
+    'halfSine',
+    Vec2(segment.end.x, segment.end.y),
+    Vec2(segment.end.x + width , segment.end.y + (Math.random()*2 - 1)*0.5*width)
+  )
+}
+
 function createTowerSegment(segment) {
   const width = 3
   const columns = Math.floor(Math.random()*Math.random()*10 ) + 1
@@ -55,7 +64,7 @@ function createRampSegment(segment) {
 
 export function getNextSegment(segment) {
   const rnd = Math.random()
-  if(rnd > 0.8) {
+  if(rnd > 0.75) {
     return createTowerSegment(segment)
   }
   if(rnd > 0.7) {
@@ -63,6 +72,9 @@ export function getNextSegment(segment) {
   }
   if(rnd > 0.6) {
     return createPyramidSegment(segment)
+  }
+  if(rnd > 0.4) {
+    return createHalfSineSegment(segment)
   }
   return createSineSegment(segment)
 }

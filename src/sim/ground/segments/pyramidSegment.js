@@ -46,8 +46,4 @@ export default function pyramidSegment(world, segment) {
       }
     }
   }
-  
-  console.log(dx, dy)
-
-  
 }
