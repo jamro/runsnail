@@ -49,6 +49,6 @@ export function getStartSegment() {
   return new GroundSegment(
     'start',
     Vec2(0, 0),
-    Vec2(160, -20)
+    Vec2(100, -20)
   )
 }

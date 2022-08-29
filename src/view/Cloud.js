@@ -1,4 +1,5 @@
 import { Graphics, Sprite, Text } from "pixi.js";
+import __, { CLICK, TAP, TO_REPLAY } from "./lang";
 
 function mobileCheck() {
   if(!navigator && !window) {
@@ -18,9 +19,9 @@ export default class Cloud extends Sprite {
     this.content.anchor.set(0.5)
     this.addChild(this.content)
 
-    const action = mobileCheck() ? 'TAP' : 'CLICK'
+    const action = mobileCheck() ? __(TAP) : __(CLICK)
 
-    this.label = new Text(`${action} TO\nREPLAY`, {
+    this.label = new Text(`${action} ${__(TO_REPLAY)}`, {
       fontFamily : 'Arial', 
       fontSize: 50, 
       fill : 0x000000,

@@ -1,5 +1,6 @@
 import { Sprite, Text } from "pixi.js"
 import {DropShadowFilter} from '@pixi/filter-drop-shadow';
+import __, { DIVE, FLY_UP, HOLD, RELEASE } from "./lang";
 
 export default class Tutorial extends Sprite {
   constructor() {
@@ -23,15 +24,15 @@ export default class Tutorial extends Sprite {
 
     this.label = new Text(``, {
       fontFamily : 'Arial', 
-      fontSize: 40, 
+      fontSize: 25, 
       fill : 0xffffff,
     });
     this.addChild(this.label)
-    this.label.y = 140
-    this.label.x = 20
+    this.label.y = 150
+    this.label.x = 160
+    this.label.anchor.set(0.5, 0.5)
 
     this._page = 1
-
     this.page = 2
   }
 
@@ -39,7 +40,7 @@ export default class Tutorial extends Sprite {
     this._page = page
     this.page1.visible = page == 1
     this.page2.visible = page == 2
-    this.label.text = page == 1 ? `Hold = Dive` : `Release = Fly up`
+    this.label.text = page == 1 ? `${__(HOLD)} = ${__(DIVE)}` : `${__(RELEASE)} = ${__ (FLY_UP)}`
   }
 
   get page() {

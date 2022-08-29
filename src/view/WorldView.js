@@ -67,13 +67,13 @@ export default class WorldView extends View {
 
   follow(snail, width, height) {
     if(this.tutorial) {
-      this.tutorial.y = height - 200
+      this.tutorial.y = height - 180
       const snailX = snail.body.getPosition().x
-      if(snailX < 10) {
+      if(snailX < 5) {
         this.tutorial.page = 1
-      } else if(snailX > 10 && snailX < 20) {
+      } else if(snailX >= 5 && snailX < 10) {
         this.tutorial.page = 2
-      } else if(snailX > 50) {
+      } else if(snailX > 40) {
         this.removeChild(this.tutorial)
         this.tutorial = null
       }
