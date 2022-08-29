@@ -5,6 +5,7 @@ import sineSegment from './segments/sineSegment';
 import towerSegment from './segments/towerSegment.js';
 import startSegment from './segments/startSegment.js';
 import GroundView from '../../view/ground/GroundView';
+import rampSegment from './segments/rampSegment.js';
 
 export default class Ground extends SimContainer {
 
@@ -54,7 +55,8 @@ export default class Ground extends SimContainer {
       'start': startSegment,
       'line': lineSegment,
       'sine': sineSegment,
-      'tower': towerSegment
+      'tower': towerSegment,
+      'ramp': rampSegment
     }
 
     if(builders[segment.type]) {

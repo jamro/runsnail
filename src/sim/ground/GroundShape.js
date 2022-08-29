@@ -29,12 +29,27 @@ function createTowerSegment(segment) {
   )
 }
 
+function createRampSegment(segment) {
+  const width = 30 + Math.random()*50
+  return new GroundSegment(
+    'ramp',
+    Vec2(segment.end.x, segment.end.y),
+    Vec2(segment.end.x + width , segment.end.y + (Math.random()-0.5 )*0.25*width),
+    {
+      coins: Math.random() > 0.5 ? true : false
+    }
+  )
+}
+
 export function getNextSegment(segment) {
   const rnd = Math.random()
-  if(rnd > 0.7) {
+  if(rnd > 0.8) {
     return createTowerSegment(segment)
   }
-  return createSineSegment (segment)
+  if(rnd > 0.7) {
+    return createRampSegment(segment)
+  }
+  return createSineSegment(segment)
 }
 
 export function getPrevSegment(segment) {
