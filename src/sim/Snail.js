@@ -115,7 +115,6 @@ export default class Snail extends SimObject {
       this.walkingMode = false
     }
 
-    
     if(this.walkingMode && this.energy > 0) { 
       this.bodyFixture.setFriction(0)
       this.body.applyForce(Vec2({

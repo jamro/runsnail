@@ -10,10 +10,8 @@ export default class Tutorial extends Sprite {
     shadow.color = 0x000000
     shadow.alpha = 1
     shadow.distance = 0
-    this.page1 = Sprite.from('tutorial1.png')
-    this.page2 = Sprite.from('tutorial2.png')
-    this.page2.x = -5
-    this.page2.y = 5
+    this.page1 = this.createPage1()
+    this.page2 = this.createPage2()
 
     this.filters = [shadow, shadow]
 
@@ -47,5 +45,26 @@ export default class Tutorial extends Sprite {
     return this._page
   }
 
+  createPage1() {
+    const page = new Sprite()
+    const pointer = Sprite.from('tutorial_hold.png')
+    pointer.x = 10
+    page.addChild(pointer)
+    const ground = Sprite.from('tutorial_dive.png')
+    ground.x = 100
+    page.addChild(ground)
+    return page
+  }
+
+  createPage2() {
+    const page = new Sprite()
+    const pointer = Sprite.from('tutorial_release.png')
+    pointer.x = 10
+    page.addChild(pointer)
+    const ground = Sprite.from('tutorial_flyup.png')
+    ground.x = 100
+    page.addChild(ground)
+    return page
+  }
 
 }

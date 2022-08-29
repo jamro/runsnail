@@ -7,6 +7,7 @@ import View from "./View";
 import SnailView from "./SnailView";
 import GroundView from "./ground/GroundView";
 import Tutorial from "./Tutorial";
+import InfoScreen from "./InfoScreen";
 
 export default class WorldView extends View {
   
@@ -41,9 +42,13 @@ export default class WorldView extends View {
 
 
     this.tutorial = null
+    this.infoScreen = null
     if(this.model.tutorial) {
       this.tutorial = new Tutorial()
+      this.tutorial.visible = false
       this.addChild(this.tutorial)
+      this.infoScreen = new InfoScreen()
+      this.addChild(this.infoScreen)
     }
   }
 
@@ -66,14 +71,22 @@ export default class WorldView extends View {
   }
 
   follow(snail, width, height) {
-    if(this.tutorial) {
+    if(this.infoScreen) {
+      this.infoScreen.resize(width, height)
+    }
+    if(this.infoScreen && !this.model.infoActive) {
+      this.removeChild(this.infoScreen)
+      this.infoScreen = null
+    }
+    if(this.tutorial && !this.infoScreen) {
+      this.tutorial.visible = true
       this.tutorial.y = height - 180
       const snailX = snail.body.getPosition().x
       if(snailX < 5) {
         this.tutorial.page = 1
       } else if(snailX >= 5 && snailX < 10) {
         this.tutorial.page = 2
-      } else if(snailX > 40) {
+      } else if(snailX > 35) {
         this.removeChild(this.tutorial)
         this.tutorial = null
       }
@@ -81,6 +94,8 @@ export default class WorldView extends View {
     if(this.model.onHold) {
       return
     }
+    this.energyBar.visible = !this.infoScreen
+    this.distanceMeter.visible = !this.infoScreen
     const x = snail.body.getPosition().x
     const y = snail.body.getPosition().y
     this.background.follow(x, y, width, height)

@@ -9,6 +9,7 @@ export default class World extends SimContainer {
     super()
 
     this.tutorial = tutorial
+    this.infoActive = tutorial
     this.onHold = false
     this.active = true
     this.world = plank.World(Vec2(0, -10))

@@ -55,13 +55,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
     world = model
     app = pixiApp
     worldView = view
-    controller.snail = world.snail
+    controller.world = world
   })
 
   const { model, pixiApp, view } = startNewGame(true)
   world = model
   app = pixiApp
   worldView = view
-  controller.snail = world.snail
+  controller.world = world
 
 })

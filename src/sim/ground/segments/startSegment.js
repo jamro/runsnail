@@ -22,7 +22,6 @@ export default function startSegment(world, segment) {
   const amplitude = width/81.5
 
   let edge
-  let coin
   for(let i=1; i <= stepCount; i++) {
     if(i < stepCount * 0.4) {
       edge = new GroundEdge(

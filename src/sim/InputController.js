@@ -5,20 +5,22 @@ export default class InputController extends EventEmitter {
     super()
     this.doc = doc
     this._snail = null
+    this._world = null
     this.gameOverHandler = this.omGameOver.bind(this)
     this.gameOver = false;
   }
 
-  set snail(snail) {
+  set world(world) {
     if(this._snail) {
       this._snail.off('gameover', this.gameOverHandler)
     }
-    this._snail = snail
+    this._world = world
+    this._snail = world.snail
     this._snail.on('gameOver', this.gameOverHandler)
   }
 
-  get snail() {
-    return this._snail
+  get world() {
+    return this._world
   }
 
   init() {
@@ -42,12 +44,16 @@ export default class InputController extends EventEmitter {
   }
 
   activate() {
-    if(this._snail && !this.gameOver) {
+    if(this._snail && !this.gameOver && !this._world.infoActive) {
       this._snail.run = true
     }
   }
 
   deactivate() {
+    if(this._world.infoActive) {
+      this._world.infoActive = false
+      return;
+    }
     if(this.gameOver) {
       this.gameOver = false
       this.emit('replay')
