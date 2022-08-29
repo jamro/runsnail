@@ -29,6 +29,18 @@ function createTowerSegment(segment) {
   )
 }
 
+function createPyramidSegment(segment) {
+  const size = 2 + Math.floor(Math.random()*3)
+  return new GroundSegment(
+    'pyramid', 
+    Vec2(segment.end.x, segment.end.y),
+    Vec2(segment.end.x + size + 3, segment.end.y),
+    {
+      size
+    }
+  )
+}
+
 function createRampSegment(segment) {
   const width = 30 + Math.random()*50
   return new GroundSegment(
@@ -48,6 +60,9 @@ export function getNextSegment(segment) {
   }
   if(rnd > 0.7) {
     return createRampSegment(segment)
+  }
+  if(rnd > 0.6) {
+    return createPyramidSegment(segment)
   }
   return createSineSegment(segment)
 }

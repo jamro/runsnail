@@ -26,7 +26,7 @@ export default class Stick extends SimObject {
     this.body.setAngle(this.angle);
   }
   
-  destroy() {
+  destroy() { 
     super.destroy()
     this.world.destroyBody(this.body)
   }

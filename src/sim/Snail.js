@@ -30,7 +30,7 @@ export default class Snail extends SimObject {
     this.body.setPosition(Vec2(0, 0));
 
     this.pusher = world.createBody().setKinematic();
-    let fixture = this.pusher.createFixture(Circle(0.4), {
+    let fixture = this.pusher.createFixture(Circle(Vec2(0, 0.1), 0.35), {
       friction: 0,
       density: 1,
       filterCategoryBits: OBSTACLE,
