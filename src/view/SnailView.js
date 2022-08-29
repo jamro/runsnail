@@ -3,6 +3,7 @@ import {
   DEAD,
   GLIDING, 
   ROLLING, 
+  STARTING, 
   WALKING 
 } from "../sim/Snail";
 import Cloud from "./Cloud";
@@ -91,6 +92,10 @@ export default class SnailView extends View {
   update() {
     // adjust to model state
     switch(this.model.state) {
+      case STARTING:
+        this.dust.enabled = false
+        this.hidden = false
+        break;
       case WALKING:
       case GLIDING:
         this.dust.enabled = false
@@ -126,13 +131,15 @@ export default class SnailView extends View {
     this.eyeLeft.visible = showEyes;
 
     // body movement animation
-    this.t = (this.t + 4) % 180; 
-    this.body.scale.x = 0.9 + (this.hidden ? 0 : 0.1) *  Math.sin((this.t / 180) * Math.PI)
-    if(!this.hidden) {
-      this.shell.y = -0.07*Math.sin((this.t / 180) * Math.PI + 0.05)
+    if(this.model.state !== STARTING) {
+      this.t = (this.t + 4) % 180; 
+      this.body.scale.x = 0.9 + (this.hidden ? 0 : 0.1) *  Math.sin((this.t / 180) * Math.PI)
+      if(!this.hidden) {
+        this.shell.y = -0.07*Math.sin((this.t / 180) * Math.PI + 0.05)
+      }
+      this.eyeLeft.rotation = -0.4 * Math.sin((this.t / 180) * Math.PI)
+      this.eyeRight.rotation = -0.4 * Math.sin((this.t / 180) * Math.PI) - 0.5
     }
-    this.eyeLeft.rotation = -0.4 * Math.sin((this.t / 180) * Math.PI)
-    this.eyeRight.rotation = -0.4 * Math.sin((this.t / 180) * Math.PI) - 0.5
 
 
   }

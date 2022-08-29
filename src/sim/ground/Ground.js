@@ -3,6 +3,7 @@ import SimContainer from '../SimContainer';
 import lineSegment from './segments/lineSegment'
 import sineSegment from './segments/sineSegment';
 import towerSegment from './segments/towerSegment.js';
+import startSegment from './segments/startSegment.js';
 import GroundView from '../../view/ground/GroundView';
 
 export default class Ground extends SimContainer {
@@ -50,6 +51,7 @@ export default class Ground extends SimContainer {
 
   buildSegment(segment) {
     const builders = {
+      'start': startSegment,
       'line': lineSegment,
       'sine': sineSegment,
       'tower': towerSegment

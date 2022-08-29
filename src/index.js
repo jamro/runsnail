@@ -5,8 +5,8 @@ import './style.css'
 import WorldView from './view/WorldView.js';
 
 
-function startNewGame() {
-  const sim = new World()
+function startNewGame(tutorial) {
+  const sim = new World(tutorial)
   const view = new WorldView(sim)
 
   // rendering
@@ -38,7 +38,6 @@ function startNewGame() {
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {
-
   let world
   let app
   let worldView
@@ -59,7 +58,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     controller.snail = world.snail
   })
 
-  const { model, pixiApp, view } = startNewGame()
+  const { model, pixiApp, view } = startNewGame(true)
   world = model
   app = pixiApp
   worldView = view

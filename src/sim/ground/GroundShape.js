@@ -47,8 +47,8 @@ export function getPrevSegment(segment) {
 
 export function getStartSegment() {
   return new GroundSegment(
-    'line',
-    Vec2(-1, 0),
-    Vec2(1, 0)
+    'start',
+    Vec2(0, 0),
+    Vec2(160, -20)
   )
 }

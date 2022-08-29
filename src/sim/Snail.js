@@ -7,6 +7,7 @@ const Vec2 = plank.Vec2;
 const Circle = plank.Circle;
 
 export const SNAIL_MIN_SPEED = 2.5;
+export const STARTING = 'starting'
 export const ROLLING = 'rolling'
 export const GLIDING = 'gliding'
 export const WALKING = 'walking'
@@ -26,7 +27,7 @@ export default class Snail extends SimObject {
       filterMaskBits: GROUND  | SNAIL
     });
     this.bodyFixture.objRef = this
-    this.body.setPosition(Vec2(0, 10));
+    this.body.setPosition(Vec2(0, 0));
 
     this.pusher = world.createBody().setKinematic();
     let fixture = this.pusher.createFixture(Circle(0.4), {
@@ -36,28 +37,44 @@ export default class Snail extends SimObject {
       filterMaskBits: OBSTACLE
     });
     fixture.objRef = this
-    this.pusher.setPosition(Vec2(0, 5));
+    this.pusher.setPosition(this.body.getPosition());
 
-    this.run = false
+    this._run = false
     this.energy = 100
     this.onGroundCounter = 0
     this.flyTimer = 0
     this.isOnGround = false
-    this.state = ROLLING
+    this.state = STARTING
     this.walkingMode = false
     this._distance = 0
-
+    this.enabled = false
     this.groundNormal = Vec2(0, 1)
   }
 
+  set run(value) {
+    if(!this.enabled) {
+      this.body.applyAngularImpulse(-1)
+      this.body.applyLinearImpulse(Vec2(2, -2), this.body.getPosition())
+    }
+    this._run = value
+    this.enabled = true
+  }
+
+  get run() {
+    return this._run
+  }
+
   update() {
+    if(!this.enabled) {
+      return
+    } 
     const powerConsumption = 0.02 + this.body.getPosition().x/300000
 
     this.energy = Math.max(0, this.energy - powerConsumption)
 
     this.pusher.setPosition(this.body.getPosition());
     if(this.run && this.energy > 0) {
-      this.body.applyForce(Vec2(0, -20), this.body.getPosition())
+      this.body.applyForce(Vec2(0, -30), this.body.getPosition())
       this.energy = Math.max(0, this.energy - powerConsumption)
     }
     const snailSpeed = this.body.getLinearVelocity().x
@@ -70,6 +87,10 @@ export default class Snail extends SimObject {
       this.isOnGround = true
     } else {
       this.flyTimer++
+    }
+
+    if(!this.isOnGround) {
+      this.body.applyForce(Vec2(0, 2), this.body.getPosition())
     }
 
     if(this.flyTimer > 50 && snailSpeed > SNAIL_MIN_SPEED) {

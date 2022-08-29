@@ -6,6 +6,7 @@ import EnergyBar from "./EnergyBar";
 import View from "./View";
 import SnailView from "./SnailView";
 import GroundView from "./ground/GroundView";
+import Tutorial from "./Tutorial";
 
 export default class WorldView extends View {
   
@@ -37,6 +38,13 @@ export default class WorldView extends View {
     this.distanceMeter.x = 250;
     this.distanceMeter.y = 9;
     this.addChild(this.distanceMeter)
+
+
+    this.tutorial = null
+    if(this.model.tutorial) {
+      this.tutorial = new Tutorial()
+      this.addChild(this.tutorial)
+    }
   }
 
   set zoom(factor) {
@@ -49,11 +57,30 @@ export default class WorldView extends View {
   }
 
   update() {
+    if(this.model.onHold) {
+      this.snail.dust.enabled = false
+      return
+    }
     this.snail.update()
     this.ground.update()
   }
 
   follow(snail, width, height) {
+    if(this.tutorial) {
+      this.tutorial.y = height - 200
+      const snailX = snail.body.getPosition().x
+      if(snailX < 10) {
+        this.tutorial.page = 1
+      } else if(snailX > 10 && snailX < 20) {
+        this.tutorial.page = 2
+      } else if(snailX > 50) {
+        this.removeChild(this.tutorial)
+        this.tutorial = null
+      }
+    }
+    if(this.model.onHold) {
+      return
+    }
     const x = snail.body.getPosition().x
     const y = snail.body.getPosition().y
     this.background.follow(x, y, width, height)
@@ -79,7 +106,7 @@ export default class WorldView extends View {
     } else if(this.model.snail.isOnGround) {
       this.yShift += Math.min(0.0005,  (0.6 - this.yShift) * 0.05)
     } else {
-      this.yShift += Math.max(-0.0005, (0.4  - this.yShift) * 0.08)
+      this.yShift += Math.max(-0.0005, (0.3  - this.yShift) * 0.8)
     }
 
     let targetX

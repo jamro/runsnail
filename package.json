@@ -30,6 +30,7 @@
     "serve": "webpack serve"
   },
   "dependencies": {
+    "@pixi/filter-drop-shadow": "^4.2.0",
     "@pixi/particle-emitter": "^5.0.7",
     "pixi.js": "^6.5.1",
     "planck": "^1.0.0-alpha.4",
