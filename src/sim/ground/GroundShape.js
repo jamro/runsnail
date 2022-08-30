@@ -62,6 +62,15 @@ function createRampSegment(segment) {
   )
 }
 
+function createBridgeSegment(segment) {
+  const width = 50
+  return new GroundSegment(
+    'bridge',
+    Vec2(segment.end.x, segment.end.y),
+    Vec2(segment.end.x + width , segment.end.y - width*0.1)
+  )
+}
+
 export function getNextSegment(segment) {
   const rnd = Math.random()
   if(rnd > 0.75) {
@@ -75,6 +84,9 @@ export function getNextSegment(segment) {
   }
   if(rnd > 0.4) {
     return createHalfSineSegment(segment)
+  }
+  if(rnd > 0.38) {
+    return createBridgeSegment(segment)
   }
   return createSineSegment(segment)
 }
