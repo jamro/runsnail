@@ -3,10 +3,6 @@ import View from "../View";
 import {Howl, Howler} from 'howler';
 
 
-const collectSound = new Howl({
-  src: [`sfx/coin.mp3`],
-  volume: 0.1,
-})
 
 export default class CoinView extends View {
 
@@ -20,6 +16,10 @@ export default class CoinView extends View {
     this.update()
 
     this.model.on('collect', () => {
+      const collectSound = new Howl({
+        src: [`sfx/coin.mp3`],
+        volume: 0.1,
+      })
       collectSound.play()
     })
   }
