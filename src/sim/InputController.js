@@ -9,6 +9,7 @@ export default class InputController extends EventEmitter {
     this.gameOverHandler = this.onGameOver.bind(this)
     this.replayPromptHandler = this.onReplayPrompt.bind(this)
     this.gameOver = false;
+    this.splash = true;
     this.replayPrompt = false;
   }
 
@@ -47,12 +48,17 @@ export default class InputController extends EventEmitter {
   }
 
   activate() {
-    if(this._snail && !this.gameOver && !this._world.infoActive) {
+    if(this._snail && !this.splash && !this.gameOver && !this._world.infoActive) {
       this._snail.run = true
     }
   }
 
   deactivate() {
+    if(this.splash) {
+      this.splash = false
+      this.emit('start')
+      return;
+    }
     if(this._world.infoActive) {
       this._world.infoActive = false
       return;

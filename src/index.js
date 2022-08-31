@@ -3,13 +3,10 @@ import World from './sim/World.js';
 import { Application, Graphics, Text } from "pixi.js";
 import './style.css'
 import WorldView from './view/WorldView.js';
+import SplashScreen from './view/SplashScreen.js';
 
 
-function startNewGame(tutorial) {
-  const sim = new World(tutorial)
-  const view = new WorldView(sim)
-
-  // rendering
+function createPixiApp(loop) {
   const sceneContainer = document.querySelector("#scene");
   const app = new Application({
     backgroundAlpha: 0,
@@ -17,9 +14,19 @@ function startNewGame(tutorial) {
     antialias: true,
   });
   document.querySelector("#scene").appendChild(app.view);
-  app.stage.addChild(view);
 
-  app.ticker.add((dt) => {
+  if(loop) {
+    app.ticker.add((dt) => loop(dt))
+  }
+  return app
+}
+
+
+function startNewGame(tutorial) {
+  const sim = new World(tutorial)
+  const view = new WorldView(sim)
+
+  const app = createPixiApp((dt) => {
     sim.update(dt, view.groundWidth)
     view.update()
     view.follow(
@@ -30,6 +37,8 @@ function startNewGame(tutorial) {
     view.energyBar.value = sim.snail.energy/100
     view.distanceMeter.value = sim.snail.distance
   })
+  app.stage.addChild(view);
+
   return {
     model: sim,
     view: view,
@@ -45,23 +54,37 @@ document.addEventListener("DOMContentLoaded", (event) => {
   const controller = new InputController(document)
   controller.init()
   controller.on("replay", () => {
-    if(!world || !app || !worldView) {
-      return
+    if(world) {
+      world.destroy()
     }
-    world.destroy()
-    app.destroy(true)
-
+    if(app) {
+      app.destroy(true)
+    }
     const { model, pixiApp, view } = startNewGame()
     world = model
     app = pixiApp
     worldView = view
     controller.world = world
   })
+  controller.on("start", () => {
+    if(world) {
+      world.destroy()
+    }
+    if(app) {
+      app.destroy(true)
+    }
+    const { model, pixiApp, view } = startNewGame(true)
+    world = model
+    app = pixiApp
+    worldView = view
+    controller.world = world
+  })
 
-  const { model, pixiApp, view } = startNewGame(true)
-  world = model
-  app = pixiApp
-  worldView = view
-  controller.world = world
-
+  
+  const splash = new SplashScreen()
+  app = createPixiApp(() => {
+    splash.update(app.renderer.width, app.renderer.height)
+  })
+  app.stage.addChild(splash)
+  
 })

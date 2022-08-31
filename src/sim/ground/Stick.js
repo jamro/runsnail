@@ -1,7 +1,9 @@
 import * as plank from 'planck';
+import GroundSegmentView from '../../view/ground/GroundSegmentView';
 import { GROUND, OBSTACLE } from '../Collisions';
 import SimObject from '../SimObject';
 import Snail from '../Snail';
+import GroundEdge from './GroundEdge';
 
 const Box = plank.Box;
 const Vec2 = plank.Vec2;
@@ -24,6 +26,7 @@ export default class Stick extends SimObject {
     fixture.objRef = this
     this.body.setPosition(Vec2(this.x, this.y));
     this.body.setAngle(this.angle);
+    this.crackCooldown = 200
   }
   
   destroy() { 
@@ -32,10 +35,27 @@ export default class Stick extends SimObject {
   }
 
   contact(other, contact) {
+    if(this.crackCooldown === 0 && other.constructor === Snail) {
+      this.crackCooldown = 200
+      this.emit('crack')
+    }
+
+    if(this.crackCooldown === 0 && other.constructor === GroundEdge && Math.random() > 0.3) {
+      this.crackCooldown = 200
+      this.emit('crack')
+    }
+
+
     if(other.constructor !== Snail) {
       return
     }
     const manifold = contact.getManifold()
     this.body.applyForce (other.body.getLinearVelocity().clone().mul(0.3), this.body.getPosition().add(manifold.localPoint) ) 
+  }
+
+  update() {
+    if(this.crackCooldown > 0) {
+      this.crackCooldown--
+    }
   }
 }  

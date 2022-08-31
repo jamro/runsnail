@@ -25,6 +25,7 @@ export default class Coin extends SimObject {
 
   collect() {
     this.collected = true
+    this.emit('collect')
   }
 
   destroy() {

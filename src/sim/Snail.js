@@ -49,6 +49,7 @@ export default class Snail extends SimObject {
     this._distance = 0
     this.enabled = false
     this.groundNormal = Vec2(0, 1)
+    this.prevSpeed = 0
   }
 
   set run(value) {
@@ -68,7 +69,7 @@ export default class Snail extends SimObject {
     if(!this.enabled) {
       return
     } 
-    const powerConsumption = 0.02 + this.body.getPosition().x/300000
+    const powerConsumption = 0.02 + this.body.getPosition().x/400000
 
     this.energy = Math.max(0, this.energy - powerConsumption)
 
@@ -83,6 +84,9 @@ export default class Snail extends SimObject {
       this.isOnGround = false
     }
     if(this.onGroundCounter > 0) {
+      if(this.flyTimer > 30) {
+        this.emit('hitSoft')
+      }
       this.flyTimer = 0
       this.isOnGround = true
     } else {
@@ -93,7 +97,7 @@ export default class Snail extends SimObject {
       this.body.applyForce(Vec2(0, 2), this.body.getPosition())
     }
 
-    if(this.flyTimer > 50 && snailSpeed > SNAIL_MIN_SPEED) {
+    if(this.flyTimer > 30 && snailSpeed > SNAIL_MIN_SPEED) {
       let a = this.body.getAngle()
       const v = this.body.getLinearVelocity()
       const targetA = Math.atan2(v.y, v.x) / Math.PI * 180
@@ -139,8 +143,10 @@ export default class Snail extends SimObject {
     if(Math.abs(av) < 5) {
       if(this.isOnGround) {
         this.state = WALKING
-      } else {
+      } else if(this.flyTimer > 20) {
         this.state = GLIDING
+      } else {
+        this.state = ROLLING
       }
     } else {
       this.state = ROLLING
@@ -162,7 +168,13 @@ export default class Snail extends SimObject {
         setTimeout(() => this.emit('replayPrompt'), 3000)
       }
     }
+
+    if(snailSpeed - this.prevSpeed < -10 && this.isOnGround) {
+      this.emit('hitHard')
+    }
+
     this._distance = Math.max(this._distance, 0.05*(this.body.getPosition().x))
+    this.prevSpeed = snailSpeed
   }
 
   contact(obj, contact) {
@@ -188,6 +200,7 @@ export default class Snail extends SimObject {
   destroy() {
     super.destroy()
     this.world.destroyBody(this.body)
+    this.emit('destroy')
   }
 
   // in meters
