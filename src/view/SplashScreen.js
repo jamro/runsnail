@@ -30,6 +30,19 @@ export default class SplashScreen extends Sprite {
     this.bg.drawRect(0, 0, width, height*0.7)
     this.bg.beginFill(0x000000)
     this.bg.drawRect(0, height*0.7, width, height*0.3)
+
+    this.bg.beginFill(0x8888bb)
+    this.bg.moveTo(0, height*0.7)
+    this.bg.lineTo(0, height*0.5)
+
+    for(let x=0; x<width; x+=10) {
+      this.bg.lineTo(x, height*0.4 + height*0.2 * Math.sin(x/100+0.7))
+    }
+
+    this.bg.lineTo(width, height*0.5)
+    this.bg.lineTo(width, height*0.7)
+    this.bg.lineTo(0, height*0.7)
+
     this.logo.x = width/2
     this.logo.y = height*0.7
     this.logo.scale.set(Math.min(
