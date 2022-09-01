@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   let world
   let app
   let worldView
+  let music = null
 
   const controller = new InputController(document)
   controller.init()
@@ -80,6 +81,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
     worldView = view
     controller.world = world
     controller.view = worldView
+
+    music = new Howl({
+      src: ['sfx/bg.mp3'],
+      html5: true,
+      loop: true,
+      volume: 0.2,
+    });
+    music.play();
   })
 
   
