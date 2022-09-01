@@ -9,6 +9,8 @@ export default class StickView extends View {
     super(model)
 
     this.view = this.drawStick(this.model.length)
+    this.view.cacheAsBitmap = true
+    this.view.cacheAsBitmapResolution = 100
     this.addChild(this.view)
     this.update()
 

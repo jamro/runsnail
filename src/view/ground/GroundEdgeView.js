@@ -1,4 +1,4 @@
-import { Graphics } from "pixi.js";
+import { Graphics, Sprite } from "pixi.js";
 import View from "../View";
 
 export default class GroundEdgeView extends View {

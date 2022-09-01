@@ -20,6 +20,11 @@ export default class World extends SimContainer {
 
     this.snail.body.setPosition(Vec2(0.5, 0.45))
     this.snail.body.setAngle(-0.3)
+    this.groundWidth = 500
+    this.loop = null;
+    this.ticks = 0
+    this.ticksPerSecond = 0
+    this.lastTickFlush = 0
 
     this.snail.on('gameOver', () => {
       console.log('GAME OVER')
@@ -56,8 +61,21 @@ export default class World extends SimContainer {
       }
     })
   }
+
+  start() {
+    this.loop = setInterval(() => this.update(1/60), 10)
+  }
  
-  update(dt, groundWidth) {
+  update(dt) {
+    this.ticks++
+    const now = new Date().getTime()
+    const dts = (now - this.lastTickFlush) / 1000
+    if(dts > 1) {
+      this.ticksPerSecond = this.ticks / dts
+      this.ticks = 0
+      this.lastTickFlush = now
+    }
+
     if(!this.active) {
       return
     }
@@ -75,14 +93,19 @@ export default class World extends SimContainer {
         this.snail.run = false
       }
       this.onHold = false
-
     }
-
     super.update(dt)
-    this.world.step(1/60);
-    this.ground.build(this.snail.body.getPosition().x, groundWidth)
+    this.world.step(dt);
+    this.ground.build(this.snail.body.getPosition().x, this.groundWidth)
     if(this.snail.state === STARTING) {
       this.snail.body.setAwake(false)
+    }
+  }
+
+  destroy() {
+    super.destroy()
+    if(this.loop) {
+      clearInterval(this.loop)
     }
   }
 

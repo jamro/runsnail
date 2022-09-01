@@ -9,6 +9,7 @@ import GroundView from "./ground/GroundView";
 import Tutorial from "./Tutorial";
 import InfoScreen from "./InfoScreen";
 import SoundSwitch from "./SoundSwitch";
+import FpsCounter from "./FpsCounter";
 
 export default class WorldView extends View {
   
@@ -54,6 +55,10 @@ export default class WorldView extends View {
 
     this.soundSwitch = new SoundSwitch()
     this.addChild(this.soundSwitch)
+
+    //this.fps = new FpsCounter()
+    //this.addChild(this.fps)
+
   }
 
   set zoom(factor) {
@@ -66,6 +71,8 @@ export default class WorldView extends View {
   }
 
   update() {
+    //this.fps.tick()
+    //this.fps.info = `TPS: ${this.model.ticksPerSecond.toFixed(1)}`
     if(this.model.onHold) {
       this.snail.dust.enabled = false
       return
