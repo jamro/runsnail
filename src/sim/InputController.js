@@ -6,8 +6,11 @@ export default class InputController extends EventEmitter {
     this.doc = doc
     this._snail = null
     this._world = null
+    this._view = null
     this.gameOverHandler = this.onGameOver.bind(this)
     this.replayPromptHandler = this.onReplayPrompt.bind(this)
+    this.pointerDownHandler = this.activate.bind(this)
+    this.pointerUpHandler = this.deactivate.bind(this)
     this.gameOver = false;
     this.splash = true;
     this.replayPrompt = false;
@@ -27,6 +30,21 @@ export default class InputController extends EventEmitter {
     return this._world
   }
 
+  get view() {
+    return this._view
+  }
+
+  set view(view) {
+    if(this._view) {
+      this._view.off('pointerdown', this.pointerDownHandler)
+      this._view.off('pointerup', this.pointerUpHandler)
+    }
+    this._view = view
+    this._view.interactive = true
+    this._view.on('pointerdown', this.pointerDownHandler)
+    this._view.on('pointerup', this.pointerUpHandler)
+  }
+
   init() {
     this.doc.addEventListener('keydown', (e) => {
       if(e.code.toLocaleLowerCase() === 'space') {
@@ -38,22 +56,23 @@ export default class InputController extends EventEmitter {
         this.deactivate()
       }
     });
-
-    this.doc.addEventListener('mousedown', () => this.activate())
-    this.doc.addEventListener('mouseup', () => this.deactivate())
-    this.doc.addEventListener('touchstart', () => this.activate())
-    this.doc.addEventListener('touchend', () => this.deactivate())
   
     this.doc.body.focus()
   }
 
-  activate() {
+  activate(e) {
+    if(e && e.y < 60) {
+      return
+    }
     if(this._snail && !this.splash && !this.gameOver && !this._world.infoActive) {
       this._snail.run = true
     }
   }
 
-  deactivate() {
+  deactivate(e) {
+    if(e && e.y < 60) {
+      return
+    }
     if(this.splash) {
       this.splash = false
       this.emit('start')

@@ -8,6 +8,7 @@ import SnailView from "./SnailView";
 import GroundView from "./ground/GroundView";
 import Tutorial from "./Tutorial";
 import InfoScreen from "./InfoScreen";
+import SoundSwitch from "./SoundSwitch";
 
 export default class WorldView extends View {
   
@@ -50,6 +51,9 @@ export default class WorldView extends View {
       this.infoScreen = new InfoScreen()
       this.addChild(this.infoScreen)
     }
+
+    this.soundSwitch = new SoundSwitch()
+    this.addChild(this.soundSwitch)
   }
 
   set zoom(factor) {
@@ -78,6 +82,8 @@ export default class WorldView extends View {
       this.removeChild(this.infoScreen)
       this.infoScreen = null
     }
+    this.soundSwitch.x = width - 40
+    this.soundSwitch.y = 30
     if(this.tutorial && !this.infoScreen) {
       this.tutorial.visible = true
       this.tutorial.y = height - 180

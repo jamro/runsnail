@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     app = pixiApp
     worldView = view
     controller.world = world
+    controller.view = worldView
   })
   controller.on("start", () => {
     if(world) {
@@ -78,6 +79,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     app = pixiApp
     worldView = view
     controller.world = world
+    controller.view = worldView
   })
 
   
@@ -85,6 +87,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   app = createPixiApp(() => {
     splash.update(app.renderer.width, app.renderer.height)
   })
+  controller.view = splash
   app.stage.addChild(splash)
   
 })
