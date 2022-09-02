@@ -19,7 +19,7 @@ export default function startSegment(world, segment) {
   const stepCount = Math.round(width / stepSize)
   const stepX = width / stepCount
   const stepY = height / stepCount
-  const amplitude = width/81.5
+  const amplitude = width/118
 
   let edge
   for(let i=1; i <= stepCount; i++) {

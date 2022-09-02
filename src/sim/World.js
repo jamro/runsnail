@@ -63,7 +63,7 @@ export default class World extends SimContainer {
   }
 
   start() {
-    this.loop = setInterval(() => this.update(1/60), 10)
+    this.loop = setInterval(() => this.update(1/60), 8)
   }
  
   update(dt) {
@@ -83,10 +83,10 @@ export default class World extends SimContainer {
     // tutorial controls
     if(this.tutorial) {
       const snailX = this.snail.body.getPosition().x
-      if(snailX > 1 && snailX < 5 && !this.snail.run) {
+      if(snailX > 1 && snailX <= 5 && !this.snail.run) {
         this.onHold = true
         return
-      } else if(snailX >= 5 && snailX < 10 && this.snail.run) {
+      } else if(snailX > 5 && snailX < 10 && this.snail.run) {
         this.onHold = true
         return
       } else if(snailX >= 10 && snailX < 30 && this.snail.run) {

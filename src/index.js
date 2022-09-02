@@ -17,6 +17,7 @@ function createPixiApp(loop) {
 
   if(loop) {
     app.ticker.add((dt) => loop(dt))
+    app.ticker.maxFPS = 60
   }
   return app
 }
