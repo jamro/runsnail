@@ -1,10 +1,10 @@
-import { Sprite, Text } from "pixi.js";
+import { Loader, Sprite, Text } from "pixi.js";
 
 export default class DistanceMeter extends Sprite {
 
   constructor() {
     super()
-    this.bg = Sprite.from('distanceMeter.png')
+    this.bg = Sprite.from(Loader.shared.resources.distanceMeter.texture)
     this.bg.scale.set(0.75)
     this.addChild(this.bg)
 

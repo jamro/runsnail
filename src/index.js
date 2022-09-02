@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   let music = null
 
   const controller = new InputController(document)
-  controller.init()
+
   controller.on("replay", () => {
     if(world) {
       world.destroy()
@@ -99,11 +99,40 @@ document.addEventListener("DOMContentLoaded", (event) => {
   app = createPixiApp(() => {
     splash.update(app.renderer.width, app.renderer.height)
   })
-  controller.view = splash
+  
   app.stage.addChild(splash)
 
   Loader.shared
     .add('coin', 'coin.png')
-    .load(() => console.log('assets loaded'));
+    .add('body', 'body.png')
+    .add('shell', 'shell.png')
+    .add('eye', 'eye.png')
+    .add('cloud', 'cloud.png')
+    .add('replay', 'replay.png')
+    .add('distance', 'distance.png')
+    .add('distanceMeter', 'distanceMeter.png')
+    .add('energy', 'energy.png')
+    .add('tutorial_hold', 'tutorial_hold.png')
+    .add('tutorial_dive', 'tutorial_dive.png')
+    .add('tutorial_release', 'tutorial_release.png')
+    .add('tutorial_flyup', 'tutorial_flyup.png')
+    .add('sound', 'sound.png')
+    .load((loader) => {
+      console.log('Assets loaded')
+      splash.progress = loader.progress
+      controller.init()
+      controller.view = splash
+    })
+
+
+  Loader.shared.onLoad.add((loader, resource) => {
+    console.log(`Loading ${resource.url}... (${loader.progress.toFixed(1)}%)`)
+    splash.progress = loader.progress
+  })
+  Loader.shared.onError.add((error, loader, resource) => {
+    console.log(`Error ${resource.url}... (${loader.progress.toFixed(1)}%)`, error)
+    splash.loadingStatus = "Error: Unable to load " + resource.url
+    splash.progress = loader.progress
+  })
   
 })

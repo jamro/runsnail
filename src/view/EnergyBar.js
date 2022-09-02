@@ -1,4 +1,4 @@
-import { Graphics, Sprite } from "pixi.js";
+import { Graphics, Loader, Sprite } from "pixi.js";
 
 export default class EnergyBar extends Sprite {
   constructor() {
@@ -23,7 +23,7 @@ export default class EnergyBar extends Sprite {
     this.progress.y = 17
     this.addChild(this.progress)
 
-    this.face = Sprite.from('energy.png')
+    this.face = Sprite.from(Loader.shared.resources.energy.texture)
     this.face.scale.set(0.75)
     this.addChild(this.face)
 

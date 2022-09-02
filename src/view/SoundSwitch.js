@@ -1,4 +1,4 @@
-import { Graphics, Sprite } from "pixi.js";
+import { Graphics, Loader, Sprite } from "pixi.js";
 
 export default class SoundSwitch extends Sprite {
 
@@ -11,7 +11,7 @@ export default class SoundSwitch extends Sprite {
     this.bg.beginFill(0xffffff, 0.000001)
     this.bg.drawCircle(0, 0, 50)
     this.container.addChild(this.bg)
-    this.button = Sprite.from('sound.png')
+    this.button = Sprite.from(Loader.shared.resources.sound.texture)
     this.button.anchor.set(0.5, 0.5)
     this.button.scale.set(0.6)
     this.container.addChild(this.button)

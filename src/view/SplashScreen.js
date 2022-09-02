@@ -22,7 +22,54 @@ export default class SplashScreen extends Sprite {
     });
     this.label.anchor.set(0.5, 0.5)
     this.addChild(this.label)
+
+    this.progressContainer = new Sprite()
+    this.addChild(this.progressContainer)
+    const bg = new Graphics()
+    bg.beginFill(0x000000)
+    bg.lineStyle(2, 0xffffff)
+    bg.drawRoundedRect(-105, -5, 210, 10, 5)
+    this.progressContainer.addChild(bg)
+    this.progressLine = new Graphics()
+    this.progressContainer.addChild(this.progressLine)
+
+    this.status = new Text(`Loading...`, {
+      fontFamily : 'Arial', 
+      fontSize: 13, 
+      fill : 0xffffff,
+      align : 'center'
+    });
+    this.status.anchor.set(0.5, 0.5)
+    this.status.y = 20
+    this.progressContainer.addChild(this.status)
+    
+    this._progress = 0
+    this.progress = 0
   }
+
+  set loadingStatus(status) {
+    this.status.text = status
+  }
+
+  get loadingStatus() {
+    return this.status.text
+  }
+
+  set progress(value) {
+    value = Math.max(0, Math.min(100, value))
+    this._progress = value
+    this.label.visible = (value === 100)
+    this.progressContainer.visible = (value < 100)
+    this.progressLine.clear()
+    this.progressLine.lineStyle(4, 0xffffff)
+    this.progressLine.moveTo(-100, 0)
+    this.progressLine.lineTo(-100 + value*2, 0)
+  }
+
+  get progress() {
+    return this._progress
+  }
+
 
   update(width, height) {
     this.bg.clear()
@@ -52,6 +99,9 @@ export default class SplashScreen extends Sprite {
     ))
     this.label.x = width/2
     this.label.y = height*0.85
+
+    this.progressContainer.x = width/2
+    this.progressContainer.y = height*0.85
   }
 
 }

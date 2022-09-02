@@ -1,4 +1,4 @@
-import { Graphics, Sprite, Text } from "pixi.js";
+import { Graphics, Loader, Sprite, Text } from "pixi.js";
 import mobileCheck from "../mobileCheck";
 import __, { ANYWHERE_TO_CONTINUE, CLICK, HOLD, HOLD_CLICK_TUTORIAL, HOLD_TAP_TUTORIAL, RELEASE, RELEASE_CLICK_TUTORIAL, RELEASE_TAP_TUTORIAL, TAP } from "./lang"
 const CONTENT_WIDTH = 950
@@ -11,11 +11,11 @@ export default class InfoScreen extends Sprite {
     this.content = new Sprite()
 
     let element;
-    element = Sprite.from('tutorial_hold.png')
+    element = Sprite.from(Loader.shared.resources.tutorial_hold.texture)
     element.x = -400
     element.y = -150
     this.content.addChild(element)
-    element = Sprite.from('tutorial_dive.png')
+    element = Sprite.from(Loader.shared.resources.tutorial_dive.texture)
     element.x = -300
     element.y = -150
     this.content.addChild(element)
@@ -40,11 +40,11 @@ export default class InfoScreen extends Sprite {
     element.x = -250
     this.content.addChild(element)
 
-    element = Sprite.from('tutorial_release.png')
+    element = Sprite.from(Loader.shared.resources.tutorial_release.texture)
     element.x = 100
     element.y = -150
     this.content.addChild(element)
-    element = Sprite.from('tutorial_flyup.png')
+    element = Sprite.from(Loader.shared.resources.tutorial_flyup.texture)
     element.x = 200
     element.y = -150
     this.content.addChild(element)

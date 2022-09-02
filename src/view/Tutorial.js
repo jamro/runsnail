@@ -1,4 +1,4 @@
-import { Sprite, Text } from "pixi.js"
+import { Loader, Sprite, Text } from "pixi.js"
 import {DropShadowFilter} from '@pixi/filter-drop-shadow';
 import __, { DIVE, FLY_UP, HOLD, RELEASE } from "./lang";
 
@@ -47,10 +47,10 @@ export default class Tutorial extends Sprite {
 
   createPage1() {
     const page = new Sprite()
-    const pointer = Sprite.from('tutorial_hold.png')
+    const pointer = Sprite.from(Loader.shared.resources.tutorial_hold.texture)
     pointer.x = 10
     page.addChild(pointer)
-    const ground = Sprite.from('tutorial_dive.png')
+    const ground = Sprite.from(Loader.shared.resources.tutorial_dive.texture)
     ground.x = 100
     page.addChild(ground)
     return page
@@ -58,10 +58,10 @@ export default class Tutorial extends Sprite {
 
   createPage2() {
     const page = new Sprite()
-    const pointer = Sprite.from('tutorial_release.png')
+    const pointer = Sprite.from(Loader.shared.resources.tutorial_release.texture)
     pointer.x = 10
     page.addChild(pointer)
-    const ground = Sprite.from('tutorial_flyup.png')
+    const ground = Sprite.from(Loader.shared.resources.tutorial_flyup.texture)
     ground.x = 100
     page.addChild(ground)
     return page

@@ -1,4 +1,4 @@
-import { Sprite, Text } from "pixi.js";
+import { Loader, Sprite, Text } from "pixi.js";
 import mobileCheck from "../mobileCheck";
 import __, { CLICK, RESULT, TAP, TO_REPLAY } from "./lang";
 
@@ -6,7 +6,7 @@ export default class Cloud extends Sprite {
 
   constructor(model) {
     super(model)
-    this.content = Sprite.from('cloud.png')
+    this.content = Sprite.from(Loader.shared.resources.cloud.texture)
     this.content.y = -350
     this.content.anchor.set(0.5)
     this.addChild(this.content)
@@ -25,12 +25,12 @@ export default class Cloud extends Sprite {
     this.label.anchor.set(0.5, 0.5)
     this.addChild(this.label)
 
-    this.replayIcon = Sprite.from('replay.png')
+    this.replayIcon = Sprite.from(Loader.shared.resources.replay.texture)
     this.replayIcon.anchor.set(0.5, 0.5)
     this.replayIcon.y = - 460
     this.addChild(this.replayIcon)
 
-    this.distanceIcon = Sprite.from('distance.png')
+    this.distanceIcon = Sprite.from(Loader.shared.resources.distance.texture)
     this.distanceIcon.anchor.set(0.5, 0.5)
     this.distanceIcon.y = - 460
     this.addChild(this.distanceIcon)

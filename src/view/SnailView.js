@@ -1,4 +1,4 @@
-import { Graphics, Sprite } from "pixi.js";
+import { Graphics, Loader, Sprite } from "pixi.js";
 import { 
   DEAD,
   GLIDING, 
@@ -22,7 +22,7 @@ export default class SnailView extends View {
     this.prevEnergy = 1
     this.t = 0;
 
-    this.bodyShape = Sprite.from('body.png')
+    this.bodyShape = Sprite.from(Loader.shared.resources.body.texture)
     this.bodyShape.anchor.set(0.42, 0.1);
     this.bodyShape.scale.x = 0.007;
     this.bodyShape.scale.y = -0.007;
@@ -32,13 +32,13 @@ export default class SnailView extends View {
 
     this.addChild(this.body);
 
-    this.shell = Sprite.from('shell.png')
+    this.shell = Sprite.from(Loader.shared.resources.shell.texture)
     this.shell.scale.x = 0.007;
     this.shell.scale.y = -0.007;
     this.shell.anchor.set(0.5);
     this.addChild(this.shell);
 
-    this.eyeRight = Sprite.from('eye.png')
+    this.eyeRight = Sprite.from(Loader.shared.resources.eye.texture)
     this.eyeRight.scale.x = 0.007;
     this.eyeRight.scale.y = -0.007;
     this.eyeRight.anchor.set(0.5, 1);
@@ -47,7 +47,7 @@ export default class SnailView extends View {
     this.eyeRight.y = -0.15
     this.body.addChild(this.eyeRight);
 
-    this.eyeLeft = Sprite.from('eye.png')
+    this.eyeLeft = Sprite.from(Loader.shared.resources.eye.texture)
     this.eyeLeft.scale.x = 0.0067;
     this.eyeLeft.scale.y = -0.0067;
     this.eyeLeft.anchor.set(0.5, 1);

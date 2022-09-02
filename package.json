@@ -30,6 +30,7 @@
     "serve": "webpack serve"
   },
   "dependencies": {
+    "@pixi/assets": "file:6.5.2",
     "@pixi/filter-drop-shadow": "^4.2.0",
     "@pixi/loaders": "^5.3.12",
     "@pixi/particle-emitter": "^5.0.7",
