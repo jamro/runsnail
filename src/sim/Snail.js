@@ -94,7 +94,8 @@ export default class Snail extends SimObject {
     }
 
     if(!this.isOnGround) {
-      this.body.applyForce(Vec2(0, 2), this.body.getPosition())
+      this.body.applyForce(Vec2(0, 1.91 + this.body.getLinearVelocity().x*0.03), this.body.getPosition())
+      console.log(1.91 + this.body.getLinearVelocity().x*0.03)
     }
 
     if(this.flyTimer > 30 && snailSpeed > SNAIL_MIN_SPEED) {

@@ -91,6 +91,7 @@ export default class World extends SimContainer {
         return
       } else if(snailX >= 8 && snailX < 30 && this.snail.run) {
         this.snail.run = false
+        this.onHold = false
       }
       this.onHold = false
     }
