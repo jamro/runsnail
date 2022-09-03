@@ -113,28 +113,37 @@ export default class WorldView extends View {
     const y = snail.body.getPosition().y
     this.background.follow(x, y, width, height)
 
-    let vx = this.model.snail.body.getLinearVelocity().x
-    let vy = this.model.snail.body.getLinearVelocity().y
-    let v = Math.sqrt(vx * vx + vy * vy) 
-    v = Math.max(v, SNAIL_MIN_SPEED)
-    const timeHorizon = 4 // seconds
-    const distanceHorizon = v * timeHorizon
+    // move the camera
+    // calculate expected horizontal zoom
+    let vx = Math.max(this.model.snail.body.getLinearVelocity().x, SNAIL_MIN_SPEED)
+    const timeHorizon = 3 // seconds
+    const distanceHorizon = vx * timeHorizon
+    const horizontalZoom = width / distanceHorizon
 
-    const targetZoom = Math.min(60,  width / distanceHorizon)
+    // calculate vertical zoom
+    const altitude = Math.max(0, snail.body.getPosition().y - this.model.ground.elevation)
 
+    const verticalZoom = 1.5*(height / altitude)
+
+    const targetZoom = Math.min(50,  verticalZoom, horizontalZoom)
+
+    // adjust zoom
     if(this.zoom < targetZoom) {
-      this.zoom += Math.min(0.1, (targetZoom - this.zoom) * 0.001)
+      // zoom in
+      this.zoom += Math.min(1, (targetZoom - this.zoom) * 0.01)
     } else {
-      this.zoom += Math.max(-0.1 , (targetZoom - this.zoom) * 0.01)
+      // zoom out
+      this.zoom += Math.max(-1, (targetZoom - this.zoom) * 0.1)
     }
 
+    // adjust camera shift
     if(this.model.snail.state === DEAD) {
-      this.yShift += Math.min(0.0005,  (0.8 - this.yShift) * 0.08)
-      this.xShift += Math.min(0.0005,  (0.5 - this.xShift) * 0.08)
+      this.yShift += (0.8 - this.yShift) * 0.001
+      this.xShift += (0.5 - this.xShift) * 0.001
     } else if(this.model.snail.isOnGround) {
-      this.yShift += Math.min(0.0005,  (0.6 - this.yShift) * 0.05)
+      this.yShift += (0.6 - this.yShift) * 0.01
     } else {
-      this.yShift += Math.max(-0.0005, (0.3  - this.yShift) * 0.8)
+      this.yShift += (0.3  - this.yShift) * 0.01
     }
 
     let targetX
@@ -145,5 +154,6 @@ export default class WorldView extends View {
     this.viewContainer.x = targetX
     this.viewContainer.y += (targetY - this.viewContainer.y) * 0.3
     this.groundWidth = width / this.viewContainer.scale.x     
+    
   }
 }

@@ -1,3 +1,4 @@
+import { Graphics } from "pixi.js";
 import View from "../View";
 import GroundSegmentView from "./GroundSegmentView";
 

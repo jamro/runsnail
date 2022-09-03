@@ -17,11 +17,13 @@ export default class Ground extends SimContainer {
     this.world = world;
     this.segments = []
     this.view = new GroundView(this)
+    this.elevation = 0
+    this.targetElevation = 0
   }
   
-  render() {
-    super.render()
-    this.view.update()
+  update() {
+    super.update()
+    this.elevation += (this.targetElevation - this.elevation) * 0.01
   }
 
   build(x, width) {
@@ -51,6 +53,7 @@ export default class Ground extends SimContainer {
       segment = this.segments.pop()
       segment.destroy()
     }
+    this.targetElevation = this.segments.reduce((min, segment) => Math.min(min, segment.yMin), Infinity)
   }
 
   buildSegment(segment) {

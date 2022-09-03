@@ -12,7 +12,7 @@ export default class Dust extends Container {
       {
         lifetime: {
           min: 0.5,
-          max: 1
+          max: 2
         },
         frequency: 0.008,
         spawnChance: 1,
@@ -41,7 +41,7 @@ export default class Dust extends Container {
             config: {
               speed: {
                 list: [
-                  { value: 200, time: 0 },
+                  { value: 300, time: 0 },
                   { value: 100 , time: 1 }
                 ],
                 isStepped: false
@@ -53,7 +53,7 @@ export default class Dust extends Container {
             config: {
               accel: {
                 x: 0,
-                y: 600 
+                y: 1000 
               },
               minStart: 600,
               maxStart: 600,

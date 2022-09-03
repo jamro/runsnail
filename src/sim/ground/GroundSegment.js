@@ -11,9 +11,19 @@ export default class GroundSegment extends SimContainer {
     this.edges = []
     this.coins = []
     this.sticks = []
+    this.yMax = null;
+    this.yMin = null;
   }
 
   addEdge(edge) {
+    const edgeYMax = Math.max(edge.start.y, edge.end.y)
+    const edgeYMin = Math.min(edge.start.y, edge.end.y)
+    if(this.yMax === null || edgeYMax > this.yMax) {
+      this.yMax = edgeYMax
+    }
+    if(this.yMin === null || edgeYMin < this.yMin) {
+      this.yMin = edgeYMin
+    }
     this.edges.push(edge)
     this.addChild(edge)
     edge.on('destroy', () => this.emit('removeEdge', edge))
