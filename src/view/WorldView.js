@@ -11,6 +11,8 @@ import InfoScreen from "./InfoScreen";
 import SoundSwitch from "./SoundSwitch";
 import FpsCounter from "./FpsCounter";
 
+const BG_MUSIC_VOLUME = 0.15;
+
 export default class WorldView extends View {
   
   constructor(model) {
@@ -56,9 +58,21 @@ export default class WorldView extends View {
     this.soundSwitch = new SoundSwitch()
     this.addChild(this.soundSwitch)
 
+    this.music = new Howl({
+      src: ['sfx/bg.mp3'],
+      html5: true,
+      loop: true,
+      volume: BG_MUSIC_VOLUME,
+    });
+    this.isMusicActive = false
+
     //this.fps = new FpsCounter()
     //this.addChild(this.fps)
+  }
 
+  start() {
+    this.music.play();
+    this.isMusicActive = true
   }
 
   set zoom(factor) {
@@ -79,6 +93,11 @@ export default class WorldView extends View {
     }
     this.snail.update()
     this.ground.update()
+
+    if(this.model.snail.energy <= 0 && this.isMusicActive) {
+      this.isMusicActive = false
+      this.music.fade(BG_MUSIC_VOLUME, 0, 1000);
+    }
   }
 
   follow(snail, width, height) {
@@ -155,5 +174,10 @@ export default class WorldView extends View {
     this.viewContainer.y += (targetY - this.viewContainer.y) * 0.3
     this.groundWidth = width / this.viewContainer.scale.x     
     
+  }
+
+  destroy() {
+    this.music.stop();
+    this.isMusicActive = false
   }
 }

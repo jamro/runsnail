@@ -17,7 +17,7 @@ export default class StickView extends View {
     model.on('crack', () => {
       const crackSound = new Howl({
         src: [`sfx/crack.mp3`],
-        volume: 0.5,
+        volume: 0.3,
         sprite: {
           crack1: [130, 210],
           crack2: [600, 300],

@@ -131,7 +131,7 @@ export default class SnailView extends View {
     this.model.on('hitSoft', () => {
       const hitSound = new Howl({
         src: ['sfx/hitsoft.mp3'],
-        volume: 0.1
+        volume: 0.2
       })
       hitSound.play()
     })

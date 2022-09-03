@@ -51,7 +51,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
   let world
   let app
   let worldView
-  let music = null
 
   const controller = new InputController(document)
 
@@ -59,19 +58,27 @@ document.addEventListener("DOMContentLoaded", (event) => {
     if(world) {
       world.destroy()
     }
+    if(worldView) {
+      worldView.destroy()
+    }
     if(app) {
       app.destroy(true)
     }
+
     const { model, pixiApp, view } = startNewGame()
     world = model
     app = pixiApp
     worldView = view
+    worldView.start()
     controller.world = world
     controller.view = worldView
   })
   controller.on("start", () => {
     if(world) {
       world.destroy()
+    }
+    if(worldView) {
+      worldView.destroy()
     }
     if(app) {
       app.destroy(true)
@@ -80,20 +87,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
     world = model
     app = pixiApp
     worldView = view
+    worldView.start()
     controller.world = world
     controller.view = worldView
 
     if(mobileCheck()) {
       document.documentElement.requestFullscreen();
     }
-    
-    music = new Howl({
-      src: ['sfx/bg.mp3'],
-      html5: true,
-      loop: true,
-      volume: 0.15,
-    });
-    music.play();
   })
 
   const splash = new SplashScreen()
