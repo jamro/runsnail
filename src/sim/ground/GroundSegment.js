@@ -4,6 +4,7 @@ export default class GroundSegment extends SimContainer {
 
   constructor(type, start, end, data) {
     super()
+    this.index = 0
     this.type = type
     this.start = start
     this.end = end

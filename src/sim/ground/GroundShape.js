@@ -71,24 +71,39 @@ function createBridgeSegment(segment) {
   )
 }
 
+function createAtzodSegment(segment) {
+  const width = 100
+  return new GroundSegment(
+    'atzod',
+    Vec2(segment.end.x, segment.end.y),
+    Vec2(segment.end.x + width , segment.end.y - width*0.1)
+  )
+}
+
 export function getNextSegment(segment) {
+  let result
   const rnd = Math.random()
-  if(rnd > 0.75) {
-    return createTowerSegment(segment)
+  if(segment.index === 0) {
+    result = createAtzodSegment(segment)
+  } else if(segment.index < 10) {
+    result = createSineSegment(segment)
+  } else if(rnd > 0.75) {
+    result = createTowerSegment(segment)
+  } else if(rnd > 0.7) {
+    result = createRampSegment(segment)
+  } else if(rnd > 0.6) {
+    result = createPyramidSegment(segment)
+  } else if(rnd > 0.4) {
+    result = createHalfSineSegment(segment)
+  } else if(rnd > 0.38) {
+    result = createBridgeSegment(segment)
+  } else if(rnd > 0.30) {
+    result = createAtzodSegment(segment)
+  } else {
+    result = createSineSegment(segment)
   }
-  if(rnd > 0.7) {
-    return createRampSegment(segment)
-  }
-  if(rnd > 0.6) {
-    return createPyramidSegment(segment)
-  }
-  if(rnd > 0.4) {
-    return createHalfSineSegment(segment)
-  }
-  if(rnd > 0.38) {
-    return createBridgeSegment(segment)
-  }
-  return createSineSegment(segment)
+  result.index = segment.index + 1
+  return result
 }
 
 export function getPrevSegment(segment) {

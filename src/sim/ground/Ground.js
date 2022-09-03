@@ -9,6 +9,7 @@ import rampSegment from './segments/rampSegment.js';
 import pyramidSegment from './segments/pyramidSegment.js';
 import halfSineSegment from './segments/halfSineSegment.js';
 import bridgeSegment from './segments/bridgeSegment.js';
+import atzodSegment from './segments/atzodSegment.js';
 
 export default class Ground extends SimContainer {
 
@@ -65,7 +66,8 @@ export default class Ground extends SimContainer {
       'tower': towerSegment,
       'ramp': rampSegment,
       'pyramid': pyramidSegment,
-      'bridge': bridgeSegment
+      'bridge': bridgeSegment,
+      'atzod': atzodSegment
     }
 
     if(builders[segment.type]) {
