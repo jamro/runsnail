@@ -28,6 +28,7 @@ export default class EnergyBar extends Sprite {
     this.addChild(this.face)
 
     this._value = 1
+    this._t = 0
   }
 
   set value(value) {
@@ -37,5 +38,17 @@ export default class EnergyBar extends Sprite {
 
   get value() {
     return this._value
+  }
+
+  render(renderer) {
+    super.render(renderer)
+
+    if(this._value < 0.2 && this._value > 0) {
+      this._t++
+      this.alpha = 0.5*Math.sin(this._t/8)+0.5
+    } else {
+      this._t = 0;
+      this.alpha = 1;
+    }
   }
 }
