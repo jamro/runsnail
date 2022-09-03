@@ -162,7 +162,7 @@ export default class WorldView extends View {
     } else if(this.model.snail.isOnGround) {
       this.yShift += (0.6 - this.yShift) * 0.001
     } else {
-      this.yShift += (0.3  - this.yShift) * 0.01
+      this.yShift += (0.3  - this.yShift) * 0.001
     }
 
     let targetX

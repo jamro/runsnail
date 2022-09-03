@@ -5,14 +5,14 @@ import * as plank from 'planck';
 const Vec2 = plank.Vec2;
 
 function sinFunc(x, width, amplitude) {
-  return amplitude*(Math.cos((x/width)*Math.PI*10) - 1)
+  return amplitude*(Math.cos((x/width)*Math.PI*8) - 1)
 }
 
 function drawCoinPixels(world, segment, x, y, shape) {
   for(let i=0; i < shape.length; i++) {
     for(let j=0; j < shape[i].length; j++) {
       if(shape[i][j] !== ' ') {
-        segment.addCoin(new Coin(world, x + j*1, y - i*1))
+        segment.addCoin(new Coin(world, x + j*0.8, y - i*0.8))
       }
     }
   }
@@ -42,7 +42,7 @@ export default function atzodSegment(world, segment) {
   drawCoinPixels(
     world,
     segment,
-    segment.start.x + 10,
+    segment.start.x + 14,
     segment.start.y + 5,
     [
       ' XXXX                                          ',

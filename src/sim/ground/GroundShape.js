@@ -85,13 +85,13 @@ export function getNextSegment(segment) {
   const rnd = Math.random()
   if(segment.index === 0) {
     result = createAtzodSegment(segment)
-  } else if(segment.index < 10) {
+  } else if(segment.index < 5) {
     result = createSineSegment(segment)
   } else if(rnd > 0.75) {
     result = createTowerSegment(segment)
   } else if(rnd > 0.7) {
     result = createRampSegment(segment)
-  } else if(rnd > 0.6) {
+  } else if(rnd > 0.55) {
     result = createPyramidSegment(segment)
   } else if(rnd > 0.4) {
     result = createHalfSineSegment(segment)

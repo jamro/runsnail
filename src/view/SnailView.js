@@ -214,7 +214,7 @@ export default class SnailView extends View {
       this.eyeRight.rotation = -0.4 * Math.sin((this.t / 180) * Math.PI) - 0.5
     }
 
-    if(this.model.state === DEAD && Math.random() > 0.98) {
+    if(this.model.state === DEAD && Math.random() > 0.96) {
       this.antiRotationContainer.addChild(new SleepAnim())
     }
 
