@@ -4,7 +4,7 @@ import GroundSegment from './GroundSegment';
 const Vec2 = plank.Vec2;
 
 function createSineSegment(segment) {
-  const width = 30 + Math.random()*30
+  const width = 20 + Math.random()*20
   return new GroundSegment(
     'sine',
     Vec2(segment.end.x, segment.end.y),
@@ -17,7 +17,7 @@ function createSineSegment(segment) {
 }
 
 function createHalfSineSegment(segment) {
-  const width = 20 + Math.random()*20
+  const width = 20 + Math.random()*10
   return new GroundSegment(
     'halfSine',
     Vec2(segment.end.x, segment.end.y),
@@ -57,7 +57,7 @@ function createRampSegment(segment) {
     Vec2(segment.end.x, segment.end.y),
     Vec2(segment.end.x + width , segment.end.y + (Math.random()-0.5 )*0.25*width),
     {
-      coins: Math.random() > 0.5 ? true : false
+      coins: Math.random() > 0.3 ? true : false
     }
   )
 }
@@ -68,6 +68,18 @@ function createBridgeSegment(segment) {
     'bridge',
     Vec2(segment.end.x, segment.end.y),
     Vec2(segment.end.x + width , segment.end.y - width*0.1)
+  )
+}
+
+function createGapSegment(segment) {
+  const width = 40 + Math.random()*40
+  return new GroundSegment(
+    'gap',
+    Vec2(segment.end.x, segment.end.y),
+    Vec2(segment.end.x + width , segment.end.y),
+    {
+      coins: true
+    }
   )
 }
 
@@ -83,25 +95,34 @@ function createAtzodSegment(segment) {
 export function getNextSegment(segment) {
   let result
   const rnd = Math.random()
+  
+  const builders = [
+    { score: 900, builder: createSineSegment },
+    { score: 100, builder: createAtzodSegment },
+    { score: 700, builder: createTowerSegment },
+    { score: 300, builder: createRampSegment },
+    { score: 500, builder: createPyramidSegment },
+    { score: 500, builder: createHalfSineSegment },
+    { score: 200, builder: createBridgeSegment },
+    { score: 300, builder: createGapSegment },
+  ]
+
   if(segment.index === 0) {
     result = createAtzodSegment(segment)
   } else if(segment.index < 5) {
     result = createSineSegment(segment)
-  } else if(rnd > 0.75) {
-    result = createTowerSegment(segment)
-  } else if(rnd > 0.7) {
-    result = createRampSegment(segment)
-  } else if(rnd > 0.55) {
-    result = createPyramidSegment(segment)
-  } else if(rnd > 0.4) {
-    result = createHalfSineSegment(segment)
-  } else if(rnd > 0.38) {
-    result = createBridgeSegment(segment)
-  } else if(rnd > 0.30) {
-    result = createAtzodSegment(segment)
   } else {
-    result = createSineSegment(segment)
-  }
+    const sum = builders.reduce((acc, builder) => acc + builder.score, 0)
+    const rnd = Math.random()*sum
+    let acc = 0
+    for(let i = 0; i < builders.length; i++) {
+      acc += builders[i].score
+      if(acc > rnd) {
+        result = builders[i].builder(segment)
+        break
+      }
+    }
+  } 
   result.index = segment.index + 1
   return result
 }
