@@ -82,7 +82,7 @@ export default class SplashScreen extends Sprite {
     this.bg.moveTo(0, height*0.7)
     this.bg.lineTo(0, height*0.5)
 
-    for(let x=0; x<width; x+=10) {
+    for(let x=0; x<width+10; x+=10) {
       this.bg.lineTo(x, height*0.4 + height*0.2 * Math.sin(x/100+0.7))
     }
 
