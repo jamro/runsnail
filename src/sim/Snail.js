@@ -50,6 +50,7 @@ export default class Snail extends SimObject {
     this.enabled = false
     this.groundNormal = Vec2(0, 1)
     this.prevSpeed = 0
+    this.deadTimer = 0
   }
 
   set run(value) {
@@ -69,7 +70,7 @@ export default class Snail extends SimObject {
     if(!this.enabled) {
       return
     } 
-    const powerConsumption = 0.015 + this.body.getPosition().x/1000000
+    const powerConsumption = 0.015 + this.body.getPosition().x/500000 + 0.05
 
     this.energy = Math.max(0, this.energy - powerConsumption)
 
@@ -165,7 +166,12 @@ export default class Snail extends SimObject {
       ).mul(1), this.body.getPosition())
       this.bodyFixture.setFriction(1)
 
-      if(linearVelocity.x < 0.05) {
+      if(Math.abs(linearVelocity.x) < 0.5) {
+        this.deadTimer++
+      } else {
+        this.deadTimer = 0
+      }
+      if(this.deadTimer > 50) {
         this.emit('gameOver', {distance: this._distance})
         setTimeout(() => this.emit('replayPrompt'), 3000)
       }
