@@ -70,7 +70,7 @@ export default class Snail extends SimObject {
     if(!this.enabled) {
       return
     } 
-    const powerConsumption = 0.015 + this.body.getPosition().x/500000 + 0.05
+    const powerConsumption = 0.015 + this.body.getPosition().x/700000
 
     this.energy = Math.max(0, this.energy - powerConsumption)
 
