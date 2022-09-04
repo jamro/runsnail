@@ -160,9 +160,9 @@ export default class WorldView extends View {
       this.yShift += (0.8 - this.yShift) * 0.001
       this.xShift += (0.5 - this.xShift) * 0.001
     } else if(this.model.snail.isOnGround) {
-      this.yShift += (0.6 - this.yShift) * 0.001
+      this.yShift += (0.6 - this.yShift) * 0.01
     } else {
-      this.yShift += (0.3  - this.yShift) * 0.001
+      this.yShift += (0.3  - this.yShift) * 0.01
     }
 
     let targetX
@@ -171,7 +171,7 @@ export default class WorldView extends View {
     targetX = -x * this.viewContainer.scale.x + width * this.xShift
     targetY = -y * this.viewContainer.scale.y + height * this.yShift
     this.viewContainer.x = targetX
-    this.viewContainer.y += (targetY - this.viewContainer.y) * 0.3
+    this.viewContainer.y += (targetY - this.viewContainer.y) * 0.9
     this.groundWidth = width / this.viewContainer.scale.x     
     
   }
