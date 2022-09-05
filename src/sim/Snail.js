@@ -71,6 +71,10 @@ export default class Snail extends SimObject {
     if(!this.enabled) {
       return
     } 
+    let powerConsumption = 0.005 + this.body.getPosition().x/700000
+    powerConsumption += (this.state !== GLIDING ? 0.008 : 0)
+    this.energy = Math.max(0, this.energy - powerConsumption)
+
     if(this.knockoutTimer > 0) {
       this.knockoutTimer -= 1
       this.body.applyForce(Vec2(
@@ -81,9 +85,7 @@ export default class Snail extends SimObject {
       this.state = ROLLING
       return
     }
-    const powerConsumption = 0.01 + this.body.getPosition().x/700000
 
-    this.energy = Math.max(0, this.energy - powerConsumption)
 
     this.pusher.setPosition(this.body.getPosition());
     if(this.run && this.energy > 0) {

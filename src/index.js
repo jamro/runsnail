@@ -7,7 +7,7 @@ import SplashScreen from './view/SplashScreen.js';
 import mobileCheck from './mobileCheck.js';
 import SoundPlayer from './SoundPlayer.js';
 
-const VERSION = '1.0.0'
+const VERSION = '1.0.1'
 
 function createPixiApp(loop) {
   const sceneContainer = document.querySelector("#scene");
