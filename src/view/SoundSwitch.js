@@ -24,7 +24,10 @@ export default class SoundSwitch extends Sprite {
     this._buttonMask.visible = false
 
     this._on = true
-    this.on = true
+    if(localStorage) {
+      this._on = localStorage.getItem('sound') !== 'off'
+    }
+    this.on = this._on
 
     this.container.on('pointerdown', (e) => {
       e.stopPropagation()
@@ -44,6 +47,10 @@ export default class SoundSwitch extends Sprite {
     this._buttonMask.visible = !value
     this.button.mask = value ? null : this._buttonMask
     Howler.mute(!value)
+
+    if(localStorage) {
+      localStorage.setItem('sound', value ? 'on' : 'off')
+    }
   }
 
 
