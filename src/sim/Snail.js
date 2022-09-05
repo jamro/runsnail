@@ -81,7 +81,9 @@ export default class Snail extends SimObject {
       }
       this.energy = Math.max(0, this.energy - powerConsumption)
     }
-    const snailSpeed = this.body.getLinearVelocity().x
+    const snailSpeedX = this.body.getLinearVelocity().x
+    const snailSpeedY = this.body.getLinearVelocity().y
+    const snailSpeed = Math.sqrt(snailSpeedX * snailSpeedX + snailSpeedY * snailSpeedY)
 
     if(this.flyTimer > 5) {
       this.isOnGround = false
@@ -123,10 +125,12 @@ export default class Snail extends SimObject {
     }
 
     if(this.walkingMode && this.energy > 0) { 
+      const groundAngle = Math.atan2(this.groundNormal.y, this.groundNormal.x)
+      const walkForce = 30 * (SNAIL_MIN_SPEED - snailSpeed)
       this.bodyFixture.setFriction(0)
       this.body.applyForce(Vec2({
-        x: 30 * (SNAIL_MIN_SPEED - snailSpeed),
-        y: 0
+        x: walkForce * Math.cos(groundAngle-Math.PI/2),
+        y: walkForce * Math.sin(groundAngle-Math.PI/2)
       }), this.body.getPosition())
       const targetAngle = Math.atan2(this.groundNormal.y, this.groundNormal.x) - Math.PI/2
       let angleDiff = (targetAngle - this.body.getAngle()) % (2 * Math.PI)
@@ -138,6 +142,7 @@ export default class Snail extends SimObject {
       }
       this.body.setAngularVelocity(0)
       this.body.setAngle(this.body.getAngle() + angleDiff/10)
+      console.log(this.body.getLinearVelocity().x)
     } else {
       this.bodyFixture.setFriction(0.9)
     }
