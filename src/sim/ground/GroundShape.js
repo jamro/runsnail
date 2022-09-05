@@ -116,7 +116,6 @@ export function getNextSegment(segment) {
     { score: 300, builder: createGapSegment },
     { score: 400, builder: createForestSegment },
   ]
-  return createGapSegment(segment)
 
   if(segment.index === 0) {
     result = createAtzodSegment(segment)
