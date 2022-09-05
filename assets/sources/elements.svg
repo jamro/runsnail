@@ -27,18 +27,57 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="2.4834696"
-     inkscape:cx="246.2281"
-     inkscape:cy="329.98189"
+     inkscape:zoom="1.2822629"
+     inkscape:cx="232.0117"
+     inkscape:cy="235.91106"
      inkscape:window-width="1512"
      inkscape:window-height="827"
      inkscape:window-x="0"
      inkscape:window-y="38"
      inkscape:window-maximized="0"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer3"
      showguides="true" />
   <defs
-     id="defs2" />
+     id="defs2">
+    <marker
+       style="overflow:visible"
+       id="TriangleStart"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="TriangleStart"
+       markerWidth="3.2"
+       markerHeight="17.6"
+       viewBox="0 0 5.3244081 6.1553851"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleStart-7"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="TriangleStart"
+       markerWidth="3.2"
+       markerHeight="17.6"
+       viewBox="0 0 5.3244081 6.1553851"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-7" />
+    </marker>
+  </defs>
   <g
      inkscape:groupmode="layer"
      id="layer4"
@@ -476,19 +515,44 @@
     <path
        id="path366"
        style="color:#000000;fill:#000000;paint-order:markers stroke fill"
-       d="m 63.533905,71.706407 -0.670603,0.733583 c 2.05623,1.840816 3.398606,4.476052 3.532214,7.45496 0.145713,3.248809 -1.176997,6.218416 -3.38146,8.269915 l 0.736281,0.673069 c 2.377062,-2.244206 3.80241,-5.469979 3.64463,-8.987811 -0.145717,-3.24889 -1.614183,-6.128734 -3.861062,-8.143716 z m -1.556688,1.702885 -0.67011,0.733044 c 1.620778,1.442355 2.679331,3.513208 2.784406,5.855952 0.117189,2.612822 -0.977187,4.994433 -2.786815,6.603972 l 0.736843,0.674079 c 1.981691,-1.803524 3.178163,-4.440969 3.048907,-7.322855 -0.117178,-2.612569 -1.302107,-4.927642 -3.113231,-6.544192 z m -1.557181,1.703425 -0.670111,0.733043 c 1.184969,1.043929 1.960536,2.549531 2.037069,4.255889 0.08867,1.976902 -0.779664,3.770384 -2.196508,4.933568 l 0.738439,0.675041 c 1.58702,-1.360012 2.557707,-3.408147 2.457004,-5.653413 -0.08864,-1.976229 -0.990512,-3.725931 -2.365893,-4.944128 z" />
+       d="m 85.205358,71.706407 -0.670603,0.733583 c 2.05623,1.840816 3.398606,4.476052 3.532214,7.45496 0.145713,3.248809 -1.176997,6.218416 -3.38146,8.269915 l 0.736281,0.673069 c 2.377062,-2.244206 3.80241,-5.469979 3.64463,-8.987811 -0.145717,-3.24889 -1.614183,-6.128734 -3.861062,-8.143716 z m -1.556688,1.702885 -0.67011,0.733044 c 1.620778,1.442355 2.679331,3.513208 2.784406,5.855952 0.117189,2.612822 -0.977187,4.994433 -2.786815,6.603972 l 0.736843,0.674079 c 1.981691,-1.803524 3.178163,-4.440969 3.048907,-7.322855 -0.117178,-2.612569 -1.302107,-4.927642 -3.113231,-6.544192 z m -1.557181,1.703425 -0.670111,0.733043 c 1.184969,1.043929 1.960536,2.549531 2.037069,4.255889 0.08867,1.976902 -0.779664,3.770384 -2.196508,4.933568 l 0.738439,0.675041 c 1.58702,-1.360012 2.557707,-3.408147 2.457004,-5.653413 -0.08864,-1.976229 -0.990512,-3.725931 -2.365893,-4.944128 z" />
     <rect
        style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.25662;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
        id="rect1943"
        width="4.2096186"
        height="5.7531452"
-       x="46.726765"
+       x="68.398216"
        y="77.597305"
        ry="1.2906097" />
     <path
        id="rect1943-4"
        style="display:inline;stroke-width:0.25662;paint-order:markers stroke fill"
-       d="m 52.012172,77.573918 5.267952,-4.233334 v 7.322526 6.897287 l -5.267952,-4.233334 z"
+       d="m 73.683625,77.573918 5.267952,-4.233334 v 7.322526 6.897287 l -5.267952,-4.233334 z"
        sodipodi:nodetypes="cccccc" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="rotate">
+    <circle
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.34828;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+       id="path4435"
+       cx="35.69698"
+       cy="80.885643"
+       r="21.046776" />
+    <path
+       id="rect479"
+       style="color:#000000;fill:#ffffff;stroke-width:0.793247;-inkscape-stroke:none;paint-order:markers stroke fill"
+       d="m 29.420516,68.086795 c -1.198219,0 -2.181604,0.983385 -2.181604,2.181603 v 21.141715 c 0,1.19822 0.983385,2.181604 2.181604,2.181604 h 11.706546 c 1.198219,0 2.181603,-0.983384 2.181603,-2.181604 V 70.268398 c 0,-1.198218 -0.983384,-2.181603 -2.181603,-2.181603 z m 0,1.190002 h 1.927042 c 0.08422,0.949972 0.649058,1.071946 1.750366,1.071946 h 4.570628 c 1.1013,0 1.665783,-0.121993 1.749956,-1.071946 h 1.708554 c 0.559613,0 0.991601,0.431988 0.991601,0.991601 v 21.141715 c 0,0.559614 -0.431988,0.991601 -0.991601,0.991601 H 29.420516 c -0.559614,0 -0.991601,-0.431987 -0.991601,-0.991601 V 70.268398 c 0,-0.559613 0.431987,-0.991601 0.991601,-0.991601 z" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:1.15;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleStart);paint-order:markers stroke fill"
+       d="m 47.091275,73.583885 c 0,0 4.213015,2.01294 4.285849,6.335603 0.08289,4.919344 -3.875899,6.633751 -3.875899,6.633751"
+       id="path3778"
+       sodipodi:nodetypes="csc" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:1.15;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleStart-7);paint-order:markers stroke fill"
+       d="m 23.808633,87.897785 c 0,0 -4.213015,-2.01294 -4.285849,-6.335603 -0.08289,-4.919344 3.875899,-6.633751 3.875899,-6.633751"
+       id="path3778-4"
+       sodipodi:nodetypes="csc" />
   </g>
 </svg>

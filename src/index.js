@@ -102,6 +102,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     .add('tutorial_release', 'tutorial_release.png')
     .add('tutorial_flyup', 'tutorial_flyup.png')
     .add('sound', 'sound.png')
+    .add('rotate', 'rotate.png')
     .load((loader) => {
       if(Loader.shared.loadingError) {
         return

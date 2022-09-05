@@ -11,6 +11,8 @@ import InfoScreen from "./InfoScreen";
 import SoundSwitch from "./SoundSwitch";
 import FpsCounter from "./FpsCounter";
 import SoundPlayer from "../SoundPlayer";
+import mobileCheck from "../mobileCheck";
+import RotateDevice from "./RotateDevice";
 
 
 const BG_MUSIC_VOLUME = 0.15;
@@ -63,6 +65,13 @@ export default class WorldView extends View {
     this.music = SoundPlayer.shared.get('bg')
     this.isMusicActive = false
 
+    this.rotateIcon = null
+    if(mobileCheck()) {
+      this.rotateIcon = new RotateDevice()
+      this.rotateIcon.visible = false
+      this.addChild(this.rotateIcon)
+    }
+
     //this.fps = new FpsCounter()
     //this.addChild(this.fps)
   }
@@ -100,6 +109,11 @@ export default class WorldView extends View {
   }
 
   follow(snail, width, height) {
+    if(this.rotateIcon) {
+      this.rotateIcon.visible = (height > width*1.5)
+      this.rotateIcon.x = width - 60
+      this.rotateIcon.y = height - 60
+    }
     if(this.infoScreen) {
       this.infoScreen.resize(width, height)
     }
