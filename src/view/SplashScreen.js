@@ -4,7 +4,7 @@ import __, { ANYWHERE_TO_CONTINUE, CLICK, TAP } from "./lang"
 
 export default class SplashScreen extends Sprite {
 
-  constructor() {
+  constructor(version) {
     super()
     this.bg = new Graphics()
     this.addChild(this.bg)
@@ -45,6 +45,14 @@ export default class SplashScreen extends Sprite {
     
     this._progress = 0
     this.progress = 0
+
+    this.versionLabel = new Text(`v${version}`, {
+      fontFamily : 'Arial', 
+      fontSize: 15, 
+      fill : 0x000000
+    });
+    this.versionLabel.anchor.set(0, 0.8)
+    this.addChild(this.versionLabel)
   }
 
   set loadingStatus(status) {
@@ -69,7 +77,6 @@ export default class SplashScreen extends Sprite {
   get progress() {
     return this._progress
   }
-
 
   update(width, height) {
     this.bg.clear()
@@ -99,6 +106,9 @@ export default class SplashScreen extends Sprite {
     ))
     this.label.x = width/2
     this.label.y = height*0.85
+
+    this.versionLabel.x = width/2 + this.logo.scale.x*330
+    this.versionLabel.y = height*0.7
 
     this.progressContainer.x = width/2
     this.progressContainer.y = height*0.85

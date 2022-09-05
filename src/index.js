@@ -7,6 +7,8 @@ import SplashScreen from './view/SplashScreen.js';
 import mobileCheck from './mobileCheck.js';
 import SoundPlayer from './SoundPlayer.js';
 
+const VERSION = '1.0.0'
+
 function createPixiApp(loop) {
   const sceneContainer = document.querySelector("#scene");
   const app = new Application({
@@ -86,7 +88,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   }
 
-  const splash = new SplashScreen()
+  const splash = new SplashScreen(VERSION)
   app = createPixiApp(() => {
     splash.update(app.renderer.width, app.renderer.height)
   })

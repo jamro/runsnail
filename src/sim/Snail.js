@@ -81,7 +81,7 @@ export default class Snail extends SimObject {
       this.state = ROLLING
       return
     }
-    const powerConsumption = 0.015 + this.body.getPosition().x/700000
+    const powerConsumption = 0.01 + this.body.getPosition().x/700000
 
     this.energy = Math.max(0, this.energy - powerConsumption)
 
