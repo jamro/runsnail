@@ -7,23 +7,15 @@ export default class InputController extends EventEmitter {
     this._snail = null
     this._world = null
     this._view = null
-    this.gameOverHandler = this.onGameOver.bind(this)
-    this.replayPromptHandler = this.onReplayPrompt.bind(this)
     this.pointerDownHandler = this.activate.bind(this)
     this.pointerUpHandler = this.deactivate.bind(this)
-    this.gameOver = false;
-    this.splash = true;
-    this.replayPrompt = false;
+    this.hook = null
+    this.enabled = true
   }
 
   set world(world) {
-    if(this._snail) {
-      this._snail.off('gameover', this.gameOverHandler)
-    }
     this._world = world
     this._snail = world.snail
-    this._snail.on('gameOver', this.gameOverHandler)
-    this._snail.on('replayPrompt', this.replayPromptHandler)
   }
 
   get world() {
@@ -64,7 +56,13 @@ export default class InputController extends EventEmitter {
     if(e && e.y < 60) {
       return
     }
-    if(this._snail && !this.splash && !this.gameOver && !this._world.infoActive) {
+    if(!this.enabled) {
+      return
+    }
+    if(this.hook) {
+      return
+    }
+    if(this._snail) {
       this._snail.run = true
     }
   }
@@ -73,31 +71,18 @@ export default class InputController extends EventEmitter {
     if(e && e.y < 60) {
       return
     }
-    if(this.splash) {
-      this.splash = false
-      this.emit('start')
-      return;
+    if(!this.enabled) {
+      return
     }
-    if(this._world.infoActive) {
-      this._world.infoActive = false
-      return;
+    if(this.hook) {
+      const hook = this.hook
+      this.hook = null
+      hook();
+      return
     }
-    if(this.gameOver && this.replayPrompt) {
-      this.gameOver = false
-      this.replayPrompt = false
-      this.emit('replay')
-      return;
-    }
-    if(this._snail && !this.gameOver) {
+    if(this._snail) {
       this._snail.run = false
     }
   }
 
-  onGameOver() {
-    this.gameOver = true
-  }
-
-  onReplayPrompt() {
-    this.replayPrompt = true
-  }
 }

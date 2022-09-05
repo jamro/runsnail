@@ -22,39 +22,16 @@ function createPixiApp(loop) {
   return app
 }
 
-function startNewGame(tutorial) {
-  const sim = new World(tutorial)
-  const view = new WorldView(sim)
-
-  const app = createPixiApp((dt) => {
-    view.update()
-    view.follow(
-      sim.snail,
-      app.renderer.width,
-      app.renderer.height
-    )
-    view.energyBar.value = sim.snail.energy/100
-    view.distanceMeter.value = sim.snail.distance
-    sim.groundWidth = view.groundWidth
-  })
-  app.stage.addChild(view);
-  sim.start()
-
-  return {
-    model: sim,
-    view: view,
-    pixiApp: app,
-  }
-}
-
 document.addEventListener("DOMContentLoaded", (event) => {
   let world
   let app
   let worldView
 
   const controller = new InputController(document)
+  controller.init()
+  controller.enabled = false
 
-  controller.on("replay", () => {
+  const startGame = (tutorial) => {
     if(world) {
       world.destroy()
     }
@@ -65,36 +42,42 @@ document.addEventListener("DOMContentLoaded", (event) => {
       app.destroy(true)
     }
 
-    const { model, pixiApp, view } = startNewGame()
-    world = model
-    app = pixiApp
-    worldView = view
-    worldView.start()
-    controller.world = world
-    controller.view = worldView
-  })
-  controller.on("start", () => {
-    if(world) {
-      world.destroy()
-    }
-    if(worldView) {
-      worldView.destroy()
-    }
-    if(app) {
-      app.destroy(true)
-    }
-    const { model, pixiApp, view } = startNewGame(true)
-    world = model
-    app = pixiApp
-    worldView = view
+    world = new World(tutorial)
+    worldView = new WorldView(world)
+
+    world.snail.on('gameOver', () => {
+      controller.enabled = false
+    })
+    world.snail.on('replayPrompt', () => {
+      controller.hook = () => startGame()
+      controller.enabled = true
+    })
+  
+    app = createPixiApp((dt) => {
+      worldView.update()
+      worldView.follow(
+        world.snail,
+        app.renderer.width,
+        app.renderer.height
+      )
+      worldView.energyBar.value = world.snail.energy/100
+      worldView.distanceMeter.value = world.snail.distance
+      world.groundWidth = worldView.groundWidth
+    })
+    app.stage.addChild(worldView);
+    world.start()
+  
     worldView.start()
     controller.world = world
     controller.view = worldView
 
-    if(mobileCheck()) {
-      document.documentElement.requestFullscreen();
+    if(tutorial) {
+      controller.hook = () => {
+        world.infoActive = false
+      }
     }
-  })
+
+  }
 
   const splash = new SplashScreen()
   app = createPixiApp(() => {
@@ -121,10 +104,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
     .load((loader) => {
       console.log('Assets loaded')
       splash.progress = loader.progress
-      controller.init()
+      controller.enabled = true
       controller.view = splash
+      controller.hook = () => {
+        if(mobileCheck()) {
+          document.documentElement.requestFullscreen();
+        }
+        startGame(true)
+      }
     })
-
 
   Loader.shared.onLoad.add((loader, resource) => {
     console.log(`Loading ${resource.url}... (${loader.progress.toFixed(1)}%)`)
