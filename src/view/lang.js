@@ -12,6 +12,7 @@ export const HOLD_TAP_TUTORIAL = 'holdTapTutorial'
 export const RELEASE_TAP_TUTORIAL = 'releaseTapTutorial'
 export const ANYWHERE_TO_CONTINUE = 'anywhereToContinue'
 export const RESULT = 'result'
+export const BEST = 'best'
 
 const en = {}
 en[CLICK] = 'CLICK'
@@ -27,6 +28,7 @@ en[HOLD_TAP_TUTORIAL] = 'Tap the screen and hold it when going downhill. \nYou w
 en[RELEASE_TAP_TUTORIAL] = 'Stop touching the screen at the bottom of the hill \nand use the momentum to leverage the slope \nof the terrain. You will fly up at speed.'
 en[ANYWHERE_TO_CONTINUE] = 'anywhere to continue'
 en[RESULT] = 'Result'
+en[BEST] = 'Best'
 
 const pl = {}
 pl[CLICK] = 'Kliknij'
@@ -42,6 +44,7 @@ pl[HOLD_TAP_TUTORIAL] = 'Dotknij ekranu i przytrzymaj, gdy toczysz się \nw dó�
 pl[RELEASE_TAP_TUTORIAL] = 'Puść ekranu na dole zbocza aby wykorzystać \nnabrany pęd i nachylenie terenu. Wyskoczysz \nz dużą prędkością w powietrze.'
 pl[ANYWHERE_TO_CONTINUE] = 'gdziekolwiek, aby kontynuować'
 pl[RESULT] = 'Wynik'
+pl[BEST] = 'Najlepszy'
 
 export default function __(txt) {
   let dict;

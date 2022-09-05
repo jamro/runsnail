@@ -1,5 +1,5 @@
 import { Loader, Sprite, Text } from "pixi.js";
-
+import __, { BEST } from "./lang.js"
 export default class DistanceMeter extends Sprite {
 
   constructor() {
@@ -18,6 +18,33 @@ export default class DistanceMeter extends Sprite {
     this.label.anchor.set(1, 0)
     this.addChild(this.label)
     this._value = 0
+
+    this.best = new Text('Best: 1000.0m', {
+      fontFamily : 'Arial', 
+      fontSize: 15, 
+      fill : 0x000000,
+      align : 'right'
+    });
+    this.best.x = 210
+    this.best.y = 47
+    this.best.anchor.set(1, 0)
+    this.best.visible = false
+    this.addChild(this.best)
+    this._bestResult = 0
+
+    if(localStorage) {
+      this.bestResult = Number(localStorage.getItem('bestResult')) || 0
+    }
+  }
+
+  set bestResult(value) {
+    this._bestResult = value
+    this.best.text = `${__(BEST)}: ${value.toFixed(1)}m`
+    this.best.visible = value > 0
+  }
+
+  get bestResult() {
+    return this._bestResult
   }
 
   set value(value) {

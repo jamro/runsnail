@@ -47,7 +47,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
     world = new World(tutorial)
     worldView = new WorldView(world)
 
-    world.snail.on('gameOver', () => {
+    world.snail.on('gameOver', (data) => {
+      if(localStorage) {
+        const bestResult = Number(localStorage.getItem('bestResult')) || 0
+        if(data.distance > bestResult) {
+          localStorage.setItem('bestResult', data.distance)
+        }
+      }
       controller.enabled = false
     })
     world.snail.on('replayPrompt', () => {
