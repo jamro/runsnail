@@ -78,7 +78,7 @@ function createGapSegment(segment) {
     Vec2(segment.end.x, segment.end.y),
     Vec2(segment.end.x + width , segment.end.y),
     {
-      coins: true
+      coins: Math.floor(Math.random()*6)
     }
   )
 }
@@ -116,6 +116,7 @@ export function getNextSegment(segment) {
     { score: 300, builder: createGapSegment },
     { score: 400, builder: createForestSegment },
   ]
+  return createGapSegment(segment)
 
   if(segment.index === 0) {
     result = createAtzodSegment(segment)
