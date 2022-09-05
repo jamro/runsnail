@@ -177,11 +177,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
     volume: 0.2
   })
   SoundPlayer.shared.add('powerdown', {
-    src: [`sfx/powerdown.mp3`]
+    src: [`sfx/powerdown.mp3`],
+    volume: 0.9
   })
   SoundPlayer.shared.add('coin', {
     src: [`sfx/coin.mp3`],
     volume: 0.1,
+  })
+  SoundPlayer.shared.add('tweet', {
+    src: [`sfx/tweet.mp3`],
+    volume: 0,
+    loop: true
   })
   SoundPlayer.shared.add('crack', {
     src: [`sfx/crack.mp3`],

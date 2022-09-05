@@ -10,9 +10,9 @@ import {
 import Cloud from "./Cloud";
 import Dust from "./Dust";
 import View from "./View";
-import {Howl, Howler} from 'howler';
 import SleepAnim from "./SleepAnim";
 import SoundPlayer from "../SoundPlayer";
+import KnockoutAnim from "./KnockoutAnim";
 
 export default class SnailView extends View {
 
@@ -80,6 +80,9 @@ export default class SnailView extends View {
     this.cloud.scale.set(0.007, -0.007)
     this.antiRotationContainer.addChild(this.cloud)
 
+    this.knockout = new KnockoutAnim()
+    this.antiRotationContainer.addChild(this.knockout)
+
     model.on('gameOver', data => {
       this.cloud.visible = true
       this.cloud.displayResult(data.distance)
@@ -99,13 +102,15 @@ export default class SnailView extends View {
     this.walkSound = SoundPlayer.shared.get('walk')
     this.walkSound.play()
 
+    this.knockoutSound = SoundPlayer.shared.get('tweet')
+    this.knockoutSound.play()
+
     this.sleepSound = SoundPlayer.shared.get('sleep')
     this.sleepSound.play()
     this.model.on('destroy', () => {
       this.sleepSound.volume(0)
     } )
     
-
     this.model.on('hitHard', () => {
       const hitSound = SoundPlayer.shared.get('hit')
       hitSound.play()
@@ -127,6 +132,9 @@ export default class SnailView extends View {
   }
 
   update() {
+    this.knockout.active = this.model.knockoutTimer > 0
+    this.knockoutSound.volume(this.model.knockoutTimer > 0 ? 1 : 0)
+
     // adjust to model state
     switch(this.model.state) {
       case STARTING:
@@ -140,7 +148,7 @@ export default class SnailView extends View {
         break;
       case ROLLING:
         this.hidden = true
-        if(this.model.isOnGround) {
+        if(this.model.isOnGround && this.model.body.getLinearVelocity().x > 5) {
           this.dust.enabled = true
           this.dust.rotation = Math.atan2(this.model.groundNormal.y, this.model.groundNormal.x) - Math.PI/2
         } else {

@@ -51,6 +51,7 @@ export default class Snail extends SimObject {
     this.groundNormal = Vec2(0, 1)
     this.prevSpeed = 0
     this.deadTimer = 0
+    this.knockoutTimer = 0
   }
 
   set run(value) {
@@ -70,6 +71,16 @@ export default class Snail extends SimObject {
     if(!this.enabled) {
       return
     } 
+    if(this.knockoutTimer > 0) {
+      this.knockoutTimer -= 1
+      this.body.applyForce(Vec2(
+        -this.body.getLinearVelocity().x,
+        -this.body.getLinearVelocity().y
+      ), this.body.getPosition())
+      this.bodyFixture.setFriction(1)
+      this.state = ROLLING
+      return
+    }
     const powerConsumption = 0.015 + this.body.getPosition().x/700000
 
     this.energy = Math.max(0, this.energy - powerConsumption)
@@ -142,7 +153,6 @@ export default class Snail extends SimObject {
       }
       this.body.setAngularVelocity(0)
       this.body.setAngle(this.body.getAngle() + angleDiff/10)
-      console.log(this.body.getLinearVelocity().x)
     } else {
       this.bodyFixture.setFriction(0.9)
     }
@@ -182,8 +192,9 @@ export default class Snail extends SimObject {
       }
     }
 
-    if(snailSpeed - this.prevSpeed < -10 && this.isOnGround) {
+    if(snailSpeed - this.prevSpeed < -15 && this.isOnGround) {
       this.emit('hitHard')
+      this.knockoutTimer = 220
     }
 
     this._distance = Math.max(this._distance, 0.05*(this.body.getPosition().x))
