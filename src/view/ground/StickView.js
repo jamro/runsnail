@@ -2,6 +2,7 @@ import { Graphics } from "pixi.js";
 import View from "../View";
 import {Howl, Howler} from 'howler';
 import WorldView from "../WorldView";
+import SoundPlayer from "../../SoundPlayer";
 
 export default class StickView extends View {
 
@@ -15,20 +16,8 @@ export default class StickView extends View {
     this.update()
 
     model.on('crack', () => {
-      const crackSound = new Howl({
-        src: [`sfx/crack.mp3`],
-        volume: 0.3,
-        sprite: {
-          crack1: [130, 210],
-          crack2: [600, 300],
-          crack3: [1000, 600],
-          crack4: [1500, 800],
-          crack5: [1800, 1000],
-          crack6: [3100, 400],
-        }
-      })
+      const crackSound = SoundPlayer.shared.get('crack')
       
-
       let pointer = this
       let absoluteX  = 0;
 

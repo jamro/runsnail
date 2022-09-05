@@ -12,6 +12,7 @@ import Dust from "./Dust";
 import View from "./View";
 import {Howl, Howler} from 'howler';
 import SleepAnim from "./SleepAnim";
+import SoundPlayer from "../SoundPlayer";
 
 export default class SnailView extends View {
 
@@ -89,32 +90,16 @@ export default class SnailView extends View {
       this.cloud.displayReplayPrompt()
     })
 
-    this.rollingSound = new Howl({
-      src: ['sfx/roll.mp3'],
-      volume: 0,
-      loop: true
-    })
+    this.rollingSound = SoundPlayer.shared.get('roll')
     this.rollingSound.play()
 
-    this.glidingSound = new Howl({
-      src: ['sfx/wind.mp3'],
-      volume: 0,
-      loop: true
-    })
+    this.glidingSound = SoundPlayer.shared.get('wind')
     this.glidingSound.play()
 
-    this.walkSound = new Howl({
-      src: ['sfx/walk.mp3'],
-      volume: 0,
-      loop: true
-    })
+    this.walkSound = SoundPlayer.shared.get('walk')
     this.walkSound.play()
 
-    this.sleepSound = new Howl({
-      src: ['sfx/sleep.mp3'],
-      volume: 0,
-      loop: true
-    })
+    this.sleepSound = SoundPlayer.shared.get('sleep')
     this.sleepSound.play()
     this.model.on('destroy', () => {
       this.sleepSound.volume(0)
@@ -122,34 +107,13 @@ export default class SnailView extends View {
     
 
     this.model.on('hitHard', () => {
-      const hitSound = new Howl({
-        src: ['sfx/hit.mp3']
-      })
+      const hitSound = SoundPlayer.shared.get('hit')
       hitSound.play()
     })
 
     this.model.on('hitSoft', () => {
-      const hitSound = new Howl({
-        src: ['sfx/hitsoft.mp3'],
-        volume: 0.2
-      })
+      const hitSound = SoundPlayer.shared.get('hitsoft')
       hitSound.play()
-    })
-
-    this.flySounds = new Howl({
-      src: [`sfx/fly.mp3`],
-      sprite:{
-        fly1: [0, 1000],
-        fly2: [1000, 1000],
-        fly3: [2000, 1000],
-        fly4: [3000, 1000],
-        fly5: [4000, 1000],
-        fly6: [5000, 1000],
-        fly7: [6000, 1000],
-        fly8: [7000, 1000],
-        fly9: [8000, 1000],
-        start: [4120, 800],
-      }
     })
   }
 
@@ -222,24 +186,22 @@ export default class SnailView extends View {
 
     // power down sound
     if(this.model.energy === 0 && this.prevEnergy > 0) {
-      sound = new Howl({
-        src: [`sfx/powerdown.mp3`]
-      }).play()
+      SoundPlayer.shared.get('powerdown').play()
     }
 
     // start sound
     if(this.model.state !== STARTING && this.prevState === STARTING) {
-      this.flySounds.play('start')
+      SoundPlayer.shared.get('fly').play('start')
     }
 
     // fly sound
     if(this.model.state === GLIDING && this.prevState !== GLIDING && this.model.body.getLinearVelocity().y > 1) {
-      this.flySounds.play('fly' + Math.floor(Math.random() * 9 + 1))
+      SoundPlayer.shared.get('fly').play('fly' + Math.floor(Math.random() * 9 + 1))
     }
 
     // rolling sound
     if(this.model.state === ROLLING && this.model.body.getPosition().x > 6) {
-      this.rollingSound.volume(Math.min(1, Math.abs(this.model.body.getAngularVelocity())/60))
+      this.rollingSound.volume(Math.min(1, Math.abs(this.model.body.getAngularVelocity())/40))
     } else {
       this.rollingSound.volume(0)
     }

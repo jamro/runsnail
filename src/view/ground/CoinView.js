@@ -1,6 +1,7 @@
 import { Loader, Sprite } from "pixi.js";
 import View from "../View";
 import {Howl, Howler} from 'howler';
+import SoundPlayer from "../../SoundPlayer";
 
 export default class CoinView extends View {
 
@@ -15,10 +16,7 @@ export default class CoinView extends View {
     this.update()
 
     this.model.on('collect', () => {
-      const collectSound = new Howl({
-        src: [`sfx/coin.mp3`],
-        volume: 0.1,
-      })
+      const collectSound = SoundPlayer.shared.get('coin')
       collectSound.play()
     })
   }

@@ -10,6 +10,8 @@ import Tutorial from "./Tutorial";
 import InfoScreen from "./InfoScreen";
 import SoundSwitch from "./SoundSwitch";
 import FpsCounter from "./FpsCounter";
+import SoundPlayer from "../SoundPlayer";
+
 
 const BG_MUSIC_VOLUME = 0.15;
 
@@ -58,12 +60,7 @@ export default class WorldView extends View {
     this.soundSwitch = new SoundSwitch()
     this.addChild(this.soundSwitch)
 
-    this.music = new Howl({
-      src: ['sfx/bg.mp3'],
-      html5: true,
-      loop: true,
-      volume: BG_MUSIC_VOLUME,
-    });
+    this.music = SoundPlayer.shared.get('bg')
     this.isMusicActive = false
 
     //this.fps = new FpsCounter()
@@ -71,6 +68,8 @@ export default class WorldView extends View {
   }
 
   start() {
+    this.music.stop();
+    this.music.setV
     this.music.play();
     this.isMusicActive = true
   }

@@ -5,6 +5,7 @@ import './style.css'
 import WorldView from './view/WorldView.js';
 import SplashScreen from './view/SplashScreen.js';
 import mobileCheck from './mobileCheck.js';
+import SoundPlayer from './SoundPlayer.js';
 
 function createPixiApp(loop) {
   const sceneContainer = document.querySelector("#scene");
@@ -41,6 +42,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     if(app) {
       app.destroy(true)
     }
+    SoundPlayer.shared.reset() 
 
     world = new World(tutorial)
     worldView = new WorldView(world)
@@ -66,7 +68,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     })
     app.stage.addChild(worldView);
     world.start()
-  
     worldView.start()
     controller.world = world
     controller.view = worldView
@@ -102,6 +103,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     .add('tutorial_flyup', 'tutorial_flyup.png')
     .add('sound', 'sound.png')
     .load((loader) => {
+      if(Loader.shared.loadingError) {
+        return
+      }
       console.log('Assets loaded')
       splash.progress = loader.progress
       controller.enabled = true
@@ -110,9 +114,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if(mobileCheck()) {
           document.documentElement.requestFullscreen();
         }
-        startGame(true)
+        splash.progress = 0
+        controller.enabled = false
+        splash.loadingStatus = 'Loading audio...'
+        SoundPlayer.shared.load()
       }
     })
+  splash.loadingStatus = 'Loading graphics...'
 
   Loader.shared.onLoad.add((loader, resource) => {
     console.log(`Loading ${resource.url}... (${loader.progress.toFixed(1)}%)`)
@@ -122,6 +130,91 @@ document.addEventListener("DOMContentLoaded", (event) => {
     console.log(`Error ${resource.url}... (${loader.progress.toFixed(1)}%)`, error)
     splash.loadingStatus = "Error: Unable to load " + resource.url
     splash.progress = loader.progress
+    Loader.shared.loadingError = true
   })
+
+
+  SoundPlayer.shared.add('fly', {
+    src: [`sfx/fly.mp3`],
+    sprite:{
+      fly1: [0, 1000],
+      fly2: [1000, 1000],
+      fly3: [2000, 1000],
+      fly4: [3000, 1000],
+      fly5: [4000, 1000],
+      fly6: [5000, 1000],
+      fly7: [6000, 1000],
+      fly8: [7000, 1000],
+      fly9: [8000, 1000],
+      start: [4120, 800],
+    }
+  })
+  SoundPlayer.shared.add('roll', {
+    src: ['sfx/roll.mp3'],
+    volume: 0,
+    loop: true
+  })
+  SoundPlayer.shared.add('wind', {
+    src: ['sfx/wind.mp3'],
+    volume: 0,
+    loop: true
+  })
+  SoundPlayer.shared.add('walk', {
+    src: ['sfx/walk.mp3'],
+    volume: 0,
+    loop: true
+  })
+  SoundPlayer.shared.add('sleep', {
+    src: ['sfx/sleep.mp3'],
+    volume: 0,
+    loop: true
+  })
+  SoundPlayer.shared.add('hit', {
+    src: ['sfx/hit.mp3']
+  })
+  SoundPlayer.shared.add('hitsoft', {
+    src: ['sfx/hitsoft.mp3'],
+    volume: 0.2
+  })
+  SoundPlayer.shared.add('powerdown', {
+    src: [`sfx/powerdown.mp3`]
+  })
+  SoundPlayer.shared.add('coin', {
+    src: [`sfx/coin.mp3`],
+    volume: 0.1,
+  })
+  SoundPlayer.shared.add('crack', {
+    src: [`sfx/crack.mp3`],
+    volume: 0.3,
+    sprite: {
+      crack1: [130, 210],
+      crack2: [600, 300],
+      crack3: [1000, 600],
+      crack4: [1500, 800],
+      crack5: [1800, 1000],
+      crack6: [3100, 400],
+    }
+  })
+  SoundPlayer.shared.add('bg', {
+    src: ['sfx/bg.mp3'],
+    html5: true,
+    loop: true,
+    volume: 0.15,
+  })
+
+  SoundPlayer.shared.on('progress', (progress) => {
+    splash.progress = progress
+  })
+  SoundPlayer.shared.on('loaded', () => {
+    splash.progress = 100
+    controller.enabled = true
+    startGame(true)
+  })
+  SoundPlayer.shared.on('error', (error) => {
+    console.log(`Error...`, error)
+    splash.loadingStatus = "Error: Unable to load audio"
+  })
+
+  
   
 })
