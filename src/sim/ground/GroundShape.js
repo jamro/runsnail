@@ -83,6 +83,15 @@ function createGapSegment(segment) {
   )
 }
 
+function createForestSegment(segment) {
+  const width = 10 + Math.random()*40
+  return new GroundSegment(
+    'forest',
+    Vec2(segment.end.x, segment.end.y),
+    Vec2(segment.end.x + width , segment.end.y + width * 0.3 * (Math.random() > 0.5 ? 1 : -1))
+  )
+}
+
 function createAtzodSegment(segment) {
   const width = 100
   return new GroundSegment(
@@ -105,6 +114,7 @@ export function getNextSegment(segment) {
     { score: 500, builder: createHalfSineSegment },
     { score: 200, builder: createBridgeSegment },
     { score: 300, builder: createGapSegment },
+    { score: 400, builder: createForestSegment },
   ]
 
   if(segment.index === 0) {

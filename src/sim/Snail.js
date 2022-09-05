@@ -192,7 +192,7 @@ export default class Snail extends SimObject {
       }
     }
 
-    if(snailSpeed - this.prevSpeed < -15 && this.isOnGround) {
+    if(snailSpeed - this.prevSpeed < -13 && this.isOnGround) {
       this.emit('hitHard')
       this.knockoutTimer = 220
     }

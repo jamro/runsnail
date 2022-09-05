@@ -18,7 +18,7 @@ export default class Stick extends SimObject {
     this.length = length
     this.body = world.createBody().setDynamic()
     const fixture = this.body.createFixture(Box(0.05 , length/2), {
-      density: 0.1,
+      density: 0.1/length,
       friction: 0.9,
       filterCategoryBits: OBSTACLE,
       filterMaskBits: GROUND | OBSTACLE
