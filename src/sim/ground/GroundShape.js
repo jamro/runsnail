@@ -101,12 +101,24 @@ function createAtzodSegment(segment) {
   )
 }
 
+function createCastleSegment(segment) {
+  const width = 30 + Math.random()*30
+  return new GroundSegment(
+    'castle',
+    Vec2(segment.end.x, segment.end.y),
+    Vec2(segment.end.x + width , segment.end.y + (Math.random()*0.1-0.05)*width),
+    {
+      length: 3 + Math.floor(Math.random()*6),
+    }
+  )
+}
+
 export function getNextSegment(segment) {
   let result
   const rnd = Math.random()
   
   const builders = [
-    { score: 900, builder: createSineSegment },
+    { score: 1200, builder: createSineSegment },
     { score: 100, builder: createAtzodSegment },
     { score: 700, builder: createTowerSegment },
     { score: 300, builder: createRampSegment },
@@ -115,6 +127,7 @@ export function getNextSegment(segment) {
     { score: 200, builder: createBridgeSegment },
     { score: 300, builder: createGapSegment },
     { score: 400, builder: createForestSegment },
+    { score: 300, builder: createCastleSegment },
   ]
 
   if(segment.index === 0) {
