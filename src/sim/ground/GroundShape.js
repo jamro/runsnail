@@ -8,7 +8,7 @@ function createSineSegment(segment) {
   return new GroundSegment(
     'sine',
     Vec2(segment.end.x, segment.end.y),
-    Vec2(segment.end.x + width , segment.end.y + (Math.random()-0.5 )*0.25*width),
+    Vec2(segment.end.x + width , segment.end.y + (Math.random()-0.8)*0.25*width),
     {
       amplitude: Math.max(2, Math.random()*width*0.25),
       coins: Math.random() > 0.6 ? true : false
@@ -21,7 +21,7 @@ function createHalfSineSegment(segment) {
   return new GroundSegment(
     'halfSine',
     Vec2(segment.end.x, segment.end.y),
-    Vec2(segment.end.x + width , segment.end.y + (Math.random()*2 - 1)*0.5*width)
+    Vec2(segment.end.x + width , segment.end.y + (Math.random()*2 - 1.2)*0.5*width)
   )
 }
 
@@ -106,7 +106,7 @@ function createCastleSegment(segment) {
   return new GroundSegment(
     'castle',
     Vec2(segment.end.x, segment.end.y),
-    Vec2(segment.end.x + width , segment.end.y + (Math.random()*0.1-0.05)*width),
+    Vec2(segment.end.x + width , segment.end.y - Math.random()*0.1*width),
     {
       length: 3 + Math.floor(Math.random()*6),
     }

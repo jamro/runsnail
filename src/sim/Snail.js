@@ -71,7 +71,8 @@ export default class Snail extends SimObject {
     if(!this.enabled) {
       return
     } 
-    let powerConsumption = 0.005 + this.body.getPosition().x/700000
+    let powerConsumption = 0.007 + this.body.getPosition().x/1500000
+    console.log(powerConsumption)
     powerConsumption += (this.state !== GLIDING ? 0.008 : 0)
     this.energy = Math.max(0, this.energy - powerConsumption)
 
