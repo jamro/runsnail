@@ -1,7 +1,6 @@
 import * as plank from 'planck';
 import GroundEdge from './GroundEdge';
 
-
 const Vec2 = plank.Vec2;
 
 export default class SineBuilder {
