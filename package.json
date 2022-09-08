@@ -34,7 +34,7 @@
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
-    "serve": "webpack serve"
+    "start": "webpack serve"
   },
   "dependencies": {
     "@pixi/assets": "file:6.5.2",

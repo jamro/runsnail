@@ -24,3 +24,7 @@ The game is a web app and should run on any modern web browser
 
 Background music from Uppbeat (free for Creators!):
 https://uppbeat.io/t/ra/let-good-times-roll
+
+# Development Guide
+
+Development guide is available [here](docs/devguide.md)

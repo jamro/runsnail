@@ -9,4 +9,8 @@ export default class View extends Sprite {
   update () {
 
   }
+
+  destroy () {
+    
+  }
 }
