@@ -18,7 +18,7 @@ The game demo is available here: [http://runsnail.jmrlab.com](http://runsnail.jm
 
 # System Requirements
 
-The game is a web app and should run on any modern web browser, including **desktop** and **mobile**.
+The game is a web app and should run on any modern web browser
 
 # Credits
 

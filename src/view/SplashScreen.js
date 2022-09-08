@@ -53,12 +53,6 @@ export default class SplashScreen extends Sprite {
     });
     this.versionLabel.anchor.set(0, 0.8)
     this.addChild(this.versionLabel)
-
-    this.mobileQr = null;
-    if(!mobileCheck()) {
-      this.mobileQr = Sprite.from('qr.png')
-      this.addChild(this.mobileQr)
-    }
   }
 
   set loadingStatus(status) {
@@ -118,11 +112,7 @@ export default class SplashScreen extends Sprite {
 
     this.progressContainer.x = width/2
     this.progressContainer.y = height*0.85
-    if(this.mobileQr) {
-      this.mobileQr.x = 0
-      this.mobileQr.scale.set(Math.min(1, (0.25*height)/(this.mobileQr.height/this.mobileQr.scale.y)))
-      this.mobileQr.y = height - this.mobileQr.height
-    }
+
   }
 
 }

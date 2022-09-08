@@ -7,7 +7,22 @@ import SplashScreen from './view/SplashScreen.js';
 import mobileCheck from './mobileCheck.js';
 import SoundPlayer from './SoundPlayer.js';
 
-const VERSION = '1.0.1'
+const VERSION = '1.0.2'
+
+window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
+  alert("Error occured: " + errorMsg);//or any message
+  return false;
+}
+
+function goFullScreen(elem) {
+  if (elem.requestFullScreen) {
+    elem.requestFullScreen();
+  } else if (elem.mozRequestFullScreen) {
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullScreen) {
+    elem.webkitRequestFullScreen();
+  }
+}
 
 function createPixiApp(loop) {
   const sceneContainer = document.querySelector("#scene");
@@ -121,7 +136,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       controller.view = splash
       controller.hook = () => {
         if(mobileCheck()) {
-          document.documentElement.requestFullscreen();
+          goFullScreen(document.documentElement)
         }
         splash.progress = 0
         controller.enabled = false
