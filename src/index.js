@@ -7,7 +7,7 @@ import SplashScreen from './view/SplashScreen.js';
 import mobileCheck from './mobileCheck.js';
 import SoundPlayer from './SoundPlayer.js';
 
-const VERSION = '1.0.2'
+const VERSION = '1.0.3'
 
 window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
   alert("Error occured: " + errorMsg);//or any message
