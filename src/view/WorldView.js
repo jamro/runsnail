@@ -13,7 +13,7 @@ import FpsCounter from "./FpsCounter";
 import SoundPlayer from "../SoundPlayer";
 import mobileCheck from "../mobileCheck";
 import RotateDevice from "./RotateDevice";
-
+import {Howl} from 'howler';
 
 const BG_MUSIC_VOLUME = 0.15;
 
@@ -62,7 +62,12 @@ export default class WorldView extends View {
     this.soundSwitch = new SoundSwitch()
     this.addChild(this.soundSwitch)
 
-    this.music = SoundPlayer.shared.get('bg')
+    this.music = new Howl({
+      src: ['sfx/bg.mp3'],
+      html5: true,
+      loop: true,
+      volume: 0.15,
+    })
     this.isMusicActive = false
 
     this.rotateIcon = null
@@ -78,8 +83,8 @@ export default class WorldView extends View {
 
   start() {
     this.music.stop();
-    this.music.setV
     this.music.play();
+    this.music.volume(BG_MUSIC_VOLUME);
     this.isMusicActive = true
   }
 

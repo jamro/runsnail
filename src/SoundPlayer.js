@@ -1,4 +1,5 @@
 import EventEmitter  from 'events';
+import {Howl} from 'howler';
 
 class SoundPlayer extends EventEmitter {
   constructor() {

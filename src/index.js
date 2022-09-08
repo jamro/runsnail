@@ -225,12 +225,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
       crack6: [3100, 400],
     }
   })
-  SoundPlayer.shared.add('bg', {
-    src: ['sfx/bg.mp3'],
-    html5: true,
-    loop: true,
-    volume: 0.15,
-  })
 
   SoundPlayer.shared.on('progress', (progress) => {
     splash.progress = progress
