@@ -15,7 +15,7 @@ import mobileCheck from "../mobileCheck";
 import RotateDevice from "./RotateDevice";
 import {Howl} from 'howler';
 
-const BG_MUSIC_VOLUME = 0.15;
+const BG_MUSIC_VOLUME = 0.50;
 
 export default class WorldView extends View {
   
@@ -66,7 +66,7 @@ export default class WorldView extends View {
       src: ['sfx/bg.mp3'],
       html5: true,
       loop: true,
-      volume: 0.15,
+      volume: BG_MUSIC_VOLUME,
     })
     this.isMusicActive = false
 
