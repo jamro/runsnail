@@ -46,9 +46,9 @@ pl[ANYWHERE_TO_CONTINUE] = 'gdziekolwiek, aby kontynuować'
 pl[RESULT] = 'Wynik'
 pl[BEST] = 'Najlepszy'
 
-export default function __(txt) {
-  let dict;
-  if(navigator && navigator.language && navigator.language.startsWith('pl')) {
+export default function __ (txt) {
+  let dict
+  if (navigator && navigator.language && navigator.language.startsWith('pl')) {
     dict = pl
   } else {
     dict = en

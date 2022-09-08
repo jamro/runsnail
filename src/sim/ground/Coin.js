@@ -1,13 +1,12 @@
-import * as plank from 'planck';
-import { SNAIL } from '../Collisions';
-import SimObject from '../SimObject';
+import * as plank from 'planck'
+import { SNAIL } from '../Collisions'
+import SimObject from '../SimObject'
 
-const Circle = plank.Circle;
-const Vec2 = plank.Vec2;
+const Circle = plank.Circle
+const Vec2 = plank.Vec2
 
 export default class Coin extends SimObject {
-
-  constructor(world, x, y) {
+  constructor (world, x, y) {
     super()
     this.world = world
     this.x = x
@@ -18,23 +17,23 @@ export default class Coin extends SimObject {
       isSensor: true,
       filterCategoryBits: SNAIL,
       filterMaskBits: SNAIL
-    });
+    })
     fixture.objRef = this
-    this.body.setPosition(Vec2(this.x, this.y));
+    this.body.setPosition(Vec2(this.x, this.y))
   }
 
-  collect() {
+  collect () {
     this.collected = true
     this.emit('collect')
   }
 
-  destroy() {
+  destroy () {
     super.destroy()
     this.world.destroyBody(this.body)
   }
 
-  update() {
-    if(this.collected) {
+  update () {
+    if (this.collected) {
       this.destroy()
     }
   }

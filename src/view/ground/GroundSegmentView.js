@@ -1,13 +1,10 @@
-import GroundEdgeView from "./GroundEdgeView";
-import View from "../View";
-import CoinView from "./CoinView";
-import StickView from "./StickView";
-import GroundEdge from "../../sim/ground/GroundEdge";
-import { Graphics } from "pixi.js";
+import View from '../View'
+import CoinView from './CoinView'
+import StickView from './StickView'
+import { Graphics } from 'pixi.js'
 
 export default class GroundSegmentView extends View {
-
-  constructor(model) {
+  constructor (model) {
     super(model)
 
     this.coins = []
@@ -19,7 +16,7 @@ export default class GroundSegmentView extends View {
     this.addChild(this.edge)
 
     model.edges.forEach(edge => this.addEdge(edge))
-    this.edge.lineTo(this.lastEdge.end.x, this.lastEdge.end.y-100)
+    this.edge.lineTo(this.lastEdge.end.x, this.lastEdge.end.y - 100)
     model.coins.forEach(coin => this.addElement(coin, CoinView, this.coins))
     model.sticks.forEach(stick => this.addElement(stick, StickView, this.sticks))
 
@@ -29,17 +26,16 @@ export default class GroundSegmentView extends View {
     this.model.on('removeStick', stick => this.removeElement(stick, this.sticks))
   }
 
-  addEdge(element) {
-    if(!this.lastEdge) {
-      this.edge.moveTo(element.start.x, element.start.y-100)
+  addEdge (element) {
+    if (!this.lastEdge) {
+      this.edge.moveTo(element.start.x, element.start.y - 100)
       this.edge.lineTo(element.start.x, element.start.y)
     }
     this.edge.lineTo(element.end.x, element.end.y)
     this.lastEdge = element
   }
 
-
-  addElement(element, ViewDef, elementList) {
+  addElement (element, ViewDef, elementList) {
     const view = new ViewDef(element)
     elementList.push({
       model: element,
@@ -48,17 +44,16 @@ export default class GroundSegmentView extends View {
     this.addChild(view)
   }
 
-  removeElement(element, elementList) {
+  removeElement (element, elementList) {
     const index = elementList.findIndex(e => e.model === element)
-    if(index !== -1) {
+    if (index !== -1) {
       this.removeChild(elementList[index].view)
       elementList.splice(index, 1)
     }
   }
 
-  update() {
+  update () {
     this.coins.forEach(coin => coin.view.update())
     this.sticks.forEach(stick => stick.view.update())
   }
-
 }

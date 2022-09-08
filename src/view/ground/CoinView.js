@@ -1,16 +1,14 @@
-import { Loader, Sprite } from "pixi.js";
-import View from "../View";
-import {Howl, Howler} from 'howler';
-import SoundPlayer from "../../SoundPlayer";
+import { Loader, Sprite } from 'pixi.js'
+import View from '../View'
+import SoundPlayer from '../../SoundPlayer'
 
 export default class CoinView extends View {
-
-  constructor(model) {
+  constructor (model) {
     super(model)
 
     this.view = Sprite.from(Loader.shared.resources.coin.texture)
     this.view.scale.set(0.005, -0.005)
-    this.view.anchor.set(0.5, 0.5);
+    this.view.anchor.set(0.5, 0.5)
     this.view.cacheAsBitmap = true
     this.addChild(this.view)
     this.update()
@@ -21,7 +19,7 @@ export default class CoinView extends View {
     })
   }
 
-  update() {
+  update () {
     this.x = this.model.body.getPosition().x
     this.y = this.model.body.getPosition().y
   }

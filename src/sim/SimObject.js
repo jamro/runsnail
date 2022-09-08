@@ -1,25 +1,24 @@
-import { EventEmitter } from "events"
+import { EventEmitter } from 'events'
 
 export default class SimObject extends EventEmitter {
-
-  constructor() {
+  constructor () {
     super()
     this.parent = null
   }
 
-  contact(simObject) {
-    
+  contact (simObject) {
+
   }
 
-  separate(simObject) {
-    
+  separate (simObject) {
+
   }
 
-  update(dt) {
-    
+  update (dt) {
+
   }
 
-  destroy() {
-    this.emit("destroy")
+  destroy () {
+    this.emit('destroy')
   }
 }

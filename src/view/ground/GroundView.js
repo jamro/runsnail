@@ -1,10 +1,8 @@
-import { Graphics } from "pixi.js";
-import View from "../View";
-import GroundSegmentView from "./GroundSegmentView";
+import View from '../View'
+import GroundSegmentView from './GroundSegmentView'
 
 export default class GroundView extends View {
-
-  constructor(model) {
+  constructor (model) {
     super(model)
 
     this.segments = []
@@ -23,7 +21,7 @@ export default class GroundView extends View {
     })
   }
 
-  update() {
+  update () {
     this.segments.forEach(segment => segment.view.update())
   }
 }

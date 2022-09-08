@@ -1,9 +1,8 @@
-import { Graphics, Sprite } from "pixi.js";
-import View from "../View";
+import { Graphics } from 'pixi.js'
+import View from '../View'
 
 export default class GroundEdgeView extends View {
-
-  constructor(model) {
+  constructor (model) {
     super(model)
 
     this.view = new Graphics()
@@ -14,6 +13,5 @@ export default class GroundEdgeView extends View {
     this.view.lineTo(this.model.start.x, this.model.start.y - 1000)
     this.view.lineTo(this.model.start.x, this.model.start.y)
     this.addChild(this.view)
-
   }
 }

@@ -1,46 +1,46 @@
-import InputController from './sim/InputController.js';
-import World from './sim/World.js';
-import { Application, Loader } from "pixi.js";
+import InputController from './sim/InputController.js'
+import World from './sim/World.js'
+import { Application, Loader } from 'pixi.js'
 import './style.css'
-import WorldView from './view/WorldView.js';
-import SplashScreen from './view/SplashScreen.js';
-import mobileCheck from './mobileCheck.js';
-import SoundPlayer from './SoundPlayer.js';
+import WorldView from './view/WorldView.js'
+import SplashScreen from './view/SplashScreen.js'
+import mobileCheck from './mobileCheck.js'
+import SoundPlayer from './SoundPlayer.js'
 
 const VERSION = '1.0.5'
 
-window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
-  alert("Error occured: " + errorMsg);
-  return false;
+window.onerror = function myErrorHandler (errorMsg, url, lineNumber) {
+  alert('Error occured: ' + errorMsg)
+  return false
 }
 
-function goFullScreen(elem) {
+function goFullScreen (elem) {
   if (elem.requestFullScreen) {
-    elem.requestFullScreen();
+    elem.requestFullScreen()
   } else if (elem.mozRequestFullScreen) {
-    elem.mozRequestFullScreen();
+    elem.mozRequestFullScreen()
   } else if (elem.webkitRequestFullScreen) {
-    elem.webkitRequestFullScreen();
+    elem.webkitRequestFullScreen()
   }
 }
 
-function createPixiApp(loop) {
-  const sceneContainer = document.querySelector("#scene");
+function createPixiApp (loop) {
+  const sceneContainer = document.querySelector('#scene')
   const app = new Application({
     backgroundAlpha: 0,
     resizeTo: sceneContainer,
-    antialias: true,
-  });
-  document.querySelector("#scene").appendChild(app.view);
+    antialias: true
+  })
+  document.querySelector('#scene').appendChild(app.view)
 
-  if(loop) {
+  if (loop) {
     app.ticker.add((dt) => loop(dt))
     app.ticker.maxFPS = 60
   }
   return app
 }
 
-document.addEventListener("DOMContentLoaded", (event) => {
+document.addEventListener('DOMContentLoaded', (event) => {
   let world
   let app
   let worldView
@@ -50,24 +50,24 @@ document.addEventListener("DOMContentLoaded", (event) => {
   controller.enabled = false
 
   const startGame = (tutorial) => {
-    if(world) {
+    if (world) {
       world.destroy()
     }
-    if(worldView) {
+    if (worldView) {
       worldView.destroy()
     }
-    if(app) {
+    if (app) {
       app.destroy(true)
     }
-    SoundPlayer.shared.reset() 
+    SoundPlayer.shared.reset()
 
     world = new World(tutorial)
     worldView = new WorldView(world)
 
     world.snail.on('gameOver', (data) => {
-      if(localStorage) {
+      if (localStorage) {
         const bestResult = Number(localStorage.getItem('bestResult')) || 0
-        if(data.distance > bestResult) {
+        if (data.distance > bestResult) {
           localStorage.setItem('bestResult', data.distance)
         }
       }
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       controller.hook = () => startGame()
       controller.enabled = true
     })
-  
+
     app = createPixiApp((dt) => {
       worldView.update()
       worldView.follow(
@@ -85,29 +85,28 @@ document.addEventListener("DOMContentLoaded", (event) => {
         app.renderer.width,
         app.renderer.height
       )
-      worldView.energyBar.value = world.snail.energy/100
+      worldView.energyBar.value = world.snail.energy / 100
       worldView.distanceMeter.value = world.snail.distance
       world.groundWidth = worldView.groundWidth
     })
-    app.stage.addChild(worldView);
+    app.stage.addChild(worldView)
     world.start()
     worldView.start()
     controller.world = world
     controller.view = worldView
 
-    if(tutorial) {
+    if (tutorial) {
       controller.hook = () => {
         world.infoActive = false
       }
     }
-
   }
 
   const splash = new SplashScreen(VERSION)
   app = createPixiApp(() => {
     splash.update(app.renderer.width, app.renderer.height)
   })
-  
+
   app.stage.addChild(splash)
 
   Loader.shared
@@ -127,7 +126,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     .add('sound', 'sound.png')
     .add('rotate', 'rotate.png')
     .load((loader) => {
-      if(Loader.shared.loadingError) {
+      if (Loader.shared.loadingError) {
         return
       }
       console.log('Assets loaded')
@@ -135,7 +134,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       controller.enabled = true
       controller.view = splash
       controller.hook = () => {
-        if(mobileCheck()) {
+        if (mobileCheck()) {
           goFullScreen(document.documentElement)
         }
         splash.progress = 0
@@ -152,15 +151,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
   })
   Loader.shared.onError.add((error, loader, resource) => {
     console.log(`Error ${resource.url}... (${loader.progress.toFixed(1)}%)`, error)
-    splash.loadingStatus = "Error: Unable to load " + resource.url
+    splash.loadingStatus = 'Error: Unable to load ' + resource.url
     splash.progress = loader.progress
     Loader.shared.loadingError = true
   })
 
-
   SoundPlayer.shared.add('fly', {
-    src: [`sfx/fly.mp3`],
-    sprite:{
+    src: ['sfx/fly.mp3'],
+    sprite: {
       fly1: [0, 1000],
       fly2: [1000, 1000],
       fly3: [2000, 1000],
@@ -170,7 +168,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       fly7: [6000, 1000],
       fly8: [7000, 1000],
       fly9: [8000, 1000],
-      start: [4120, 800],
+      start: [4120, 800]
     }
   })
   SoundPlayer.shared.add('roll', {
@@ -201,20 +199,20 @@ document.addEventListener("DOMContentLoaded", (event) => {
     volume: 0.2
   })
   SoundPlayer.shared.add('powerdown', {
-    src: [`sfx/powerdown.mp3`],
+    src: ['sfx/powerdown.mp3'],
     volume: 0.9
   })
   SoundPlayer.shared.add('coin', {
-    src: [`sfx/coin.mp3`],
-    volume: 0.1,
+    src: ['sfx/coin.mp3'],
+    volume: 0.1
   })
   SoundPlayer.shared.add('tweet', {
-    src: [`sfx/tweet.mp3`],
+    src: ['sfx/tweet.mp3'],
     volume: 0,
     loop: true
   })
   SoundPlayer.shared.add('crack', {
-    src: [`sfx/crack.mp3`],
+    src: ['sfx/crack.mp3'],
     volume: 0.3,
     sprite: {
       crack1: [130, 210],
@@ -222,7 +220,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       crack3: [1000, 600],
       crack4: [1500, 800],
       crack5: [1800, 1000],
-      crack6: [3100, 400],
+      crack6: [3100, 400]
     }
   })
 
@@ -235,10 +233,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     startGame(true)
   })
   SoundPlayer.shared.on('error', (error) => {
-    console.log(`Error...`, error)
-    splash.loadingStatus = "Error: Unable to load audio"
+    console.log('Error...', error)
+    splash.loadingStatus = 'Error: Unable to load audio'
   })
-
-  
-  
 })

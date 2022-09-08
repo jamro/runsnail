@@ -1,31 +1,30 @@
-import { Sprite, Text } from "pixi.js";
+import { Sprite, Text } from 'pixi.js'
 
 export default class FpsCounter extends Sprite {
-  constructor() {
+  constructor () {
     super()
-    this.label = new Text("FPS: ???", {
-      fontFamily : 'Arial', 
-      fontSize: 10, 
-      fill : 0x000000,
-    });
+    this.label = new Text('FPS: ???', {
+      fontFamily: 'Arial',
+      fontSize: 10,
+      fill: 0x000000
+    })
     this.addChild(this.label)
     this.label.x = 30
     this.label.y = 60
     this.counter = 0
-    this.flushTime = 0;
+    this.flushTime = 0
     this.info = ''
   }
 
-  tick() {
+  tick () {
     const now = new Date().getTime()
-    const dt = (now - this.flushTime)/1000
-    if(dt > 1) {
+    const dt = (now - this.flushTime) / 1000
+    if (dt > 1) {
       this.flushTime = now
-      this.label.text = `FPS: ${(this.counter/dt).toFixed(1)} ${this.info}`
+      this.label.text = `FPS: ${(this.counter / dt).toFixed(1)} ${this.info}`
       this.counter = 0
     }
-      
-    this.counter++;
 
+    this.counter++
   }
 }

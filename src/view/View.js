@@ -1,13 +1,12 @@
-import { Sprite } from "pixi.js";
+import { Sprite } from 'pixi.js'
 
 export default class View extends Sprite {
-
-  constructor(model) {
+  constructor (model) {
     super()
-    this.model = model;
+    this.model = model
   }
 
-  update() {
+  update () {
 
   }
 }

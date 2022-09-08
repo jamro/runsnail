@@ -1,30 +1,29 @@
-import { Sprite } from "pixi.js";
-import { EventEmitter } from "events";
+import { EventEmitter } from 'events'
 
 export default class SimContainer extends EventEmitter {
-  constructor() {
+  constructor () {
     super()
-    this.children = [];
+    this.children = []
     this.parent = null
   }
 
-  addChild(child) {
+  addChild (child) {
     this.children.push(child)
     child.parent = this
   }
 
-  removeChild(child) {
+  removeChild (child) {
     this.children = this.children.filter(c => c !== child)
     child.parent = null
   }
 
-  update(dt) {
+  update (dt) {
     this.children.forEach(child => child.update(dt))
   }
 
-  destroy() {
+  destroy () {
     this.children.forEach(child => child.destroy())
-    if(this.parent) {
+    if (this.parent) {
       this.parent.removeChild(this)
     }
     this.emit('destroy')

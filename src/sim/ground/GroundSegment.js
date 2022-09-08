@@ -1,8 +1,7 @@
-import SimContainer from "../SimContainer"
+import SimContainer from '../SimContainer'
 
 export default class GroundSegment extends SimContainer {
-
-  constructor(type, start, end, data) {
+  constructor (type, start, end, data) {
     super()
     this.index = 0
     this.type = type
@@ -12,17 +11,17 @@ export default class GroundSegment extends SimContainer {
     this.edges = []
     this.coins = []
     this.sticks = []
-    this.yMax = null;
-    this.yMin = null;
+    this.yMax = null
+    this.yMin = null
   }
 
-  addEdge(edge) {
+  addEdge (edge) {
     const edgeYMax = Math.max(edge.start.y, edge.end.y)
     const edgeYMin = Math.min(edge.start.y, edge.end.y)
-    if(this.yMax === null || edgeYMax > this.yMax) {
+    if (this.yMax === null || edgeYMax > this.yMax) {
       this.yMax = edgeYMax
     }
-    if(this.yMin === null || edgeYMin < this.yMin) {
+    if (this.yMin === null || edgeYMin < this.yMin) {
       this.yMin = edgeYMin
     }
     this.edges.push(edge)
@@ -31,18 +30,17 @@ export default class GroundSegment extends SimContainer {
     this.emit('addEdge', edge)
   }
 
-  addCoin(coin) {
+  addCoin (coin) {
     this.coins.push(coin)
     this.addChild(coin)
     coin.on('destroy', () => this.emit('removeCoin', coin))
     this.emit('addCoin', coin)
   }
 
-  addStick(stick) {
+  addStick (stick) {
     this.sticks.push(stick)
     this.addChild(stick)
     stick.on('destroy', () => this.emit('removeStick', stick))
     this.emit('addStick', stick)
   }
-
 }

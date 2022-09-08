@@ -1,11 +1,10 @@
-import { Emitter } from "@pixi/particle-emitter";
-import { Container, Texture } from "pixi.js";
+import { Emitter } from '@pixi/particle-emitter'
+import { Container, Texture } from 'pixi.js'
 
 export default class Dust extends Container {
-  
-  constructor() {
-    super();
-    this.enabled = false;
+  constructor () {
+    super()
+    this.enabled = false
     this.scale.x = -1
     this.emitter = new Emitter(
       this,
@@ -32,8 +31,8 @@ export default class Dust extends Container {
                 list: [
                   { value: 0.1, time: 0 },
                   { value: 0.01, time: 1 }
-                ],
-              },
+                ]
+              }
             }
           },
           {
@@ -42,18 +41,18 @@ export default class Dust extends Container {
               speed: {
                 list: [
                   { value: 300, time: 0 },
-                  { value: 100 , time: 1 }
+                  { value: 100, time: 1 }
                 ],
                 isStepped: false
-              },
+              }
             }
           },
           {
-            type: "moveAcceleration",
+            type: 'moveAcceleration',
             config: {
               accel: {
                 x: 0,
-                y: 1000 
+                y: 1000
               },
               minStart: 600,
               maxStart: 600,
@@ -81,15 +80,14 @@ export default class Dust extends Container {
               texture: Texture.from('particle.png')
             }
           }
-        ],
+        ]
       }
-    );
-    
+    )
   }
 
-  render(renderer) {
+  render (renderer) {
     super.render(renderer)
     this.emitter.emit = this.enabled
-    this.emitter.update(0.01);
+    this.emitter.update(0.01)
   }
 }

@@ -1,9 +1,9 @@
-import { Loader, Sprite, Text } from "pixi.js"
-import {DropShadowFilter} from '@pixi/filter-drop-shadow';
-import __, { DIVE, FLY_UP, HOLD, RELEASE } from "./lang";
+import { Loader, Sprite, Text } from 'pixi.js'
+import { DropShadowFilter } from '@pixi/filter-drop-shadow'
+import __, { DIVE, FLY_UP, HOLD, RELEASE } from './lang'
 
 export default class Tutorial extends Sprite {
-  constructor() {
+  constructor () {
     super()
     const shadow = new DropShadowFilter()
     shadow.blur = 1
@@ -20,11 +20,11 @@ export default class Tutorial extends Sprite {
     this.page1.visible = false
     this.page2.visible = false
 
-    this.label = new Text(``, {
-      fontFamily : 'Arial', 
-      fontSize: 25, 
-      fill : 0xffffff,
-    });
+    this.label = new Text('', {
+      fontFamily: 'Arial',
+      fontSize: 25,
+      fill: 0xffffff
+    })
     this.addChild(this.label)
     this.label.y = 150
     this.label.x = 160
@@ -34,18 +34,18 @@ export default class Tutorial extends Sprite {
     this.page = 2
   }
 
-  set page(page) {
+  set page (page) {
     this._page = page
-    this.page1.visible = page == 1
-    this.page2.visible = page == 2
-    this.label.text = page == 1 ? `${__(HOLD)} = ${__(DIVE)}` : `${__(RELEASE)} = ${__ (FLY_UP)}`
+    this.page1.visible = page === 1
+    this.page2.visible = page === 2
+    this.label.text = page === 1 ? `${__(HOLD)} = ${__(DIVE)}` : `${__(RELEASE)} = ${__(FLY_UP)}`
   }
 
-  get page() {
+  get page () {
     return this._page
   }
 
-  createPage1() {
+  createPage1 () {
     const page = new Sprite()
     const pointer = Sprite.from(Loader.shared.resources.tutorial_hold.texture)
     pointer.x = 10
@@ -56,7 +56,7 @@ export default class Tutorial extends Sprite {
     return page
   }
 
-  createPage2() {
+  createPage2 () {
     const page = new Sprite()
     const pointer = Sprite.from(Loader.shared.resources.tutorial_release.texture)
     pointer.x = 10
@@ -66,5 +66,4 @@ export default class Tutorial extends Sprite {
     page.addChild(ground)
     return page
   }
-
 }

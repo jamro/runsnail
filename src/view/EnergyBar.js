@@ -1,7 +1,7 @@
-import { Graphics, Loader, Sprite } from "pixi.js";
+import { Graphics, Loader, Sprite } from 'pixi.js'
 
 export default class EnergyBar extends Sprite {
-  constructor() {
+  constructor () {
     super()
     this.bg = new Graphics()
     this.bg.beginFill(0x000000)
@@ -31,24 +31,24 @@ export default class EnergyBar extends Sprite {
     this._t = 0
   }
 
-  set value(value) {
+  set value (value) {
     this._value = value
     this.progress.scale.x = value
   }
 
-  get value() {
+  get value () {
     return this._value
   }
 
-  render(renderer) {
+  render (renderer) {
     super.render(renderer)
 
-    if(this._value < 0.2 && this._value > 0) {
+    if (this._value < 0.2 && this._value > 0) {
       this._t++
-      this.alpha = 0.5*Math.sin(this._t/8)+0.5
+      this.alpha = 0.5 * Math.sin(this._t / 8) + 0.5
     } else {
-      this._t = 0;
-      this.alpha = 1;
+      this._t = 0
+      this.alpha = 1
     }
   }
 }

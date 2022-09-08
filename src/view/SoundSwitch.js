@@ -1,8 +1,8 @@
-import { Graphics, Loader, Sprite } from "pixi.js";
+import { Graphics, Loader, Sprite } from 'pixi.js'
+import { Howler } from 'howler'
 
 export default class SoundSwitch extends Sprite {
-
-  constructor() {
+  constructor () {
     super()
     this.container = new Sprite()
     this.container.interactive = true
@@ -24,7 +24,7 @@ export default class SoundSwitch extends Sprite {
     this._buttonMask.visible = false
 
     this._on = true
-    if(localStorage) {
+    if (localStorage) {
       this._on = localStorage.getItem('sound') !== 'off'
     }
     this.on = this._on
@@ -38,21 +38,18 @@ export default class SoundSwitch extends Sprite {
     })
   }
 
-  get on() {
+  get on () {
     return this._on
   }
 
-  set on(value) {
+  set on (value) {
     this._on = value
     this._buttonMask.visible = !value
     this.button.mask = value ? null : this._buttonMask
     Howler.mute(!value)
 
-    if(localStorage) {
+    if (localStorage) {
       localStorage.setItem('sound', value ? 'on' : 'off')
     }
   }
-
-
-
 }

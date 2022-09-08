@@ -1,7 +1,7 @@
-import { EventEmitter } from "events"
+import { EventEmitter } from 'events'
 
 export default class InputController extends EventEmitter {
-  constructor(doc) {
+  constructor (doc) {
     super()
     this.doc = doc
     this._snail = null
@@ -13,21 +13,21 @@ export default class InputController extends EventEmitter {
     this.enabled = true
   }
 
-  set world(world) {
+  set world (world) {
     this._world = world
     this._snail = world.snail
   }
 
-  get world() {
+  get world () {
     return this._world
   }
 
-  get view() {
+  get view () {
     return this._view
   }
 
-  set view(view) {
-    if(this._view) {
+  set view (view) {
+    if (this._view) {
       this._view.off('pointerdown', this.pointerDownHandler)
       this._view.off('pointerup', this.pointerUpHandler)
     }
@@ -37,52 +37,51 @@ export default class InputController extends EventEmitter {
     this._view.on('pointerup', this.pointerUpHandler)
   }
 
-  init() {
+  init () {
     this.doc.addEventListener('keydown', (e) => {
-      if(e.code.toLocaleLowerCase() === 'space') {
+      if (e.code.toLocaleLowerCase() === 'space') {
         this.activate()
       }
-    });
+    })
     this.doc.addEventListener('keyup', (e) => {
-      if(e.code.toLocaleLowerCase() === 'space') {
+      if (e.code.toLocaleLowerCase() === 'space') {
         this.deactivate()
       }
-    });
-  
+    })
+
     this.doc.body.focus()
   }
 
-  activate(e) {
-    if(e && e.y < 60) {
+  activate (e) {
+    if (e && e.y < 60) {
       return
     }
-    if(!this.enabled) {
+    if (!this.enabled) {
       return
     }
-    if(this.hook) {
+    if (this.hook) {
       return
     }
-    if(this._snail) {
+    if (this._snail) {
       this._snail.run = true
     }
   }
 
-  deactivate(e) {
-    if(e && e.y < 60) {
+  deactivate (e) {
+    if (e && e.y < 60) {
       return
     }
-    if(!this.enabled) {
+    if (!this.enabled) {
       return
     }
-    if(this.hook) {
+    if (this.hook) {
       const hook = this.hook
       this.hook = null
-      hook();
+      hook()
       return
     }
-    if(this._snail) {
+    if (this._snail) {
       this._snail.run = false
     }
   }
-
 }
